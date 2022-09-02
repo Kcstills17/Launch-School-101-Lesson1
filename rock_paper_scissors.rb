@@ -1,13 +1,13 @@
 RPS = {
-  rock: ["scissors", "lizard"],
-  paper: ["scissors", "spock"],
-  scissors: ["paper", "lizard"],
-  spock: ["rock", "scissors"],
-  lizard: ["spock", "paper"]
+  r: ["scissors", "lizard"],
+  p: ["scissors", "spock"],
+  s: ["paper", "lizard"],
+  sp: ["rock", "scissors"],
+  l: ["spock", "paper"]
 }
-p RPS.key(["scissors", "lizard"])
+p RPS.key(["scissors", "lizard"]).to_s
 
-begin VALID_CHOICES = ['r', 'p', 's']
+begin VALID_CHOICES = ['r', 'p', 's', 'sp', 'l']
       def prompt(message)
         Kernel.puts("=> #{message}")
       end
@@ -30,8 +30,6 @@ begin VALID_CHOICES = ['r', 'p', 's']
         end
       end
 
-      def rounds(user, cpu); end
-
       puts "=> Welcome to the Rock Paper Scissors Game! Press anything to begin"
       gets.chomp
 
@@ -48,6 +46,5 @@ begin VALID_CHOICES = ['r', 'p', 's']
 
         prompt("you choose #{user_choice.downcase} and your opponent chooses #{computer_choice.downcase}")
         display_results(user_choice, computer_choice)
-        rounds(user_choice, computer_choice)
       end
 end
