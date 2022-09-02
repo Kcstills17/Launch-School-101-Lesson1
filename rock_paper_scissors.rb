@@ -13,11 +13,11 @@ begin VALID_CHOICES = ['r', 'p', 's', 'sp', 'l']
       end
 
       def win?(first, second)
-        first == (RPS.key(["scissors", "lizard"]) && second == RPS[:rock]) ||
-          first == (RPS.key(["scissors", "spock"]) && second == RPS[:paper]) ||
-          first == (RPS.key(["paper", "lizard"]) && second == RPS[:scissors]) ||
-          first == (RPS.key(["rock", "scissors"]) && second == RPS[:spock]) ||
-          first == (RPS.key(["spock", "paper"]) && second == RPS[:lizard])
+        first == (RPS.key(["scissors", "lizard"]) && second == RPS[:r]) ||
+          first == (RPS.key(["scissors", "spock"]) && second == RPS[:p]) ||
+          first == (RPS.key(["paper", "lizard"]) && second == RPS[:s]) ||
+          first == (RPS.key(["rock", "scissors"]) && second == RPS[:sp]) ||
+          first == (RPS.key(["spock", "paper"]) && second == RPS[:l])
       end
 
       def display_results(player, computer)
