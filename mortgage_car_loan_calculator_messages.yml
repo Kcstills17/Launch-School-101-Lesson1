@@ -1,0 +1,28 @@
+en:
+  Welcome: "=> Welcome to our Car Loan calculator. Please have the following info ready. Your Loan amount, Annual Percentage Rate, and Years to pay off the loan"
+  loan_amount: "=> What is your loan amount in total?"
+  annual_percetnage_rate: "=>  What is your annual percentage rate (if 10.2% just enter 10.2) ?"
+  loan_duration_years: "=> How long does your loan last for in years? "
+  calculated: "=> Your monthly rate is "
+  end_of_calculator: "=> Thank you for using our calculator. If you would like to input some new info please enter y"
+  enter_positive_number: "=> Please enter a positive number"
+  enter_positive_rate: "=> Please enter a positive rate"
+  enter_valid_years: "=> Please enter a valid year"
+  enter_valid_rate: "=> Please enter a valid rate"
+  peform_calcs: "=> Performing Calculations.... "
+  calcs_completed: "=> Calculations Complete!!!"
+
+
+jap:
+  Welcome: "=> 私たちの車のローンの計算機へようこそ。 以下の情報を用意してください。 あなたの融資額、年率、およびローンを完済するための年"
+  loan_amount: "=> 合計であなたの融資額は何ですか？"
+  annual_percetnage_rate: "=> あなたの年率は何ですか（10.2%がちょうど10.2を入力した場合？"
+  loan_duration_years: "=> どの位あなたの貸付け金は年にのために持続するか。"
+  calculation: "=> あなたの月額料金は "
+  end_of_calculator: "=> 私たちの電卓を使用していただきありがとうございます。 新しい情報を入力したい場合は、yを入力してください"
+  enter_positive_number: "=> 正の数を入力してください"
+  enter_positive_rate: "=> 正のレートを入力してください"
+  enter_valid_years: "=> 有効な年を入力してください"
+  enter_valid_rate: "=> 有効な料金を入力してください"
+  peform_calcs: "=> 計算を実行します。... "
+  calcs_completed: "=> 計算完了！!!"

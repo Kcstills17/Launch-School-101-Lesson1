@@ -1,0 +1,15 @@
+en:
+  welcome: "Welcome to Calculator! Enter your name:"
+  valid_name: "Make sure to enter a valid name."
+  goodbye: "Thank you for playing this calculator game!"
+
+es:
+  welcome: "Bienvenido a la calculadora! Entre su nombre:"
+  valid_name: "Asegúrese de entrar un nombre válido."
+  goodbye: "¡Gracias por jugar a este juego de calculadora!"
+
+jap:
+  welcome: ウェルコム・ター・キャルキュレーター・エンター・ヨー・ネーム
+  valid_name: メーク・シュア・ター・エンター・アー・バリッド・ネーム
+  goodbye: サンク・ユー・フォー・プレーイング・ジス・キャルキュレーター・ゲーム
+
