@@ -1,39 +1,78 @@
 RPS = {
-  r: ["scissors", "lizard"],
-  p: ["scissors", "spock"],
-  s: ["paper", "lizard"],
-  sp: ["rock", "scissors"],
-  l: ["spock", "paper"]
+  %w[r s]   => 'crushes',
+  %w[r l]   => 'crushes',
+  %w[p r]   => 'covers',
+  %w[p sp]   => 'disproves',
+  %w[s p]    => 'cuts',
+  %w[s l]    => 'decapitates',
+  %w[sp r]   => 'vaporizes',
+  %w[sp sc] => 'smashes',
+  %w[l p]   => 'eats',
+  %w[l sp]   => 'poison'
 }
-p RPS.key(["scissors", "lizard"]).to_s
 
-begin VALID_CHOICES = ['r', 'p', 's', 'sp', 'l']
-      def prompt(message)
-        Kernel.puts("=> #{message}")
-      end
 
-      def win?(first, second)
-        first == (RPS.key(["scissors", "lizard"]) && second == RPS[:r]) ||
-          first == (RPS.key(["scissors", "spock"]) && second == RPS[:p]) ||
-          first == (RPS.key(["paper", "lizard"]) && second == RPS[:s]) ||
-          first == (RPS.key(["rock", "scissors"]) && second == RPS[:sp]) ||
-          first == (RPS.key(["spock", "paper"]) && second == RPS[:l])
-      end
-
-      def display_results(player, computer)
-        if win?(player, computer)
-          prompt("You win")
-        elsif win?(computer, player)
-          prompt("You lose")
-        else
-          prompt("You tie")
+p RPS[%w[r s]].include?('crushes')
+loop do
+  begin VALID_CHOICES = %w[r p s sp l]
+        def prompt(message)
+          Kernel.puts("=> #{message}")
         end
-      end
 
-      puts "=> Welcome to the Rock Paper Scissors Game! Press anything to begin"
-      gets.chomp
+        def win?(first, second)
+          if action = RPS[[first, second]] && RPS[first].include?(second)
+            prompt("first wins: #{first} #{action} #{second}")
+          elsif action = RPS[[second, first]] && RPS[second].include?(first)
+            prompt("first wins: #{first} #{action} #{second}")
+          end
 
-      loop do
+        end
+
+        def display_results(player, computer)
+          if win?(player, computer)
+            prompt("You Win")
+          elsif win?(computer, player)
+            prompt("You Lose")
+          else
+            prompt("You tie")
+            p player
+            p computer
+          end
+        end
+
+        def display_score(user, cpu)
+          player_score = 0
+          cpu_score = 0
+
+          loop do
+            prompt("Choose out of the five #{VALID_CHOICES.join(', ')}")
+            user = gets.chomp
+            cpu = VALID_CHOICES.sample
+
+            if win?(user, cpu)
+              display_results(user, cpu)
+              player_score += 1
+              prompt("your score : #{player_score} opponent's score : #{cpu_score}")
+              break if player_score == 3
+
+            elsif win?(cpu, user)
+              display_results(user, cpu)
+              cpu_score += 1
+              break if cpu_score == 3
+              prompt("your score : #{player_score} opponent's score : #{cpu_score}")
+            elsif user == cpu
+              prompt("You Tie")
+              prompt("your score : #{player_score} opponent's score : #{cpu_score}")
+            else
+              prompt("please input a valid choice")
+            end
+
+          end
+        end
+
+        puts "=> Welcome to the Rock Paper Scissors Game! Press anything to begin"
+        gets.chomp
+
         user_choice = nil
         loop do
           prompt("Choose out of the five #{VALID_CHOICES.join(', ')}")
@@ -46,5 +85,11 @@ begin VALID_CHOICES = ['r', 'p', 's', 'sp', 'l']
 
         prompt("you choose #{user_choice.downcase} and your opponent chooses #{computer_choice.downcase}")
         display_results(user_choice, computer_choice)
-      end
+        display_score(user_choice, computer_choice)
+
+  end
+
+  prompt("would you like to play again?")
+  play_again = gets.chomp
+  break unless play_again.downcase.start_with?("y")
 end
