@@ -24,7 +24,7 @@ loop do
           if action = RPS[[first, second]]
             prompt("first wins: #{first} #{action} #{second}")
           elsif action = RPS[[second, first]]
-            prompt("first wins: #{second} #{action} #{first}")
+            prompt("second wins: #{second} #{action} #{first}")
           end
 
         end
