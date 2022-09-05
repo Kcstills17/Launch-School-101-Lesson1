@@ -1,1 +1,2 @@
- RPS[%w[r s]]
+
+            elsif win?(cpu, user)

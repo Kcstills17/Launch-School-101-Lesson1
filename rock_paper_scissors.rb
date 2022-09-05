@@ -1,18 +1,17 @@
 RPS = {
-  %w[r s]   => 'crushes',
-  %w[r l]   => 'crushes',
-  %w[p r]   => 'covers',
-  %w[p sp]   => 'disproves',
-  %w[s p]    => 'cuts',
-  %w[s l]    => 'decapitates',
-  %w[sp r]   => 'vaporizes',
+  %w[r s] => 'crushes',
+  %w[r l] => 'crushes',
+  %w[p r] => 'covers',
+  %w[p sp] => 'disproves',
+  %w[s p] => 'cuts',
+  %w[s l] => 'decapitates',
+  %w[sp r] => 'vaporizes',
   %w[sp sc] => 'smashes',
-  %w[l p]   => 'eats',
-  %w[l sp]   => 'poison'
+  %w[l p] => 'eats',
+  %w[l sp] => 'poison'
 }
 
-
-
+p RPS[%w[r s]]
 
 loop do
   begin VALID_CHOICES = %w[r p s sp l]
@@ -22,11 +21,12 @@ loop do
 
         def win?(first, second)
           if action = RPS[[first, second]]
-            prompt("first wins: #{first} #{action} #{second}")
+            prompt("#{first} #{action} #{second}")
+            second
           elsif action = RPS[[second, first]]
-            prompt("second wins: #{second} #{action} #{first}")
-          end
+            prompt("#{second} #{action} #{first}")
 
+          end
         end
 
         def display_results(player, computer)
@@ -36,8 +36,7 @@ loop do
             prompt("You Lose")
           else
             prompt("You tie")
-            p player
-            p computer
+
           end
         end
 
@@ -51,9 +50,11 @@ loop do
             cpu = VALID_CHOICES.sample
 
             if win?(user, cpu)
+
               display_results(user, cpu)
               player_score += 1
               prompt("your score : #{player_score} opponent's score : #{cpu_score}")
+
               break if player_score == 3
 
             elsif win?(cpu, user)
@@ -67,7 +68,6 @@ loop do
             else
               prompt("please input a valid choice")
             end
-
           end
         end
 
@@ -87,7 +87,6 @@ loop do
         prompt("you choose #{user_choice.downcase} and your opponent chooses #{computer_choice.downcase}")
         display_results(user_choice, computer_choice)
         display_score(user_choice, computer_choice)
-
   end
 
   prompt("would you like to play again?")
