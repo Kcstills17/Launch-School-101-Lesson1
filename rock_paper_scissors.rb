@@ -12,7 +12,8 @@ RPS = {
 }
 
 
-p RPS[%w[r s]].include?('crushes')
+
+
 loop do
   begin VALID_CHOICES = %w[r p s sp l]
         def prompt(message)
@@ -20,10 +21,10 @@ loop do
         end
 
         def win?(first, second)
-          if action = RPS[[first, second]] && RPS[first].include?(second)
+          if action = RPS[[first, second]]
             prompt("first wins: #{first} #{action} #{second}")
-          elsif action = RPS[[second, first]] && RPS[second].include?(first)
-            prompt("first wins: #{first} #{action} #{second}")
+          elsif action = RPS[[second, first]]
+            prompt("first wins: #{second} #{action} #{first}")
           end
 
         end
