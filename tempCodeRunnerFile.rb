@@ -1,2 +1,1 @@
 
-            elsif win?(cpu, user)
