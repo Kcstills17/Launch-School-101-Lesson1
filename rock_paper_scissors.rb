@@ -20,44 +20,42 @@ def win?(first, second)
   if first == second
     prompt("You Tie")
 
-
   elsif action = RPS[[first, second]]
     prompt("Good Work! #{first} completely #{action} #{second}")
+    prompt("You Win")
     [first, second]
-
-
 
   elsif action = RPS[[second, first]]
     prompt("Oh No! #{second}  #{action} #{first}. You've still got this!")
+    prompt("You Lose")
     [second, first]
 
-
   end
-
 end
 
 def display_score(user, cpu)
-  prompt("Alright. Now you get the jigg. Make your pick!")
+  prompt("Alright. Now you've gotten the hang of it. Make your pick!")
   cpu_score = 0
   your_score = 0
   loop do
     user = gets.chomp
-    cpu = 'p'
+    cpu = VALID_CHOICES.sample
     if VALID_CHOICES.include?(user) == false
       prompt("please enter a valid input")
-
-     elsif win?(user, cpu) == [user, cpu]
+    elsif user == cpu
+      prompt("the values are equal")
+      prompt("your score: #{your_score} opponents score: #{cpu_score}")
+    elsif win?(user, cpu) == [user, cpu]
       your_score += 1
+      prompt("your score: #{your_score} opponents score: #{cpu_score}")
       break if your_score == 3
-      prompt("your score #{your_score} opponent's score #{cpu_score}")
-    elsif win?(cpu, user) == [cpu, user]
-      cpu_score += 1
-      break if cpu_score == 3
-      prompt("your score #{your_score} opponent's score #{cpu_score}")
     else
-      prompt("Your choices are equal.")
+      cpu_score += 1
+      prompt("your score: #{your_score} opponents score: #{cpu_score}")
+      break if cpu_score == 3
     end
   end
+  prompt('________________________')
   prompt("Final Score : #{your_score} to : #{cpu_score}")
 end
 loop do
