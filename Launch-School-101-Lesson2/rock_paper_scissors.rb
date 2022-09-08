@@ -17,10 +17,7 @@ def prompt(message)
 end
 
 def win?(first, second)
-  if first == second
-    prompt("You Tie")
-
-  elsif action = RPS[[first, second]]
+  if action = RPS[[first, second]]
     prompt("Good Work! #{first} completely #{action} #{second}")
     prompt("You Win")
     [first, second]
@@ -35,43 +32,40 @@ end
 
 def display_score(user, cpu)
   prompt("Alright. Now you've gotten the hang of it. Make your pick!")
-  cpu_score = 0
-  your_score = 0
+  cpu_score = 0 && your_score = 0
+
   loop do
     user = gets.chomp
     cpu = VALID_CHOICES.sample
+
     if VALID_CHOICES.include?(user) == false
       prompt("please enter a valid input")
     elsif user == cpu
-      prompt("the values are equal")
-      prompt("your score: #{your_score} opponents score: #{cpu_score}")
+      prompt("You both have equal values. You Tie")
+
     elsif win?(user, cpu) == [user, cpu]
       your_score += 1
-      prompt("your score: #{your_score} opponents score: #{cpu_score}")
-      break if your_score == 3
+
     else
       cpu_score += 1
-      prompt("your score: #{your_score} opponents score: #{cpu_score}")
-      break if cpu_score == 3
+
     end
+    prompt("Your Score: #{your_score} Opponent's Score: #{cpu_score}")
+    break if cpu_score == 3 || your_score == 3
   end
   prompt('________________________')
-  prompt("Final Score : #{your_score} to : #{cpu_score}")
+  prompt("Final Score: Your Score: #{your_score} Opponent's Score : #{cpu_score}")
 end
 loop do
   user_choice = nil
   cpu_choice = nil
-  player_score = nil
-  computer_score = nil
 
   prompt("Welcome to our Upgraded Rock Paper Scissors Game! Please enter anything to begin ")
-  enter_game = gets.chomp
+  gets.chomp
   loop do
     prompt("Practice: enter r, p, s, sp, or l. This will not be scored ")
     user_choice = gets.chomp
     cpu_choice = VALID_CHOICES.sample
-    player_score = 0
-    computer_score = 0
 
     break if VALID_CHOICES.include?(user_choice)
     prompt("Please enter one of the valid choices")
