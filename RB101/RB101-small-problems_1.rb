@@ -100,7 +100,6 @@ puts digit_list(7) == [7]                     # => true
 puts digit_list(375290) == [3, 7, 5, 2, 9, 0] # => true
 puts digit_list(444) == [4, 4, 4]             # => true
 
-
 # 4. How Many?
 # Write a method that counts the number of occurrences of each element in a given array.
 # The words in the array are case-sensitive: 'suv' != 'SUV'.
@@ -147,7 +146,6 @@ def count_occurrences(array)
 
   array.uniq.each do |element|
     occurrences[element] = array.count(element)
-
   end
 
   occurrences.each do |element, count|
@@ -167,8 +165,8 @@ p count_occurrences(vehicles)
 # - Output returns the string in reverse order
 
 # Implicit Requirements
- # - reverses only the sequence of the words. not the words themselves
- # - spaces will result in spaces only
+# - reverses only the sequence of the words. not the words themselves
+# - empty space will result always in "" or ''
 
 # Examples/ Edge Cases
 
@@ -184,15 +182,14 @@ p count_occurrences(vehicles)
 # ALGORITHM
 # Create method reverse_sentence
 # create an empty array  called new_array
-# create an array called word_array and set it to words being split with spaces
+# create an array called word_array and set it to words being split with 1 space
 # create a counter variable and set it  equal to word_array.size
 
-
 # start a do loop
-  # create a variable called popped_word and set it to word_array having it's last element being removed
-  # append popped_word to new_array
-  # decrement counter by 1
-  # break out of loop if  counter == 0
+# create a variable called popped_word and set it to word_array having it's last element being removed
+# break out of loop if  counter == 0
+# append popped_word to new_array
+# decrement counter by 1
 # end
 
 # join new_array and name it reverse_string
@@ -201,16 +198,15 @@ p count_occurrences(vehicles)
 def reverse_sentence(words)
   new_array = []
   word_array = words.split(" ")
- counter = word_array.size
+  counter = word_array.size
 
- loop do
-  popped_word = word_array.pop
-  new_array << popped_word
-  counter -= 1
-  break if counter == 0
- end
-  reverse_string = new_array.join(" ")
- reverse_string
+  loop do
+    popped_word = word_array.pop
+    break if counter == 0
+    counter -= 1
+    new_array << popped_word
+  end
+  new_array.join(" ")
 end
 
 puts reverse_sentence('Hello World') == 'World Hello'
@@ -218,3 +214,99 @@ puts reverse_sentence('Reverse these words') == 'words these Reverse'
 puts reverse_sentence('') == ''
 puts reverse_sentence('    ') == '' # Any number of spaces results in ''
 
+# Shorter solution provided by launch school
+
+# def reverse_sentence(string)
+# string.split.reverse.join(' ')
+# end
+
+# reverse_sentence("       ")
+
+# 6. Reverse It (Part 2)
+# Write a method that takes one argument, a string containing one or more words, and returns the given string
+# with words that contain five or more characters reversed. Each string will consist of only letters and spaces.
+# Spaces should be included only when more than one word is present.
+
+# Understand the Problem
+
+# Explicit Requirments
+# - contains one parameter
+# - input is a string containing one or more words
+# - Returns the input with words that contain five or more characters reversed
+# - Each string will consist only of letters and spaces
+# - Inlcude spaces only when one or more words are present
+
+# Implicit Requirements
+# - If only one word do not include spaces
+# - Case Type does not matter
+# - If not a string or space, prompt to re-enter
+
+# Clarifications/ Questions
+# - is the output returning String? I do not see in quotes but also does not seem to represent any other type.
+
+# Example/ Edge Cases
+# puts reverse_words('Professional')          # => lanoisseforP
+# puts reverse_words('Walk around the block') # => Walk dnuora the kcolb
+# puts reverse_words('Launch School')         # => hcnuaL loohcS
+
+# Data Structure
+# Input: String
+# Output: String
+
+=begin
+ALGORITHM
+=begin
+Main method
+- create method reverse_word(input)
+  - create an empty array named result_array
+  - if input is_string?
+    - create word_array variable which equals the input split at each element with 1 space between each
+    - iterate through each element of word_array
+    - if the size of each particular element is >= 5
+      - create variable reverse_element which equals the element backwards
+      - append reverse_element onto result_array
+    - else
+    append remaining elements to result_array
+    end inner if statement
+  end block
+  else
+  when valid string is not given ask for the user to input valid string
+  end outer if statement
+  covert result_array to string with a space between words and name it final_result_string
+  return final_result_string
+end
+
+    -
+
+sub method
+create is_string?(input_string)
+    - check if input_string is a string or not
+end
+
+=end
+
+def is_string?(input_string)
+  input_string.instance_of?(String)
+end
+
+def reverse_words(input)
+  result_array = []
+  if is_string?(input)
+    word_array = input.split(" ")
+    word_array.each do |element|
+      if element.size >= 5
+        reverse_element = element.reverse
+        result_array << reverse_element
+      else
+        result_array << element
+      end
+    end
+  else
+    puts "please input valid string"
+  end
+  final_result_string = result_array.join(" ")
+end
+
+puts reverse_words('Professional') # => lanoisseforP
+puts reverse_words('Walk around the block') # => Walk dnuora the kcolb
+puts reverse_words('Launch School')         # => hcnuaL loohcS
