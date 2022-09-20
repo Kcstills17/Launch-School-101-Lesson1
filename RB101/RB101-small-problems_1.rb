@@ -58,7 +58,7 @@ puts is_odd?(-8)   # => false
 puts is_odd?(0)    # => false
 puts is_odd?(7)    # => true
 
-# 3. List of Digits
+# 3. LIST OF DIGITS
 # Write a method that takes one argument, a positive integer, and returns
 # a list of the digits in the number.
 
@@ -100,7 +100,7 @@ puts digit_list(7) == [7]                     # => true
 puts digit_list(375290) == [3, 7, 5, 2, 9, 0] # => true
 puts digit_list(444) == [4, 4, 4]             # => true
 
-# 4. How Many?
+# 4. HOW MANY?
 # Write a method that counts the number of occurrences of each element in a given array.
 # The words in the array are case-sensitive: 'suv' != 'SUV'.
 # Once counted, print each element alongside the number of occurrences.
@@ -155,7 +155,7 @@ end
 
 p count_occurrences(vehicles)
 
-# 5 Reverse Order (Part 1)
+# 5 REVERSE ORDER (Part 1)
 # Write a method that takes one argument, a string, and returns a new string with the words in reverse order.
 
 # Understand the Problem
@@ -222,7 +222,7 @@ puts reverse_sentence('    ') == '' # Any number of spaces results in ''
 
 # reverse_sentence("       ")
 
-# 6. Reverse It (Part 2)
+# 6. REVERSE IT (Part 2)
 # Write a method that takes one argument, a string containing one or more words, and returns the given string
 # with words that contain five or more characters reversed. Each string will consist of only letters and spaces.
 # Spaces should be included only when more than one word is present.
@@ -309,4 +309,156 @@ end
 
 puts reverse_words('Professional') # => lanoisseforP
 puts reverse_words('Walk around the block') # => Walk dnuora the kcolb
-puts reverse_words('Launch School')         # => hcnuaL loohcS
+puts reverse_words('Launch school')         # => hcnuaL loohcS
+
+
+
+
+# 7. STRINGY STRINGS
+# Write a method that takes one argument, a positive integer, and returns a string of alternating 1s and 0s,
+# always starting with 1. The length of the string should match the given integer.
+
+# Understand the Problem
+
+# Explicit Requirements
+# - Input takes one parameter
+# - Input is a positive string
+# - Output returns a string of alternating 1s and 0s
+# - the first number always starts with 1
+# - length of the string should match the given integer
+
+# Implicit Requirements
+# if the input is even the final digit will be 0
+# if the input is odd the final digit will be 1
+
+
+# Examples/Edge Cases
+# puts stringy(6) == '101010'
+# puts stringy(9) == '101010101'
+# puts stringy(4) == '1010'
+# puts stringy(7) == '1010101'
+
+
+# Data Structure
+#  input: Positive string
+# output: string of alternating 0s and 1
+
+# Algorithm
+=begin
+- Create method stringy(input)
+  - create empty array and name it result_array
+  start do loop
+  - if the input is odd
+      append 1  to result_array
+      decrement input by 1
+      break out of loop if counter is less than or equal to 0
+  else
+     append 0 to result_array
+     decrement input by 1
+     break out of loop if counter is less than or equal to 0
+    end if statement
+  end loop
+ reverse result_array and then convert it tto string. name it one_zero_string
+ return one_zero_string
+
+=end
+
+def stringy(input)
+  result_array = []
+  loop do
+    if input % 2 != 0
+      result_array << 1
+      input -= 1
+      break if input <= 0
+    else
+      result_array << 0
+      input -= 1
+      break if input <= 0
+    end
+  end
+one_zero_string =  result_array.reverse.join
+end
+
+
+puts stringy(6) == '101010'
+puts stringy(9) == '101010101'
+puts stringy(4) == '1010'
+puts stringy(7) == '1010101'
+
+
+
+# solution provided by Launch School
+# def stringy(size)
+# numbers = []
+
+# size.times do |index|
+  # number = index.even? ? 1 : 0
+  # numbers << number
+# end
+
+# numbers.join# end
+
+
+#7. ARRAY AVERAGE
+# Write a method that takes one argument, an array containing integers, and returns the average of all numbers
+# in the array. The array will never be empty and the numbers will always be positive integers. Your result should also be an integer.
+
+# P: Understand the Problem:
+
+# Explicit Requirements
+# - method has one parameter
+# - argument is an array containing integers
+# - output returns the average of all the numbers
+# output should be an integer
+
+# Implicit Requirements
+# - your output is the mean of the argument
+# -
+
+# E: Examples/ Edge Cases
+
+# puts average([1, 6]) == 3 # integer division: (1 + 6) / 2 -> 3
+# puts average([1, 5, 87, 45, 8, 8]) == 25
+# puts average([9, 47, 23, 95, 16, 52]) == 40
+
+
+# D: Data Structure
+# Input: array containing integers
+# Output: single integer
+
+# A: Algorithm
+#  create a method named average(array_input)
+  # create variable total and set equal to 0
+  # create variable counter and set equal to 0
+  # create while loop and set condition to break out if counter is larger than array_input's size
+    # set total to equal to each element of the array plus total
+    # increment the counter by one
+  # end while loop
+  # create variable result_number that is equal to the total divided by  array_input's size
+  # return result_number
+
+def average(array_input)
+  total = 0
+  counter = 0
+while counter < array_input.size
+  total += array_input[counter]
+  counter += 1
+end
+ result_number = total/ array_input.size
+end
+
+puts average([1, 6]) == 3 # integer division: (1 + 6) / 2 -> 3
+puts average([1, 5, 87, 45, 8, 8]) == 25
+puts average([9, 47, 23, 95, 16, 52]) == 40
+
+
+
+def average2(array_input)
+ sum = array_input.reduce {|total, element| total += element}
+ p sum /array_input.count
+end
+
+
+
+
+puts average2([1, 5, 87, 45, 8, 8])
