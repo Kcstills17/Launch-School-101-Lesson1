@@ -570,4 +570,73 @@ def display_sum_or_method
   end
 end
 
-display_sum_or_method
+# display_sum_or_method
+
+=begin
+9. String Assignment
+
+name = 'Bob'
+save_name = name
+name = 'Alice'
+puts name, save_name
+
+What does this code print out? Think about it for a moment before continuing.
+
+If you said that code printed
+
+Alice
+Bob
+
+you are 100% correct, and the answer should come as no surprise. Now, let's look at something a bit different:
+
+name = 'Bob'
+save_name = name
+name.upcase!
+puts name, save_name
+
+What does this print out? Can you explain these results?
+
+Going in order of what is occuring
+ - Name is set to string "Bob"
+ - save_name is set to name. Meaning that save_name and name are pointing to the same address in memory. This is an example of pass by value
+ - name.upcase! This is a mutating method. Therefore the value both variables are pointing to have been changed . This is an example of pass by reference
+ - puts name, save_ name should be
+ => BOB
+    BOB
+ - As the value was mutated that both name and save_name pointed to.
+
+=end
+
+=begin
+10. Mutation
+What will the following code print, and why? Don't run the code until you have tried to answer.
+
+array1 = %w(Moe Larry Curly Shemp Harpo Chico Groucho Zeppo)
+array2 = []
+array1.each { |value| array2 << value }
+array1.each { |value| value.upcase! if value.start_with?('C', 'S') }
+puts array2
+
+in order of what is occuring
+- array1 is set to ['Moe', 'Larry', 'Curly', 'Shemp', 'Harpo', 'Chico', 'Groupo', 'Zeppo]
+- array2 is set to an empty array []
+- array1 with the each method will append to array2 each value of array1
+- array1 with the second each method uses a mutation method that upcases each value that begins with 'C' and 'S"
+- puts array2
+- What is occuring is that array2 is being appended the values of array1 however, it is returning the same array and not a new one
+- Therefore when array1 is mutated with the Upcase method array2 should have the same result
+-puts array2 should output
+- => Moe
+     Larry
+     CURLY
+     SHEMP
+     Harpo
+     CHICO
+     Groupo
+     Zeppo
+
+=end
+
+
+
+
