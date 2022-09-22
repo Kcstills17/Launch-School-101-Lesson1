@@ -438,8 +438,8 @@ D: Data Structures
   - output is interpolated string with integers
 
 A: Algorithm
-      Core-Method:
-  Create method display_sum_or_product
+Core-Method:
+display_sum_or_product()
 - initiallize variable input_sum and set to 0
 - initiallize variable input_product and set to 0
 
@@ -455,16 +455,16 @@ A: Algorithm
   - create loop for second validation
     - print " Enter 's' to compute the sum, 'p' to compute the product."
     - initiallize variable sum_or_product to that answer
-    - if sum_or_product is equal to 's'
+    - when sum_or_product is equal to 's'
       - set input_sum to sum_of_number(user_num)
       - print "the sum of integers between 1 and (user_num) is (input_sum)"
-    - elsif sum_or_product is equal to 'p'
+    - when sum_or_product is equal to 'p'
       - set input_product to product_of_number(user_num)
       - print "the prodicts of integers between 1 and (user_num) is (input_product)"
     -else
     - print "please enter 's' or 'p' "
-  - break out of loop if sum_or_product includes either 's' or 'p'
   - end if statmenet
+  - break out of loop if sum_or_product includes either 's' or 'p'
   - end second validation loop
 
  - puts "would you like to try another number? Y/N"
