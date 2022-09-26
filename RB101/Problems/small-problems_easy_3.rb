@@ -10,7 +10,6 @@ P. Understand the Problem
   - Prompt the user for 6 numbers
   - Print a message that shows whether or not the 6th number is amongst the first 5 numbers
 
-
   Implicit Requirements:
   -
 
@@ -49,7 +48,6 @@ The number 18 does not appear in [25, 15, 20, 17, 23].
 D: Data Structures
   - Output is interpolated string with an array
 
-
 A: Algorithm
   Def search_number(number)
     - create array named loop_sequence and set to ['1st', '2nd', '3rd, '4th', '5th, 'last']
@@ -74,26 +72,26 @@ C: Code with intent
 
 =end
 def search_number
-  loop_sequence  = ['1st', '2nd', '3rd', '4th', '5th', 'last']
+  loop_sequence = ['1st', '2nd', '3rd', '4th', '5th', 'last']
   number_list = []
   counter = 0
 
-    until counter >= loop_sequence.size
-      puts "Enter the #{loop_sequence[counter]} number"
-      chosen_number = gets.chomp.to_i
-      number_list << chosen_number
-      counter += 1
-    end
-     first_five_num = number_list[0..4]
-     last_num = number_list[-1]
-    if first_five_num.include?(last_num)
-      puts " => the number #{last_num} does appear in #{first_five_num}"
-    else
-      puts "=> the number #{last_num} does not appear in #{first_five_num}"
-    end
+  until counter >= loop_sequence.size
+    puts "Enter the #{loop_sequence[counter]} number"
+    chosen_number = gets.chomp.to_i
+    number_list << chosen_number
+    counter += 1
+  end
+  first_five_num = number_list[0..4]
+  last_num = number_list[-1]
+  if first_five_num.include?(last_num)
+    puts " => the number #{last_num} does appear in #{first_five_num}"
+  else
+    puts "=> the number #{last_num} does not appear in #{first_five_num}"
+  end
 end
 
-  #search_number
+# search_number
 
 =begin
 2. Arithmetic Integer
@@ -106,7 +104,6 @@ P. Understand the Problem
   -  Ask the user for two positive integers
   - print the result of all of each of these operations
   - addition, subtraction, product, quotient, remainder, and power.
-
 
   Implicit Requirements:
   - ask the user for each integer separately
@@ -128,7 +125,6 @@ E: Examples/ Edge Cases
 
 D: Data Structures
   -  output: integer
-
 
 A: Algorithm
   def arithmetic_numbers()
@@ -155,8 +151,7 @@ C: Code with intent
 
 =end
 
-
-def arithmetic_numbers()
+def arithmetic_numbers
   puts "==> Enter the first number"
   first_num = gets.chomp.to_i
 
@@ -167,16 +162,14 @@ def arithmetic_numbers()
   puts "==>  #{first_num} * #{second_num} =  #{first_num * second_num} "
   if ZeroDivisionError
     puts "cannot divide numbers by zero or perform modulus on zero"
-    puts "==>  #{first_num} ** #{second_num} =  #{first_num ** second_num}"
   else
-  puts "==>  #{first_num} / #{second_num} =  #{first_num / second_num} "
-  puts "==>  #{first_num} % #{second_num} =  #{first_num % second_num} "
-  puts "==>  #{first_num} ** #{second_num} =  #{first_num ** second_num}"
+    puts "==>  #{first_num} / #{second_num} =  #{first_num / second_num} "
+    puts "==>  #{first_num} % #{second_num} =  #{first_num % second_num} "
   end
+  puts "==>  #{first_num} ** #{second_num} =  #{first_num**second_num}"
 end
 
- #arithmetic_numbers
-
+# arithmetic_numbers
 
 =begin
 
@@ -184,13 +177,11 @@ end
 Write a program that will ask a user for an input of a word or multiple words and give back
 the number of characters. Spaces should not be counted as a character.
 
-
 P. Understand the Problem
   Explicit Requirements:
   - input a word or multiple words
   - output the amount of characters in the input
   - Spaces do not count
-
 
   Implicit Requirements:
   -
@@ -208,7 +199,6 @@ E: Examples/ Edge Cases
 D: Data Structures
     - Input is string
     - Output is interpolated string
-
 
 A: Algorithm
   def count_characters(input)
@@ -228,15 +218,15 @@ C: Code with intent
 =end
 
 def count_characters
-total_characters = []
-puts  "=> Please write word or multiple words: "
-word_equal = gets.chomp
-array_characters = word_equal.split("")
+  total_characters = []
+  puts "=> Please write word or multiple words: "
+  word_equal = gets.chomp
+  array_characters = word_equal.split("")
 
- array_characters.each do |element|
-  total_characters << element if element != " "
+  array_characters.each do |element|
+    total_characters << element if element != " "
   end
- puts  "There are #{total_characters.size } characters in '#{word_equal}'"
+  puts "There are #{total_characters.size} characters in '#{word_equal}'"
 end
 
 # count_characters
@@ -247,8 +237,6 @@ end
 # number_of_characters = input.delete(' ').size
 # puts "There are #{number_of_characters} characters in \"#{input}\"."
 
-
-
 =begin
 4. Multiplying Two Numbers
 Create a method that takes two arguments, multiplies them together, and returns the result.
@@ -257,7 +245,6 @@ P. Understand the Problem
   Explicit Requirements:
   - has two parameters and arguments
   - multiplies the two and returns the result
-
 
   Implicit Requirements:
   -
@@ -272,7 +259,6 @@ D: Data Structures
   - input are 2 integers
   - output is 1 integer
 
-
 A: Algorithm
    def multiply(num1, num2)
     - num1 * num2
@@ -284,7 +270,6 @@ C: Code with intent
 def multiply(num1, num2)
   num1 * num2
 end
-
 
 p multiply(5, 3)
 
@@ -304,7 +289,6 @@ Using the multiply method from the "Multiplying Two Numbers" problem, write a me
   - use the multiply method within our problem
   - use multiply method to compute square of its argument
 
-
   Implicit Requirements:
   - the arguments for multiply will be the same
 
@@ -319,7 +303,6 @@ D: Data Structures
   - input is one argument integer
   - output is an integer
 
-
 A: Algorithm
   def square(number)
     multiply(number, number)
@@ -333,17 +316,17 @@ def square(number)
   multiply(number, number)
 end
 
- square(5) == 25
- square(-8) == 64
- # bonus
- def cubed(number)
+square(5) == 25
+square(-8) == 64
+# bonus
+def cubed(number)
   multiply(number, number) * number
- end
+end
 
 def fourth_power(number)
-  multiply(number, number) * multiply(number,  number)
+  multiply(number, number) * multiply(number, number)
 end
- cubed(10) == 1000
+cubed(10) == 1000
 fourth_power(10) == 10000
 
 =begin
@@ -363,7 +346,6 @@ P. Understand the Problem
   - false otherwise
   - want a boolean result
 
-
   Implicit Requirements:
   -
 
@@ -379,13 +361,11 @@ E: Examples/ Edge Cases
 D: Data Structures
   -
 
-
 A: Algorithm
   def xor?(arg1, arg2)
     - return true if arg1 is true and arg 2 is false or arg1 is false and arg2 is true
     - otherwise return false
   end
-
 
 C: Code with intent
 
@@ -394,17 +374,17 @@ def xor?(arg1, arg2)
   return true if arg1 && arg2 == false || arg1 == false && arg2
   false
 end
- xor?(5.even?, 4.even?) == true
- xor?(5.odd?, 4.odd?) == true
- xor?(5.odd?, 4.even?) == false
- xor?(5.even?, 4.odd?) == false
+xor?(5.even?, 4.even?) == true
+xor?(5.odd?, 4.odd?) == true
+xor?(5.odd?, 4.even?) == false
+xor?(5.even?, 4.odd?) == false
 
 # LS solutions
 
 # def xor?(value1, value2)
-  # return true if value1 && !value2
-  # return true if value2 && !value1
-  # false
+# return true if value1 && !value2
+# return true if value2 && !value1
+# false
 # end
 
 # Shorter version
@@ -425,8 +405,6 @@ P. Understand the Problem
   - the array contains every other element that is passed in as an argyment
   - the values of the returned list should be at the 1st, 3rd, 5th, and so on elements of the argument
 
-
-
   Implicit Requirements:
   - even indices elements of argyment array should not be returned
   - if no arguments are given return an empty array
@@ -445,11 +423,9 @@ E: Examples/ Edge Cases
   - oddities([123]) == [123]
   - oddities([]) == []
 
-
 D: Data Structures
   - input is an array
   - output is an array
-
 
 A: Algorithm
 def odditties(*array)
@@ -469,46 +445,44 @@ def oddities(array)
   sequence_array = []
   counter = 0
   until counter >= array.size
- if counter.even?
-  sequence_array << array[counter]
-  counter += 2
- end
-end
+    if counter.even?
+      sequence_array << array[counter]
+      counter += 2
+    end
+  end
   sequence_array
 end
- oddities([2, 3, 4, 5, 6]) == [2, 4, 6]
- oddities([1, 2, 3, 4, 5, 6]) == [1, 3, 5]
- oddities(['abc', 'def']) == ['abc']
- oddities([123]) == [123]
- oddities([]) == []
+oddities([2, 3, 4, 5, 6]) == [2, 4, 6]
+oddities([1, 2, 3, 4, 5, 6]) == [1, 3, 5]
+oddities(['abc', 'def']) == ['abc']
+oddities([123]) == [123]
+oddities([]) == []
 
- #Bonus: solve in 2 additional ways
+# Bonus: solve in 2 additional ways
 
- def oddities2(array)
+def oddities2(array)
   sequence_array = []
   array.each_with_index do |element, index|
     sequence_array << element if index.even?
   end
   sequence_array
- end
+end
 
- oddities2([2, 3, 4, 5, 6]) == [2, 4, 6]
- oddities2([1, 2, 3, 4, 5, 6]) == [1, 3, 5]
- oddities2(['abc', 'def']) == ['abc']
- oddities2([123]) == [123]
- oddities2([]) == []
+oddities2([2, 3, 4, 5, 6]) == [2, 4, 6]
+oddities2([1, 2, 3, 4, 5, 6]) == [1, 3, 5]
+oddities2(['abc', 'def']) == ['abc']
+oddities2([123]) == [123]
+oddities2([]) == []
 
- def oddities3(array)
- array.select.with_index {|element, index| index.even? }
- end
+def oddities3(array)
+  array.select.with_index { |_element, index| index.even? }
+end
 
-
-  oddities3([2, 3, 4, 5, 6])
-  oddities3([1, 2, 3, 4, 5, 6])
-  oddities3(['abc', 'def'])
-  oddities3([123])
-  oddities3([])
-
+oddities3([2, 3, 4, 5, 6])
+oddities3([1, 2, 3, 4, 5, 6])
+oddities3(['abc', 'def'])
+oddities3([123])
+oddities3([])
 
 =begin
 8. Palindromic Strings (Part 1)
@@ -520,7 +494,6 @@ P. Understand the Problem
   - returns a boolean
   - true if a palindrome, false if not
   - is case sensitive
-
 
   Implicit Requirements:
   - Each character from every word matter if it is a palindrome
@@ -538,7 +511,6 @@ D: Data Structures
   - input: string
   - output: boolean
 
-
 A: Algorithm
     def palindrome?(input_string)
       - initiallize variable input_array and assign to input_string split
@@ -550,17 +522,17 @@ C: Code with intent
 =end
 
 def palindrome?(input_string)
- input_string == input_string.reverse
+  input_string == input_string.reverse
 end
 
- palindrome?('madam') == true
+palindrome?('madam') == true
 palindrome?('Madam') == false          # (case matters)
 palindrome?("madam i'm adam") == false # (all characters matter)
 palindrome?('356653') == true
 
 # LS Solution (string)
 # def palindrome?(string)
-  # string == string.reverse
+# string == string.reverse
 # end
 
 # bonus
@@ -570,28 +542,26 @@ palindrome?('356653') == true
 # argument, and determines whether that argument is a palindrome. You may not use an if, unless, or case statement or modifier.
 
 def array_palindrome?(array)
- reverse_array = array.join.reverse.split(' ')
- array == reverse_array
+  reverse_array = array.join.reverse.split(' ')
+  array == reverse_array
 end
- array_palindrome?(["madam"]) == true
- array_palindrome?(["Madam"]) == false
- array_palindrome?(["madam i'm adam"]) == false
- array_palindrome?(["356653"]) == true
+array_palindrome?(["madam"]) == true
+array_palindrome?(["Madam"]) == false
+array_palindrome?(["madam i'm adam"]) == false
+array_palindrome?(["356653"]) == true
 
- def string_or_array_palindrome?(input)
-    input.class == String ? palindrome?(input) : array_palindrome?(input)
- end
+def string_or_array_palindrome?(input)
+  input.instance_of?(String) ? palindrome?(input) : array_palindrome?(input)
+end
 
-
-  string_or_array_palindrome?('madam') == true
-  string_or_array_palindrome?('Madam') == false          # (case matters)
-  string_or_array_palindrome?("madam i'm adam") == false # (all characters matter)
-  string_or_array_palindrome?('356653') == true
-  string_or_array_palindrome?(["madam"]) == true
-  string_or_array_palindrome?(["Madam"]) == false
-  string_or_array_palindrome?(["madam i'm adam"]) == false
-  string_or_array_palindrome?(["356653"]) == true
-
+string_or_array_palindrome?('madam') == true
+string_or_array_palindrome?('Madam') == false          # (case matters)
+string_or_array_palindrome?("madam i'm adam") == false # (all characters matter)
+string_or_array_palindrome?('356653') == true
+string_or_array_palindrome?(["madam"]) == true
+string_or_array_palindrome?(["Madam"]) == false
+string_or_array_palindrome?(["madam i'm adam"]) == false
+string_or_array_palindrome?(["356653"]) == true
 
 =begin
 9. Palindromic Strings (Part 2)
@@ -606,7 +576,6 @@ ignore all non-alphanumeric characters. If you wish, you may simplify things by 
   - true if palindrome, false otherwise
   - case insensitive
   - ignores non- alphanumeric characters
-
 
   Implicit Requirements:
     -
@@ -625,7 +594,6 @@ E: Examples/ Edge Cases
 D: Data Structures
   - input: string
   - output: boolean
-
 
 A: Algorithm
   def real_palindrome?(input)
@@ -653,26 +621,25 @@ def real_palindrome?(input)
   counter = 0
 
   until counter >= input.size
-    alpha_num.include?(input.downcase[counter]) ? (result_array << input[counter])  : counter
+    alpha_num.include?(input.downcase[counter]) ? (result_array << input[counter]) : counter
     counter += 1
   end
- final_result = result_array.join('')
-palindrome?(final_result.downcase)
+  final_result = result_array.join('')
+  palindrome?(final_result.downcase)
 end
 
 real_palindrome?('madam') == true
-   real_palindrome?('Madam') == true           # (case does not matter)
-   real_palindrome?("Madam, I'm Adam") == true # (only alphanumerics matter)
-   real_palindrome?('356653') == true
-   real_palindrome?('356a653') == true
-   real_palindrome?('123ab321') == false
+real_palindrome?('Madam') == true           # (case does not matter)
+real_palindrome?("Madam, I'm Adam") == true # (only alphanumerics matter)
+real_palindrome?('356653') == true
+real_palindrome?('356a653') == true
+real_palindrome?('123ab321') == false
 
-
-  # LS Solution
-  # def real_palindrome?(string)
-    # string = string.downcase.delete('^a-z0-9')
-   # palindrome?(string)
-  # end
+# LS Solution
+# def real_palindrome?(string)
+# string = string.downcase.delete('^a-z0-9')
+# palindrome?(string)
+# end
 
 =begin
 10. Palindromic numbers
@@ -684,8 +651,6 @@ P. Understand the Problem
   - returns boolean
   - has one integer argument
   - return true if integer is palindromic, false otherwise
-
-
 
   Implicit Requirements:
   - one number counts as palindromic
@@ -704,7 +669,6 @@ D: Data Structures
   - input: integer
   - output: boolean
 
-
 A: Algorithm
   def palindromic_number?(number)
     palindrome?(number to string) if valid_number?(number)
@@ -714,7 +678,6 @@ A: Algorithm
     number.to_s.to_i == number
   end
 
-
 C: Code with intent
 
 =end
@@ -723,17 +686,11 @@ def valid_number?(number)
 end
 
 def palindromic_number?(number)
-  p '0%o' % number
   palindrome?(number.to_s) if valid_number?(number)
-
 end
 
 
-  p palindromic_number?(00100)
-
-  # bonus question: Suppose your number begins with one or more 0s. Will your method still work? Why or why not? Is there any way to address this?
-    # Answer: The reasoning is because the preceding 0s are not returned. for instance 0001 is still looked at at as 1
-    # I am sure there is a way to convert the leading numbers to work properly for this problem. But as I understand it correctly it seems as if
-    # it is more effective to just use strings as opposed to leading 0s.
-
-
+# bonus question: Suppose your number begins with one or more 0s. Will your method still work? Why or why not? Is there any way to address this?
+# Answer: The reasoning is because the preceding 0s are not returned. for instance 0001 is still looked at at as 1
+# I am sure there is a way to convert the leading numbers to work properly for this problem. But as I understand it correctly it seems as if
+# it is more effective to just use strings as opposed to leading 0s.
