@@ -689,7 +689,6 @@ def palindromic_number?(number)
   palindrome?(number.to_s) if valid_number?(number)
 end
 
-
 # bonus question: Suppose your number begins with one or more 0s. Will your method still work? Why or why not? Is there any way to address this?
 # Answer: The reasoning is because the preceding 0s are not returned. for instance 0001 is still looked at at as 1
 # I am sure there is a way to convert the leading numbers to work properly for this problem. But as I understand it correctly it seems as if

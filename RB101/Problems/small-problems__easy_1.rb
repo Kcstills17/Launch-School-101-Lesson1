@@ -82,8 +82,6 @@ puts is_odd?(7)    # => true
 # Input: Positive String
 # Output: Array
 
-
-
 # A: Algorithm
 # create method  digit_list
 # change input into string
@@ -143,7 +141,7 @@ vehicles = [
 # assign each unique element from the array to the occurence hash
 # iterate through the occurence hash and print the key and the value.
 
-#C: Code with Intent
+# C: Code with Intent
 def count_occurrences(array)
   occurrences = {}
 
@@ -198,7 +196,7 @@ p count_occurrences(vehicles)
 # join new_array and name it reverse_string
 # return reverse string
 
-#C: Code with Intent
+# C: Code with Intent
 def reverse_sentence(words)
   new_array = []
   word_array = words.split(" ")
@@ -288,7 +286,7 @@ create is_string?(input_string)
 end
 
 =end
-#C: Code with Intent
+# C: Code with Intent
 def is_string?(input_string)
   input_string.instance_of?(String)
 end
@@ -315,9 +313,6 @@ puts reverse_words('Professional') # => lanoisseforP
 puts reverse_words('Walk around the block') # => Walk dnuora the kcolb
 puts reverse_words('Launch school')         # => hcnuaL loohcS
 
-
-
-
 # 7. STRINGY STRINGS
 # Write a method that takes one argument, a positive integer, and returns a string of alternating 1s and 0s,
 # always starting with 1. The length of the string should match the given integer.
@@ -335,13 +330,11 @@ puts reverse_words('Launch school')         # => hcnuaL loohcS
 # if the input is even the final digit will be 0
 # if the input is odd the final digit will be 1
 
-
 # E: Examples/Edge Cases
 # puts stringy(6) == '101010'
 # puts stringy(9) == '101010101'
 # puts stringy(4) == '1010'
 # puts stringy(7) == '1010101'
-
 
 # D: Data Structure
 #  input: Positive string
@@ -366,44 +359,39 @@ puts reverse_words('Launch school')         # => hcnuaL loohcS
  return one_zero_string
 
 =end
-#C: Code with Intent
+# C: Code with Intent
 def stringy(input)
   result_array = []
   loop do
-    if input % 2 != 0
+    if input.odd?
       result_array << 1
       input -= 1
-      break if input <= 0
     else
       result_array << 0
       input -= 1
-      break if input <= 0
     end
+    break if input <= 0
   end
-one_zero_string =  result_array.reverse.join
+  one_zero_string = result_array.reverse.join
 end
-
 
 puts stringy(6) == '101010'
 puts stringy(9) == '101010101'
 puts stringy(4) == '1010'
 puts stringy(7) == '1010101'
 
-
-
 # solution provided by Launch School
 # def stringy(size)
 # numbers = []
 
 # size.times do |index|
-  # number = index.even? ? 1 : 0
-  # numbers << number
+# number = index.even? ? 1 : 0
+# numbers << number
 # end
 
 # numbers.join# end
 
-
-#7. ARRAY AVERAGE
+# 7. ARRAY AVERAGE
 # Write a method that takes one argument, an array containing integers, and returns the average of all numbers
 # in the array. The array will never be empty and the numbers will always be positive integers. Your result should also be an integer.
 
@@ -425,45 +413,41 @@ puts stringy(7) == '1010101'
 # puts average([1, 5, 87, 45, 8, 8]) == 25
 # puts average([9, 47, 23, 95, 16, 52]) == 40
 
-
 # D: Data Structure
 # Input: array containing integers
 # Output: single integer
 
 # A: Algorithm
 #  create a method named average(array_input)
-  # create variable total and set equal to 0
-  # create variable counter and set equal to 0
-  # create while loop and set condition to break out if counter is larger than array_input's size
-    # set total to equal to each element of the array plus total
-    # increment the counter by one
-  # end while loop
-  # create variable result_number that is equal to the total divided by  array_input's size
-  # return result_number
+# create variable total and set equal to 0
+# create variable counter and set equal to 0
+# create while loop and set condition to break out if counter is larger than array_input's size
+# set total to equal to each element of the array plus total
+# increment the counter by one
+# end while loop
+# create variable result_number that is equal to the total divided by  array_input's size
+# return result_number
 
-#C: Code with Intent
+# C: Code with Intent
 def average(array_input)
   total = 0
   counter = 0
-while counter < array_input.size
-  total += array_input[counter]
-  counter += 1
-end
- result_number = total/ array_input.size
+  while counter < array_input.size
+    total += array_input[counter]
+    counter += 1
+  end
+  result_number = total / array_input.size
 end
 
 puts average([1, 6]) == 3 # integer division: (1 + 6) / 2 -> 3
 puts average([1, 5, 87, 45, 8, 8]) == 25
 puts average([9, 47, 23, 95, 16, 52]) == 40
 
-
- # launch school method to solution
+# launch school method to solution
 # def average2(array_input)
- # sum = array_input.reduce {|total, element| total += element}
- #  sum /array_input.count
+# sum = array_input.reduce {|total, element| total += element}
+#  sum /array_input.count
 # end
-
-
 
 # 8. SUM OF DIGITS
 # Write a method that takes one argument, a positive integer, and returns the sum of its digits.
@@ -475,15 +459,12 @@ puts average([9, 47, 23, 95, 16, 52]) == 40
 # - output returns the sum of it's digits  e.g puts sum(23) returns 2 + 3 so 5
 
 # Implicit Requirement:
- # underscores are considered commas in numbers
-
-
+# underscores are considered commas in numbers
 
 # E: Examples/ Edge Cases
 # puts sum(23) == 5
 # puts sum(496) == 19
 # puts sum(123_456_789) == 45
-
 
 # D: Data Structute
 # Input: integer
@@ -491,69 +472,63 @@ puts average([9, 47, 23, 95, 16, 52]) == 40
 
 # Algorithm
 # create method named sum(input)
-  # create variable named final_number and set to 0
-  # convert input into a string and then split into an array.
-  # name that result num_array
-  # create variable counter and set to 0
-  # as many times as there are elements in the array
-    # convert element at counter into integer
-    # add element to  final_number and set it to new value
-    # increment counter by 1
-  # finish iteration
-  # return final_number
- # end method
+# create variable named final_number and set to 0
+# convert input into a string and then split into an array.
+# name that result num_array
+# create variable counter and set to 0
+# as many times as there are elements in the array
+# convert element at counter into integer
+# add element to  final_number and set it to new value
+# increment counter by 1
+# finish iteration
+# return final_number
+# end method
 
-#C: Code with Intent
-  def sum(input)
-    final_number = 0
-    num_array = input.to_s.split("")
-    counter = 0
-    num_array.size.times do |i|
-      final_number +=  num_array[counter].to_i
-      counter += 1
-    end
-    final_number
+# C: Code with Intent
+def sum(input)
+  final_number = 0
+  num_array = input.to_s.split("")
+  counter = 0
+  num_array.size.times do |_i|
+    final_number += num_array[counter].to_i
+    counter += 1
   end
+  final_number
+end
 
+puts sum(23) == 5
+puts sum(496) == 19
+puts sum(123_456_789) == 45
 
-  puts sum(23) == 5
-  puts sum(496) == 19
-  puts sum(123_456_789) == 45
-
-
-  # Launch School provided solution
-  # def sum(number)
-  # number.to_s.chars.map(&:to_i).reduce(:+)
+# Launch School provided solution
+# def sum(number)
+# number.to_s.chars.map(&:to_i).reduce(:+)
 # end
 
 # broken down further
 # 23.to_s        # => "23"
-  # .chars       # => ["2", "3"]
-  # .map(&:to_i) # => [2, 3]  This is shorhand for.map {|element| element.to_i}
-  # .reduce(:+)  # => 5
+# .chars       # => ["2", "3"]
+# .map(&:to_i) # => [2, 3]  This is shorhand for.map {|element| element.to_i}
+# .reduce(:+)  # => 5
 
+# 9. WHAT'S MY BONUS?
+#  Write a method that takes two arguments, a positive integer and a boolean,
+# and calculates the bonus for a given salary. If the boolean is true, the bonus
+# should be half of the salary. If the boolean is false, the bonus should be 0.
 
+# P: Understand The Problem
 
-  # 9. WHAT'S MY BONUS?
-  #  Write a method that takes two arguments, a positive integer and a boolean,
-  # and calculates the bonus for a given salary. If the boolean is true, the bonus
-  # should be half of the salary. If the boolean is false, the bonus should be 0.
+# Explicit Requirements
+# - the method has two parameters
+# - the parameters will be in orders, a positive integer and a boolean
+# - the output should be the bonus for the given salary/integer
+# - if the boolean is true the bonus should be half of the salary/integer
+# - if the boolean is false the bonus will be 0
 
+# Implicit Requirements
+# - none. All given data explicitly shown with examples
 
-  # P: Understand The Problem
-
-  # Explicit Requirements
-  # - the method has two parameters
-  # - the parameters will be in orders, a positive integer and a boolean
-  # - the output should be the bonus for the given salary/integer
-  # - if the boolean is true the bonus should be half of the salary/integer
-  # - if the boolean is false the bonus will be 0
-
-  # Implicit Requirements
- # - none. All given data explicitly shown with examples
-
-
-  # E: Examples/ Edge Cases
+# E: Examples/ Edge Cases
 # puts calculate_bonus(2800, true) == 1400
 # puts calculate_bonus(1000, false) == 0
 # puts calculate_bonus(50000, true) == 25000
@@ -564,22 +539,22 @@ puts average([9, 47, 23, 95, 16, 52]) == 40
 
 # A: Algorithm
 # - Create method calculate_bonus(salary, get_bonus)
-  # - when get_bonus is true then set variable bonus to salary divided by 2
-  # - when get_bonus is false then set bonus to 0
-  # end scenarios
-  # return bonus
+# - when get_bonus is true then set variable bonus to salary divided by 2
+# - when get_bonus is false then set bonus to 0
+# end scenarios
+# return bonus
 
-#C: Code with Intent
-  def calculate_bonus(salary, get_bonus)
-    case get_bonus
-    when get_bonus = true then bonus = salary/2
-    when get_bonus = false then bonus = 0
-    end
-    bonus
+# C: Code with Intent
+def calculate_bonus(salary, get_bonus)
+  case get_bonus
+  when get_bonus = true then bonus = salary / 2
+  when get_bonus = false then bonus = 0
   end
-  puts calculate_bonus(2800, true) == 1400
-  puts calculate_bonus(1000, false) == 0
-  puts calculate_bonus(50000, true) == 25000
+  bonus
+end
+puts calculate_bonus(2800, true) == 1400
+puts calculate_bonus(1000, false) == 0
+puts calculate_bonus(50000, true) == 25000
 # Launch School Provided solution
 
 # def calculate_bonus(salary, bonus)

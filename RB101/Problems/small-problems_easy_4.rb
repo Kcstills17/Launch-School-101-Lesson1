@@ -25,7 +25,6 @@ D: Data Structures
   - input: string
   - output: string
 
-
 A: Algorithm
   def short_long_short(str1, str2)
     - is str1's size is greater than str2's size? if true str2 + str1 + str2. if not, str1 + str2 + str1
@@ -38,9 +37,9 @@ def short_long_short(str1, str2)
   str1.size > str2.size ? str2 + str1 + str2 : str1 + str2 + str1
 end
 
-  short_long_short('abc', 'defgh') == "abcdefghabc"
-  short_long_short('abcde', 'fgh') == "fghabcdefgh"
-  short_long_short('', 'xyz') == "xyz"
+short_long_short('abc', 'defgh') == "abcdefghabc"
+short_long_short('abcde', 'fgh') == "fghabcdefgh"
+short_long_short('', 'xyz') == "xyz"
 
 =begin
 2. What century is that?
@@ -53,7 +52,6 @@ P. Understand the Problem
   - one parameter that is a year(integer)
   - return value is a string that starts with the century number
   - ends with st, nd, rd, or th as appropriate for number
-
 
   Implicit Requirements:
   -
@@ -71,12 +69,9 @@ E: Examples/ Edge Cases
  - century(1127) == '12th'
  - century(11201) == '113th'
 
-
-
 D: Data Structures
 - input: integer
 - output:  string
-
 
 A: Algorithm
   def century(year)
@@ -111,32 +106,30 @@ def century(year)
     year -= 100
     counter += 1
   end
-year = counter.to_s
-if (%w[11 12 13 ]).include?(year[-2..-1])
-  year << 'th'
-elsif year[-1]== '1'
-  year << 'st'
-elsif year[-1] == '2'
-  year << 'nd'
-elsif year[-1] == '3'
-  year << 'rd'
-else
-  year << 'th'
-end
-year
-
-
+  year = counter.to_s
+  if (%w[11 12 13]).include?(year[-2..-1])
+    year << 'th'
+  elsif year[-1] == '1'
+    year << 'st'
+  elsif year[-1] == '2'
+    year << 'nd'
+  elsif year[-1] == '3'
+    year << 'rd'
+  else
+    year << 'th'
+  end
+  year
 end
 
- century(2000) == '20th'
- century(2001) == '21st'
- century(1965) == '20th'
- century(256) == '3rd'
- century(5) == '1st'
- century(10103) == '102nd'
- century(1052) == '11th'
- century(1127) == '12th'
- century(11201) == '113th'
+century(2000) == '20th'
+century(2001) == '21st'
+century(1965) == '20th'
+century(256) == '3rd'
+century(5) == '1st'
+century(10103) == '102nd'
+century(1052) == '11th'
+century(1127) == '12th'
+century(11201) == '113th'
 
 =begin
 
@@ -175,7 +168,6 @@ P. Understand the Problem
   - return true if year is a leap year, false otherwise
   -
 
-
   Implicit Requirements:
   -
 
@@ -202,7 +194,6 @@ D: Data Structures
   - input:integer
   - output: boolean
 
-
 A: Algorithm
 def leap_year(year)
   - set rare_leap year to when a year is evenly divisible by 400
@@ -215,24 +206,24 @@ C: Code with intent
 =end
 
 def leap_year?(year)
-  rare_leap_year =( year % 400 == 0)
-  common_leap_year = (year % 4 == 0 && year % 100 != 0 )
+  rare_leap_year = (year % 400 == 0)
+  common_leap_year = (year % 4 == 0 && year % 100 != 0)
   year ? rare_leap_year || common_leap_year : false
 end
 
-  leap_year?(2016) == true
-  leap_year?(2015) == false
-  leap_year?(2100) == false
-  leap_year?(2400) == true
-  leap_year?(240000) == true
-  leap_year?(240001) == false
-  leap_year?(2000) == true
-  leap_year?(1900) == false
-  leap_year?(1752) == true
-  leap_year?(1700) == false
-  leap_year?(1) == false
-  leap_year?(100) == false
- leap_year?(400) == true
+leap_year?(2016) == true
+leap_year?(2015) == false
+leap_year?(2100) == false
+leap_year?(2400) == true
+leap_year?(240000) == true
+leap_year?(240001) == false
+leap_year?(2000) == true
+leap_year?(1900) == false
+leap_year?(1752) == true
+leap_year?(1700) == false
+leap_year?(1) == false
+leap_year?(100) == false
+leap_year?(400) == true
 
 =begin
 5. Leap Years part 2
@@ -246,7 +237,6 @@ P. Understand the Problem
   - update previous method
   - before the year 1752 all years evenly distributed by 4 were considered leap years
   - determine leap years both prior and after this change
-
 
   Implicit Requirements:
   -
@@ -273,7 +263,6 @@ D: Data Structures
   - input: integer
   - output: boolean
 
-
 A: Algorithm
   - set rare_leap year to when a year is evenly divisible by 400
   - set common_leap_year to when a year is evenly divisible by 4 and not by 100
@@ -286,28 +275,26 @@ C: Code with intent
 
 =end
 
-def leap_year_new?(year )
-  rare_leap_year = ( year % 400 == 0)
-  common_leap_year = (year % 4 == 0 && year % 100 != 0 )
+def leap_year_new?(year)
+  rare_leap_year = (year % 400 == 0)
+  common_leap_year = (year % 4 == 0 && year % 100 != 0)
   new_leap = year ? rare_leap_year || common_leap_year : false
   year > 1752 ? new_leap : year % 4 == 0
 end
 
-
-  leap_year_new?(2016) == true
-  leap_year_new?(2015) == false
-  leap_year_new?(2100) == false
-  leap_year_new?(2400) == true
-  leap_year_new?(240000) == true
-  leap_year_new?(240001) == false
-  leap_year_new?(2000) == true
-  leap_year_new?(1900) == false
-  leap_year_new?(1752) == true
-  leap_year_new?(1700) == true
-  leap_year_new?(1) == false
-  leap_year_new?(100) == true
-  leap_year_new?(400) == true
-
+leap_year_new?(2016) == true
+leap_year_new?(2015) == false
+leap_year_new?(2100) == false
+leap_year_new?(2400) == true
+leap_year_new?(240000) == true
+leap_year_new?(240001) == false
+leap_year_new?(2000) == true
+leap_year_new?(1900) == false
+leap_year_new?(1752) == true
+leap_year_new?(1700) == true
+leap_year_new?(1) == false
+leap_year_new?(100) == true
+leap_year_new?(400) == true
 
 =begin
 6. Multiples of 3 and 5
@@ -322,7 +309,6 @@ P. Understand the Problem
   - other number is parameter/ argument passed in
   - parameter will be greater than 1
 
-
   Implicit Requirements:
   -
 
@@ -335,11 +321,9 @@ E: Examples/ Edge Cases
   multisum(10) == 33  3, 5, 6, 9, 10
   multisum(1000) == 234168
 
-
 D: Data Structures
   - input: integer
   - output: integer
-
 
 A: Algorithm
     def multisum(number)
@@ -352,18 +336,17 @@ A: Algorithm
       add together the total of all of the individual elements of tally_nums
     end
 
-
 C: Code with intent
 
 =end
 def multisum(number)
   tally_nums = []
-(1..number).select do |num|
-  if num % 3 == 0 || num % 5 == 0
-    tally_nums << num
+  (1..number).select do |num|
+    if num % 3 == 0 || num % 5 == 0
+      tally_nums << num
+    end
   end
-end
-   tally_nums.inject {|total, num| total += num}
+  tally_nums.inject { |total, num| total += num }
 end
 
 multisum(3) == 3
@@ -381,7 +364,6 @@ P. Understand the Problem
   - one parameter/argument, an array of numbers
   - return array with the same elements but at each point has the running total of the original array
 
-
   Implicit Requirements:
   - if the array is empty, return an empty array.
 
@@ -394,11 +376,9 @@ E: Examples/ Edge Cases
   running_total([3]) == [3]
   running_total([]) == []
 
-
 D: Data Structures
   - input: array
   - output: array
-
 
 A: Algorithm
     def running_total(number_array)
@@ -426,23 +406,22 @@ def running_total(number_array)
 
   until counter ==  number_array.size + 1
     current_iteration = number_array[0, counter]
-   current_total = current_iteration.inject(:+)
-   running_array << current_total
+    current_total = current_iteration.inject(:+)
+    running_array << current_total
     counter += 1
   end
   running_array
 end
 
- running_total([2, 5, 13]) == [2, 7, 20]
- running_total([14, 11, 7, 15, 20]) == [14, 25, 32, 47, 67]
- running_total([3]) == [3]
- running_total([]) == []
-
+running_total([2, 5, 13]) == [2, 7, 20]
+running_total([14, 11, 7, 15, 20]) == [14, 25, 32, 47, 67]
+running_total([3]) == [3]
+running_total([]) == []
 
 # LS solution
 # def running_total(array)
-  # sum = 0
-  # array.map { |value| sum += value }
+# sum = 0
+# array.map { |value| sum += value }
 # end
 
 =begin
@@ -463,7 +442,6 @@ P. Understand the Problem
   -  take a string of digits as the argument
   -
 
-
   Implicit Requirements:
   -
 
@@ -478,7 +456,6 @@ D: Data Structures
   - input: string
   - output: integer
 
-
 A: Algorithm
   - create a constant DIGITs and set it to a hash with 9 string '0' - '9' with each value being the corresponding number
   def string_to_integer(string)
@@ -492,32 +469,25 @@ A: Algorithm
 
 C: Code with intent
 
-
 =end
 
+DIGITS = {
+  '0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4,
+  '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9
+}
 
+def string_to_integer(string)
+  digits = string.chars.map { |char| DIGITS[char] }
 
-  DIGITS = {
-    '0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4,
-    '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9
-  }
+  value = 0
+  digits.each { |digit| value = 10 * value + digit }
+  value
+end
 
-  def string_to_integer(string)
-     digits = string.chars.map { |char| DIGITS[char] }
-
-    value = 0
-     digits.each { |digit| value = 10 * value + digit }
-    value
-  end
-
-
- p string_to_integer('674')
-
+p string_to_integer('674')
 
 # come back to this problem. Could not solve on my own.
 # this is LS solution
-
-
 
 =begin
 9. Convert a String to a Signed Number!
@@ -540,7 +510,6 @@ P. Understand the Problem
   - do not use any standard conversion methods
   - you can use the string_to_integer method from before
 
-
   Implicit Requirements:
   -
 
@@ -555,7 +524,6 @@ E: Examples/ Edge Cases
 D: Data Structures
   - input: string
   - output: positive or negative integer
-
 
 A: Algorithm
   def string_to_signed_integer(string)
@@ -577,8 +545,7 @@ def string_to_signed_integer(string)
   if string.start_with?("+")
     remove_plus_sign = string.delete("+")
     string_to_integer(remove_plus_sign)
-  elsif
-    string.start_with?('-')
+  elsif string.start_with?('-')
     remove_minus_sign = string.delete("-")
     string_to_integer(remove_minus_sign) * -1
   else
@@ -586,19 +553,18 @@ def string_to_signed_integer(string)
   end
 end
 
-   string_to_signed_integer('4321') == 4321
-   string_to_signed_integer('-570') == -570
-   string_to_signed_integer('+100') == 100
+string_to_signed_integer('4321') == 4321
+string_to_signed_integer('-570') == -570
+string_to_signed_integer('+100') == 100
 
-
-   # LS solution
-   # def string_to_signed_integer(string)
-    # case string[0]
-    # when '-' then -string_to_integer(string[1..-1])
-    # when '+' then string_to_integer(string[1..-1])
-    # else          string_to_integer(string)
-    # end
-  # end
+# LS solution
+# def string_to_signed_integer(string)
+# case string[0]
+# when '-' then -string_to_integer(string[1..-1])
+# when '+' then string_to_integer(string[1..-1])
+# else          string_to_integer(string)
+# end
+# end
 
 =begin
 9. Convert a Number to String!
@@ -617,7 +583,6 @@ etc. Your method should do this the old-fashioned way and construct the string b
   - Conventional conversion methods are not allowed
   -
 
-
   Implicit Requirements:
   - return the string number e.g. 1 => '1' not for example 1 => 'one'
 
@@ -629,11 +594,9 @@ E: Examples/ Edge Cases
   - integer_to_string(0) == '0'
   - integer_to_string(5000) == '5000'
 
-
 D: Data Structures
   - input: integer
   - output: string
-
 
 A: Algorithm
   - create constant NUMBERS with your keys being the digits 0-9 and the values being those respective numbers in string form
@@ -648,35 +611,29 @@ A: Algorithm
     return result joined back into string
  end
 
-
 C: Code with intent
-
-
 
 =end
 
-
 NUMBERS = {
   0 => '0', 1 => '1', 2 => '2', 3 => '3', 4 => '4',
-  5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9',
+  5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9'
 }
 
 def integer_to_string(number)
   counter = 0
   result = []
 
-    if  NUMBERS.include?(number[counter])
-      result << number
-      counter += 1
-    end
+  if NUMBERS.include?(number[counter])
+    result << number
+    counter += 1
+  end
   result.join("")
 end
 
-  integer_to_string(4321) == '4321'
-  integer_to_string(0) == '0'
-  integer_to_string(5000) == '5000'
-
-
+integer_to_string(4321) == '4321'
+integer_to_string(0) == '0'
+integer_to_string(5000) == '5000'
 
 =begin
 LS Solution
@@ -695,7 +652,6 @@ end
 
 =end
 
-
 =begin
 10. Convert a Signed Number to a String!
 In the previous exercise, you developed a method that converts non-negative numbers to strings. In this exercise,
@@ -713,7 +669,6 @@ P. Understand the Problem
   - do not use any standard methods
   - You can use the integer_to_string method from the previous question
 
-
   Implicit Requirements:
   -  if greater than 0 add the character "+" to the beginning of the string
   -  if less than 0 add the character '-' to the beginning of the string
@@ -730,7 +685,6 @@ D: Data Structures
   - input: integer
   - output: string
 
-
 A: Algorithm
   use same constant NUMBERS from previous exercies
   def signed_integer_to_string(number)
@@ -743,10 +697,10 @@ C: Code with intent
 
 =end
 def signed_integer_to_string(number)
-  positive_number =  integer_to_string(number).prepend('+')
+  positive_number = integer_to_string(number).prepend('+')
   number > 0 ? positive_number : integer_to_string(number)
 end
 
- p signed_integer_to_string(4321) == '+4321'
- p signed_integer_to_string(-123) == '-123'
- p signed_integer_to_string(0) == '0'
+p signed_integer_to_string(4321) == '+4321'
+p signed_integer_to_string(-123) == '-123'
+p signed_integer_to_string(0) == '0'
