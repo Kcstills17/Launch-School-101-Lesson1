@@ -119,10 +119,21 @@ A: Algorithm
 
   Sub-Method
   def convert_number(time_chunk)
-    - initiallize variable hour and set to time_chumk/60
-    - initiallize ten_minte and set to (time_chumk - 60 * hour) / 10
-    - initiallize one_minute and set to time_chunk being converted to string, split into an array, grabbing the last place, and convert back to integer
-    - use 3 variables to format into a time metric
+    - if time_chunk > 0
+        -initiallize hour and seto to time_chunk/60
+        -intitiallize ten_minute and set to (time_chunk - 60 * hour)/ 10
+        -initiallize one_minute and set to time_chunk.to_s.split(')[-1].to_i
+
+        - print the variables formatted into hh:mm
+    - elsif time_chunk < 0
+        - initiallize negative_time_chunk and set to 1440 + time_chunk
+        - set hour  to negative_time_chunk/60
+        - set ten_minute  to (negative_time_chunk - 60 * hour)/ 10
+        - set one_minute and set to negative_time_chunk.to_s.split(')[-1].to_i
+
+        - print the variables formatted into hh:mm
+    - else
+        - print 00:00
   end
 
 C: Code with intent
@@ -133,13 +144,26 @@ C: Code with intent
 =end
 
 def convert_number(time_chunk)
-  hour = time_chunk/ 60
-  ten_minute = (time_chunk - 60 * hour)/ 10
-  one_minute = time_chunk.to_s.split('')[-1].to_i
+  if time_chunk > 0
+    hour = time_chunk/ 60
+    ten_minute = (time_chunk - 60 * hour)/ 10
+    one_minute = time_chunk.to_s.split('')[-1].to_i
 
-  p sprintf("%d#{hour}:#{ten_minute}#{one_minute}", 0)
+   p sprintf("%d#{hour}:#{ten_minute}#{one_minute}", 0)
+  elsif  time_chunk < 0
+    negative_time_chunk = 1440 + time_chunk
+    hour = negative_time_chunk/ 60
+    ten_minute = (negative_time_chunk - 60 * hour)/ 10
+    one_minute = negative_time_chunk.to_s.split('')[-1].to_i
+
+    p sprintf("%d#{hour}:#{ten_minute}#{one_minute}", 0)
+  else
+    p sprintf("%d0:00", 0)
+  end
 end
-convert_number(1440)
+
+
+p convert_number(-1440)
 
 
 def time_of_day(number)
@@ -148,13 +172,14 @@ def time_of_day(number)
     convert_number(reset_positive_number)
   elsif number < -1440
     reset_negative_number = number % -1440
-    convert_number(reset_negative_number).
+    convert_number(reset_negative_number).delete(0)
   else
-    convert_number(number).size
+    convert_number(number)
   end
 end
+p time_of_day(-1441)
 
-p time_of_day(200)
+
 
 
 
