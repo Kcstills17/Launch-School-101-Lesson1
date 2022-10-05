@@ -1,7 +1,2 @@
-def star_method(stars)
-  arr = []
-  stars.each do |star|
-    arr.push(star.upcase)
-  end
-  arr
-end
+
+  p mailing_campaign_leads[counter][:name] = capitalized_full_name

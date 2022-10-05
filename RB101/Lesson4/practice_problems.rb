@@ -73,7 +73,7 @@ end
 numbers = [1, 2, 3, 4]
 
 numbers.each do |number|
-  p number
+   number
   numbers.shift(1)
 end
 =begin
@@ -138,7 +138,7 @@ def titleize(input_string)
   spaced_array.map(&:capitalize!)
   spaced_array.join(" ")
 end
-p titleize("the flintstones rock")
+ titleize("the flintstones rock")
 
 # The method i used to solved involved splitting the input onto a new array.
 # Then mapping the string in the array by iterating through and using capitalize! on each index.
@@ -148,7 +148,7 @@ words = "The Flintstones Rock"
 
 words.split.map(&:capitalize).join(' ')
 # this is the solution provided by Launch School. It seems they chained
-split and map on one line where as I
+#split and map on one line where as I
 # chained map after splitting my parameter onto a new array.
 
 # 10.
@@ -210,27 +210,27 @@ mailing_campaign_leads = [
   { name: 'Ash Patel', email: 'ash_patel@my_mail.com', days_since_login: 22, mailing_list: true }
 ]
 
-=begin
+
 counter = 0
 
 loop do
   break if counter == mailing_campaign_leads.size
   full_name = mailing_campaign_leads[counter][:name]
   names = full_name.split
-   names
+   p names
 
   names_counter = 0
   loop do
     break if names_counter == names.size
     name = names[names_counter]
     names[names_counter] = name.capitalize
-     names
+     p names
 
     names_counter += 1
   end
   capitalized_full_name = names.join(' ')
-   capitalized_full_name
-  mailing_campaign_leads[counter][:name] = capitalized_full_name
+   p capitalized_full_name
+   mailing_campaign_leads[counter][:name] =  capitalized_full_name
 
   counter += 1
 end
@@ -239,7 +239,7 @@ counter = 0
 loop do
   break if counter == mailing_campaign_leads.size
   last_login = mailing_campaign_leads[counter][:days_since_login]
-  p last_login
+   last_login
   subscribed_to_list = mailing_campaign_leads[counter][:mailing_list]
 
   if last_login < 60 && subscribed_to_list
@@ -249,8 +249,9 @@ loop do
   counter += 1
   p usable_leads
 end
-=end
 
+
+=begin
 mailing_campaign_leads.each do |lead|
   p names = lead[:name].split
   p lead[:name] = names.map(&:capitalize).join(' ')
@@ -263,3 +264,12 @@ usable_leads = mailing_campaign_leads.reject do |lead|
   subscribed_to_list = lead[:mailing_list]
   last_login > 59 || !subscribed_to_list
 end
+=end
+arr1 = ["a", "b", "c"]
+arr2 = arr1.dup
+arr1[1].upcase!
+
+p arr1[1].object_id
+p arr2[1].object_id
+p arr1 # => ["a", "b", "c"]
+p arr2 # => ["A", "B", "C"]
