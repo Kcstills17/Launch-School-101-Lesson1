@@ -81,9 +81,9 @@ end
 # 5.
 
 [[1, 2], [3, 4]].map do |arr|
-  p "this the arr #{arr}"
+   "this the arr #{arr}"
   arr.map do |num|
-    p "this is the num #{num} and this is the arr #{arr}"
+     "this is the num #{num} and this is the arr #{arr}"
     num * 2
   end
 end
@@ -94,7 +94,7 @@ end
 3. line 84-87: the contents of the map block method are enacted
 4. line 84: on local variable arr the map method is called
 5. line 84: with map arr is iterated through and the inner elements are set to local variable num
-6. new transformed array is created from map and it's return value is self
+6. new transformed array is created from map
 7. line 84-86: contents of second block are enacted
 8. line 85: num * 2 is output.
 9. line 85: this is the final line of our blocks and thus the return value
@@ -102,3 +102,58 @@ end
 11. line 85: this returns a new result with num * 2 on every version of num
 12. result should be  => [[2,4], [6,8]]
 =end
+
+# 6.
+[{ a: 'ant', b: 'elephant' }, { c: 'cat' }].select do |hash|
+   hash
+  hash.all? do |key, value|
+     key
+      value[0] == key.to_s
+  end
+end
+# => [{ :c => "cat" }]
+=begin
+1 line 107: an array containing two nested hashed is iterated through with the method select on the original object
+2. line 107-111 select's block contents with the local variable hash are executed on each sub hash
+3. line 108: with our sub hashes a new block is created with the local variables key and hash
+4. line 108: the method all? is run on this block. hash contains two elements. The key,value pair of a and b, and the key value pair of c. This is relevant with the return value of all?
+5. line 108- 110: contents of the inner block
+6. line 107-109: select returns all values that evaluate as true and all? returns true if false or nil are never given
+7. line 109: a and c both are true for the block value, however due to the all? method a still is considered false due to b being false within the same hash.
+8. therefore with select the return value is [{c:'cat'}]
+=end
+
+# 7.
+
+[[[1], [2], [3], [4]], [['a'], ['b'], ['c']]].map do |element1|
+  #p element1
+  element1.each do |element2|
+    #p element2
+    element2.partition do |element3|
+     # p "this is element1 #{element1}"
+     # p "this is element2 #{element2}"
+      p "this is element3 #{element3}"
+      element3.size > 0
+    end
+  end
+end
+# => [[[1], [2], [3], [4]], [["a"], ["b"], ["c"]]]
+
+=begin
+1. line 128: we have a triple nested  array that is having the method map called onto it
+2. line 128: element1 is the local variable created to go down one layer of the nest   [[1], [2], [3], [4]]
+[["a"], ["b"], ["c"]]
+3. line 130:  the each method is called on element1
+4. line 130: the local variable element 2 is created representing the next layer of arrays [1] [2] [3] [4] [a] [b] [c] [d]
+5. line 130: each returns the original object that is being called on  and does not take into account the return value of the block
+6. line 130: because of this each while map still creates a new version of the original object. The new object will have the same contents
+7. line 132: the method partiion is called on element2. This represents the last layer of the array 1 2 3 4 a b c d
+8. line 132: partition creates 2 separate arrays. The first for which the elements are true, and the 2nd are the rest.
+9. line 136: the final return value is based on the condition of element3.size > 0
+10. line 136: all  instances of element3 are true in this condition however each does not take into account any block return values
+11. Therefore the new array created by map with the same contents as the original object due to each is returned
+=end
+
+
+
+[[[1], [2], [3], [4]], [['a'], ['b'], ['c']]].partition {|element|element.size > 0}
