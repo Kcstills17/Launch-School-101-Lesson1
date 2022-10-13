@@ -105,9 +105,7 @@ end
 
 # 6.
 [{ a: 'ant', b: 'elephant' }, { c: 'cat' }].select do |hash|
-   hash
   hash.all? do |key, value|
-     key
       value[0] == key.to_s
   end
 end
@@ -132,7 +130,7 @@ end
     element2.partition do |element3|
      # p "this is element1 #{element1}"
      # p "this is element2 #{element2}"
-      p "this is element3 #{element3}"
+     # p "this is element3 #{element3}"
       element3.size > 0
     end
   end
@@ -156,4 +154,42 @@ end
 
 
 
-[[[1], [2], [3], [4]], [['a'], ['b'], ['c']]].partition {|element|element.size > 0}
+# 8.
+
+[[[1, 2], [3, 4]], [5, 6]].map do |arr|
+   #p "this is arr #{arr}"
+  arr.map do |el|
+    p "this is el before #{el}"
+    p el.to_s.size
+    if el.to_s.size == 1    # it's an integer
+      el + 1
+     # p "this is el   #{el}"
+    else                    # it's an array
+      el.map do |n|
+        #p "this is n before increment#{n}"
+        n + 1
+       # p "this is n after increment#{n}"
+      end
+    end
+  end
+end
+
+=begin
+1. line 161: we have a triple nested array  with the method map being called onto it
+2. line 161: this creates a new array with transformed elements.
+3. line 161: the local variable arr is created to represent the first layer of the nested array [[1,2], [3,4]]
+4. line 163: arr has the method map called onto it creating a new transformed array
+5. line 163: within this 2nd map method the local variable el is created representing the second layer in the nested array [1, 2] [3, 4] 5 6
+6. line 165-166: an if statement is declared  with the condition that el.to_s.size == 1. this tests if it is an integer. if so increment el by 1.
+7. line 166-167: 5 and 6 were not nested as deeply and are at their lowest levels. They both have the a size of 1 in this condition and thus would be able to execute the if statement
+8. line 169-172 [1,2] [3,4] still have another layer and in our else condition we create a new block with the method map being executed.
+9. line 170-172: local variable element n created and accesses last layer of nest 1 2 3 4.  n is incremented by 1
+10.line 167/172: these are the final return values of the code in each brancg. a new array with transformed values based on this blocks return value is created
+11. return is => [[[2, 3], [4, 5]], [6, 7]]
+
+=end
+
+
+
+# we have an array of hashes, and we want to select all elements where every key matches the first letter of the value.
+# Note that the keys are symbols here, so we'll have to do some conversion before comparison.

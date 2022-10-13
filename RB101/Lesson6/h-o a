@@ -1,0 +1,32 @@
+[1m[1;34mEnumerable#methods[0m[0m: 
+  chain           each_entry        find      inject     partition     tally 
+  chunk           each_slice        find_all  lazy       reduce        to_set
+  chunk_while     each_with_index   flat_map  max_by     slice_after 
+  collect_concat  each_with_object  grep      member?    slice_before
+  detect          entries           grep_v    min_by     slice_when  
+  each_cons       filter_map        group_by  minmax_by  sort_by     
+[1m[1;34mArray#methods[0m[0m: 
+  &              concat       flatten!      pretty_print          shuffle!  
+  *              count        hash          pretty_print_cycle    size      
+  +              cycle        include?      product               slice     
+  -              deconstruct  index         push                  slice!    
+  <<             delete       insert        rassoc                sort      
+  <=>            delete_at    inspect       reject                sort!     
+  ==             delete_if    intersection  reject!               sort_by!  
+  []             difference   join          repeated_combination  sum       
+  []=            dig          keep_if       repeated_permutation  take      
+  all?           drop         last          replace               take_while
+  any?           drop_while   length        reverse               to_a      
+  append         each         map           reverse!              to_ary    
+  assoc          each_index   map!          reverse_each          to_h      
+  at             empty?       max           rindex                to_s      
+  bsearch        eql?         min           rotate                transpose 
+  bsearch_index  fetch        minmax        rotate!               union     
+  clear          fill         none?         sample                uniq      
+  collect        filter       one?          select                uniq!     
+  collect!       filter!      pack          select!               unshift   
+  combination    find_index   permutation   shelljoin             values_at 
+  compact        first        pop           shift                 zip       
+  compact!       flatten      prepend       shuffle               |         
+[1m[1;34mself.methods[0m[0m: __pry__
+[1m[1;34mlocals[0m[0m: _  __  _dir_  _ex_  _file_  _in_  _out_  pry_instance

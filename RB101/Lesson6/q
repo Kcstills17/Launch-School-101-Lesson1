@@ -1,0 +1,51 @@
+
+[1mFrom:[0m array.c (C Method):
+[1mOwner:[0m Array
+[1mVisibility:[0m public
+[1mSignature:[0m each()
+[1mNumber of lines:[0m 44
+
+Iterates over array elements.
+
+When a block given, passes each successive array element to the block;
+returns [32mself[0m:
+  a = [[33m:foo[0m, [31m[1;31m'[0m[31mbar[1;31m'[0m[31m[0m, [1;34m2[0m]
+  a.each {|element|  puts [31m[1;31m"[0m[31m#{element.class}[0m[31m #{element}[0m[31m[1;31m"[0m[31m[0m }
+
+Output:
+  [1;34;4mSymbol[0m foo
+  [1;34;4mString[0m bar
+  [1;34;4mInteger[0m [1;34m2[0m
+
+Allows the array to be modified during iteration:
+  a = [[33m:foo[0m, [31m[1;31m'[0m[31mbar[1;31m'[0m[31m[0m, [1;34m2[0m]
+  a.each {|element| puts element; a.clear [32mif[0m element.to_s.start_with?([31m[1;31m'[0m[31mb[1;31m'[0m[31m[0m) }
+
+Output:
+  foo
+  bar
+
+When no block given, returns a new \Enumerator:
+  a = [[33m:foo[0m, [31m[1;31m'[0m[31mbar[1;31m'[0m[31m[0m, [1;34m2[0m]
+  e = a.each
+  e [1;34m# => #<Enumerator: [:foo, "bar", 2]:each>[0m
+  a1 = e.each {|element|  puts [31m[1;31m"[0m[31m#{element.class}[0m[31m #{element}[0m[31m[1;31m"[0m[31m[0m }
+
+Output:
+  [1;34;4mSymbol[0m foo
+  [1;34;4mString[0m bar
+  [1;34;4mInteger[0m [1;34m2[0m
+
+Related: #each_index, #reverse_each.
+
+[1;34;4mVALUE[0m
+rb_ary_each([1;34;4mVALUE[0m ary)
+{
+    long i;
+    ary_verify(ary);
+    RETURN_SIZED_ENUMERATOR(ary, [1;34m0[0m, [1;34m0[0m, ary_enum_length);
+    [32mfor[0m (i=[1;34m0[0m; i<RARRAY_LEN(ary); i++) {
+	rb_yield(RARRAY_AREF(ary, i));
+    }
+    [32mreturn[0m ary;
+}
