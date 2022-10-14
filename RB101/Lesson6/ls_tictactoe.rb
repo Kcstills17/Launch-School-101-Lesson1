@@ -4,8 +4,8 @@ require "pry-byebug"
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
-user_score = 0
-cpu_score = 0
+user_score = [0]
+cpu_score = [0]
 
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9],  # rows
                  [1, 4, 7], [2, 5, 8], [3, 6, 9], # columns
@@ -109,24 +109,35 @@ end
 
 
 def scoreboard(brd, player_score, computer_score)
-  player_score = 0
-  computer_score = 0
-  if detect_winner(brd) == "Player"
-    player_score += 1
 
+  if detect_winner(brd) == "Player"
+     player_score[0] += 1
 
   elsif detect_winner(brd) == "Computer"
-    computer_score += 1
+    computer_score[0] += 1
   end
 end
 
+
+
+
+board = initiallize_board
+
+
 loop do
-  board = initiallize_board
 
   loop do
-    display_board(board)
 
+
+
+board = initiallize_board
+
+  loop do
+
+    display_board(board)
+    prompt("User's score is #{user_score.join.to_i}, Computer's score is #{cpu_score.join.to_i}")
     player_places_piece!(board)
+
     break if someone_won?(board) || board_full?(board)
 
     computer_places_pieces!(board)
@@ -141,7 +152,7 @@ loop do
     prompt("#{detect_winner(board)} Wins!")
     scoreboard(board, user_score, cpu_score)
 
-    prompt("User's score is #{user_score}, computer's score is #{cpu_score}")
+    prompt("User's score is #{user_score.join.to_i}, computer's score is #{cpu_score.join.to_i}")
 
   else
     prompt("it is a tie")
@@ -150,9 +161,9 @@ loop do
     prompt("User's score is #{user_score}, computer's score is #{cpu_score}")
 
   end
-
-
-  prompt "#{detect_winner(board) } wins the game by a total score of #{user_score} to #{cpu_score}"
+break if user_score.join.to_i == 5 || cpu_score.join.to_i == 5
+end
+  prompt "#{detect_winner(board) } wins the game by a total score of #{user_score.join.to_i} to #{cpu_score.join.to_i}"
   prompt("would you like to play again? (Y/N)")
   play_again = gets.chomp
   break unless play_again.downcase.start_with?('y')
