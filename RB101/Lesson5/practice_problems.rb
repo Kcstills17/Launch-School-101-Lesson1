@@ -294,7 +294,7 @@ def uuid()
     sample = HEXY.sample
     random_result += sample
   end
-  random_result[8] = '-'
+  p random_result[8] = '-'
   random_result[13] = '-'
   random_result[18] = '-'
   random_result[23] = '-'

@@ -3,7 +3,7 @@
 # calculator
 lANGUAGE = 'en'
 require 'yaml'
-MESSAGES = YAML.load_file('calculator_messages.yml')
+MESSAGES = YAML.load_file(File.join(File.dirname(__FILE__), 'calculator_messages.yml')
 
 
 def messages(message, lang = 'en')

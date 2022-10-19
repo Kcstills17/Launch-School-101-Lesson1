@@ -1,0 +1,8 @@
+s
+game_message:
+welcome: "Hello! Welcome to the game of Tic-Tac-Toe. Please enter any text to begin!"
+play_again: "Would you like to play the game again? (Y?N)"
+goodbye: "Thank you for playing Tic-Tac-Toe. Goodbye"
+
+
+
