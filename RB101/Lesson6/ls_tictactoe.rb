@@ -65,6 +65,7 @@ def initiallize_board
 end
 
 def empty_board(brd)
+
   brd.keys.select do |num|
     brd[num] == ' '
   end
@@ -85,6 +86,8 @@ end
 def computer_logic(line, board, marker)   # I could not figure this stuff out
   if board.values_at(*line).count(marker) == 2
     board.select{|k,v| line.include?(k) && v == INITIAL_MARKER}.keys.first
+  elsif   board.values_at(*line).count(marker) != 2
+    board.select {|k,v | k == 5 && v == INITIAL_MARKER}.keys.first
   else
     nil
   end
@@ -105,8 +108,9 @@ def computer_places_piece!(brd)
       break if square
     end
   end
+
   if !square
-  square = empty_board(brd).sample
+  p square = empty_board(brd).sample
   end
 
   brd[square] = COMPUTER_MARKER
@@ -134,7 +138,6 @@ def detect_winner(brd)
 end
 
 
-
 def scoreboard(brd, player_score, computer_score)
 
   if detect_winner(brd) == "Player"
@@ -148,12 +151,13 @@ end
 
 
 
-board = initiallize_board
+  user_score = [0]
+  cpu_score = [0]
+
+  board = initiallize_board
 
 
 loop do
-  user_score = [0]
-  cpu_score = [0]
 
   loop do
 
@@ -164,7 +168,6 @@ board = initiallize_board
   loop do
 
     display_board(board)
-
     prompt("User's score is #{user_score.join.to_i}, Computer's score is #{cpu_score.join.to_i}")
     player_places_piece!(board)
 
@@ -192,7 +195,6 @@ board = initiallize_board
 
   end
 break if user_score.join.to_i == 5 || cpu_score.join.to_i == 5
-
 end
   prompt "#{detect_winner(board) } wins the game by a total score of #{user_score.join.to_i} to #{cpu_score.join.to_i}"
   prompt("would you like to play again? (Y/N)")
