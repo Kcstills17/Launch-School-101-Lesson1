@@ -1,17 +1,16 @@
 require "pry"
 require "pry-byebug"
-square = ' '
-
+# symbols Ⓞ and Ⓧ
 INITIAL_MARKER = ' '
-PLAYER_MARKER = 'X'
-COMPUTER_MARKER = 'O'
+PLAYER_MARKER = 'Ⓧ'
+COMPUTER_MARKER = 'Ⓞ'
 
-WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9],  # rows
+WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9], # rows
                  [1, 4, 7], [2, 5, 8], [3, 6, 9], # columns
                  [1, 5, 9], [3, 5, 7]] # diagonals
 
 def prompt(string)
-  puts "=> #{string}"
+  puts "╰┈➤ #{string}"
 end
 
 def joinor(*arr)
@@ -78,7 +77,7 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
-def computer_logic(line, board, marker)   # I could not figure this stuff out
+def computer_logic(line, board, marker) # I could not figure this stuff out
   if board.values_at(*line).count(marker) == 2
     board.select { |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
   elsif board.values_at(*line).count(marker) != 2
@@ -136,56 +135,127 @@ def scoreboard(brd, player_score, computer_score)
   end
 end
 
+def who_won_or_is_tie(user, cpu, brd)
+  prompt("User Score : #{user.join.to_i} Computer Score : #{cpu.join.to_i}")
+  if someone_won?(brd)
+    prompt("#{detect_winner(brd)} Wins!")
+    scoreboard(brd, user, cpu)
+    prompt("User's score : #{user.join.to_i},
+            computer's score : #{cpu.join.to_i}")
+
+  elsif board_full?(brd)
+    prompt("it is a tie")
+    scoreboard(brd, user, cpu)
+    prompt("User Score : #{user.join.to_i} Computer Score : #{cpu.join.to_i}")
+  end
+end
+
+def cpu_game_order_choice(brd)
+  [player_places_piece!(brd), computer_places_piece!(brd)].sample
+end
+
+def place_piece!(brd, current_player)
+  current_player == PLAYER_MARKER ? player_places_piece!(brd) : computer_places_piece!(brd)
+end
+
+def alternate_player(current_player)
+  current_player = (current_player == PLAYER_MARKER ? COMPUTER_MARKER : PLAYER_MARKER)
+end
+
 game_order = ''
 
-user_score = [0]
-cpu_score = [0]
+user_score = nil
+cpu_score = nil
+board = nil
 loop do
+  user_score = [0]
+  cpu_score = [0]
+
   loop do
-    prompt("would you like to go first or second in the game? (First/Second)")
+    prompt("would you like to go first or second in the game?
+      (First/Second) or allow the computer to decide who goes first? (CPU)")
     game_order = gets.chomp
     break if game_order == "first".downcase || game_order == "second".downcase
   end
   board = initiallize_board
-
   loop do
     board = initiallize_board
+    current_player = game_order == 'first' ? PLAYER_MARKER : COMPUTER_MARKER
 
     loop do
       display_board(board)
-      prompt("User's score is #{user_score.join.to_i}, Computer's score is #{cpu_score.join.to_i}")
-      game_order == 'first' ? player_places_piece!(board) : computer_places_piece!(board)
-
-      break if someone_won?(board) || board_full?(board)
-      display_board(board)
-      prompt("User's score is #{user_score.join.to_i}, Computer's score is #{cpu_score.join.to_i}")
-      game_order == 'first' ? (computer_places_piece!(board)) : (player_places_piece!(board))
-      break if someone_won?(board) || board_full?(board)
-
+      who_won_or_is_tie(user_score, cpu_score, board)
+      place_piece!(board, current_player)
+      current_player = alternate_player(current_player)
       break if someone_won?(board) || board_full?(board)
     end
+
     display_board(board)
 
-    if someone_won?(board)
-
-      prompt("#{detect_winner(board)} Wins!")
-      scoreboard(board, user_score, cpu_score)
-
-      prompt("User's score is #{user_score.join.to_i}, computer's score is #{cpu_score.join.to_i}")
-
-    else
-      prompt("it is a tie")
-      scoreboard(board, user_score, cpu_score)
-
-      prompt("User's score is #{user_score}, computer's score is #{cpu_score}")
-
-    end
+    who_won_or_is_tie(user_score, cpu_score, board)
     break if user_score.join.to_i == 5 || cpu_score.join.to_i == 5
   end
-  prompt "#{detect_winner(board)} wins the game by a total score of #{user_score.join.to_i} to #{cpu_score.join.to_i}"
+
+  system "clear"
+  prompt "#{detect_winner(board)} wins the game by a total score of
+   #{user_score.join.to_i} to #{cpu_score.join.to_i}"
   prompt("would you like to play again? (Y/N)")
   play_again = gets.chomp
   break unless play_again.downcase.start_with?('y')
 end
+prompt(" (￣ε￣〃)ｂ Thank you for playing Tic-Tac-Toe. Goodbye  ʘ‿ʘ) ╯✧･ﾟ: *✧･ﾟ:*")
 
-prompt("Thank you for playing Tic-Tac-Toe. Goodbye")
+=begin
+
+
+def place_piece(board, current_player)
+    current_player == PLAYER_MARKER ?
+    player_places_piece : computer_places_piece
+  end
+
+  def alternate_player(current_player)
+    current_player = (current_player == PLAYER_MARKER ?
+      COMPUTER_MARKER : PLAYER_MARKER)
+  end
+
+  loop do
+    board = initiallize_board
+    current_player = game_order == 'first' ? PLAYER_MARKER : COMPUTER_MARKER
+
+    loop do
+      display_board(board)
+      who_won_or_is_tie(user_score, cpu_score, board)
+      place_piece!(board, current_player)
+      current_player = alternate_player(current_player)
+      break if someone_won?(board) || board_full?(board)
+    end
+
+    display_board(board)
+
+    who_won_or_is_tie(user_score, cpu_score, board)
+    break if user_score.join.to_i == 5 || cpu_score.join.to_i == 5
+  end
+
+  system "clear"
+    prompt "#{detect_winner(board)} wins the game by a total score of
+     #{user_score.join.to_i} to #{cpu_score.join.to_i}"
+    prompt("would you like to play again? (Y/N)")
+    play_again = gets.chomp
+    break unless play_again.downcase.start_with?('y')
+  end
+  prompt(" (￣ε￣〃)ｂ Thank you for playing Tic-Tac-Toe.
+  Goodbye  ʘ‿ʘ) ╯ ✧･ﾟ: *✧･ﾟ:*")
+
+
+  # TIC TAC TOE
+
+  # BEGIN GAME
+  # DO THE MAIN LOOP
+    # CHOOSE PLAYER
+    # PLAY A GAME LOOP
+      #
+       #
+        #
+
+
+=end
