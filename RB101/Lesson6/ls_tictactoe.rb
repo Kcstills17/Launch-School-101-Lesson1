@@ -12,6 +12,7 @@ def prompt(string)
   puts "╰┈➤ #{string}"
 end
 
+# need logic to shorten this for rubo
 def joinor(*arr)
   if arr[0].size <= 2
     arr.join(" or ")
@@ -76,7 +77,8 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
-def computer_logic(line, board, marker) # I could not figure this stuff out
+# I had a difficult time with this initially
+def computer_logic(line, board, marker)
   if board.values_at(*line).count(marker) == 2
     board.select { |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
   elsif board.values_at(*line).count(marker) != 2
@@ -110,10 +112,10 @@ def board_full?(brd)
 end
 
 def someone_won?(brd)
-  !!detect_winner(brd)
+  detect_winner(brd)
 end
 
-def detect_winner(brd)
+def detect_winner(brd) # accesses value of each hash pair with use of splat
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(PLAYER_MARKER) == 3
       return "Player"
@@ -134,7 +136,7 @@ def scoreboard(brd, player_score, computer_score)
   end
 end
 
-def declare_winner(user, cpu, brd)
+def declare_winner_or_tie(user, cpu, brd)
   prompt("User Score : #{user.join.to_i} Computer Score : #{cpu.join.to_i}")
   if someone_won?(brd)
     prompt("#{detect_winner(brd)} Wins!")
@@ -142,14 +144,8 @@ def declare_winner(user, cpu, brd)
     prompt("User's score : #{user.join.to_i},
             Computer's score : #{cpu.join.to_i}")
   elsif board_full?(brd)
-    prompt("You Have tied")
-  end
-end
-
-def display_tie(brd)
-  if !someone_won?(brd) && board_full?(brd)
-    prompt("There is a tie")
-  end
+    prompt("You Have tied") # tie not showing for some reason?
+  end # It probably has to do with the board being reset
 end
 
 def cpu_game_order_choice(brd)
@@ -169,7 +165,6 @@ def alternate_player(current_player)
 end
 
 game_order = ''
-
 user_score = nil
 cpu_score = nil
 board = nil
@@ -190,16 +185,14 @@ loop do
 
     loop do
       display_board(board)
-      display_tie(board)
-      declare_winner(user_score, cpu_score, board)
+      declare_winner_or_tie(user_score, cpu_score, board)
       place_piece!(board, current_player)
       current_player = alternate_player(current_player)
       break if someone_won?(board) || board_full?(board)
     end
-    display_tie(board)
     display_board(board)
 
-    declare_winner(user_score, cpu_score, board)
+    declare_winner_or_tie(user_score, cpu_score, board)
     break if user_score.join.to_i == 5 || cpu_score.join.to_i == 5
   end
 
@@ -211,7 +204,9 @@ loop do
   break unless play_again.downcase.start_with?('y')
 end
 prompt(" (￣ε￣〃)ｂ Thank you for playing Tic-Tac-Toe. Goodbye  ʘ‿ʘ) ╯✧･ﾟ: *✧･ﾟ:*")
-
+# I wanted to insert the ending part into a method.
+# but i ran into issues involving the loops that made things
+# break
 =begin
 
 
