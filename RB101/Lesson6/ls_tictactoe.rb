@@ -1,6 +1,5 @@
 require "pry"
 require "pry-byebug"
-# symbols Ⓞ and Ⓧ
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'Ⓧ'
 COMPUTER_MARKER = 'Ⓞ'
@@ -14,14 +13,14 @@ def prompt(string)
 end
 
 def joinor(*arr)
-  if arr[1].nil? && arr[0].size <= 2
+  if arr[0].size <= 2
     arr.join(" or ")
-  elsif arr[1].nil? && arr[0].size > 2
+  elsif  arr[0].size > 2
     string = arr.join(", ")
     prepend_or = string[-1].prepend("or ")
     string[-1] = prepend_or
     string
-  elsif !arr[1].nil? && !arr[2].nil?
+  elsif !arr[2].nil?
     string = arr[0].join(arr[-2])
     prepend_input = string[-1].prepend("#{arr[-1]} ")
     string[-1] = prepend_input
@@ -135,18 +134,21 @@ def scoreboard(brd, player_score, computer_score)
   end
 end
 
-def who_won_or_is_tie(user, cpu, brd)
+def declare_winner(user, cpu, brd)
   prompt("User Score : #{user.join.to_i} Computer Score : #{cpu.join.to_i}")
   if someone_won?(brd)
     prompt("#{detect_winner(brd)} Wins!")
     scoreboard(brd, user, cpu)
     prompt("User's score : #{user.join.to_i},
-            computer's score : #{cpu.join.to_i}")
-
+            Computer's score : #{cpu.join.to_i}")
   elsif board_full?(brd)
-    prompt("it is a tie")
-    scoreboard(brd, user, cpu)
-    prompt("User Score : #{user.join.to_i} Computer Score : #{cpu.join.to_i}")
+    prompt("You Have tied")
+  end
+end
+
+def display_tie(brd)
+  if !someone_won?(brd) && board_full?(brd)
+    prompt("There is a tie")
   end
 end
 
@@ -155,11 +157,15 @@ def cpu_game_order_choice(brd)
 end
 
 def place_piece!(brd, current_player)
-  current_player == PLAYER_MARKER ? player_places_piece!(brd) : computer_places_piece!(brd)
+  if current_player == PLAYER_MARKER
+    player_places_piece!(brd)
+  else
+    computer_places_piece!(brd)
+  end
 end
 
 def alternate_player(current_player)
-  current_player = (current_player == PLAYER_MARKER ? COMPUTER_MARKER : PLAYER_MARKER)
+  (current_player == PLAYER_MARKER ? COMPUTER_MARKER : PLAYER_MARKER)
 end
 
 game_order = ''
@@ -184,15 +190,16 @@ loop do
 
     loop do
       display_board(board)
-      who_won_or_is_tie(user_score, cpu_score, board)
+      display_tie(board)
+      declare_winner(user_score, cpu_score, board)
       place_piece!(board, current_player)
       current_player = alternate_player(current_player)
       break if someone_won?(board) || board_full?(board)
     end
-
+    display_tie(board)
     display_board(board)
 
-    who_won_or_is_tie(user_score, cpu_score, board)
+    declare_winner(user_score, cpu_score, board)
     break if user_score.join.to_i == 5 || cpu_score.join.to_i == 5
   end
 
