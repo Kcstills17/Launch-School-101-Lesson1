@@ -112,7 +112,7 @@ def board_full?(brd)
 end
 
 def someone_won?(brd)
-  detect_winner(brd)
+  !!detect_winner(brd)
 end
 
 def detect_winner(brd) # accesses value of each hash pair with use of splat
@@ -136,16 +136,22 @@ def scoreboard(brd, player_score, computer_score)
   end
 end
 
-def declare_winner_or_tie(user, cpu, brd)
+def display_score(user, cpu, brd)
   prompt("User Score : #{user.join.to_i} Computer Score : #{cpu.join.to_i}")
-  if someone_won?(brd)
-    prompt("#{detect_winner(brd)} Wins!")
     scoreboard(brd, user, cpu)
-    prompt("User's score : #{user.join.to_i},
-            Computer's score : #{cpu.join.to_i}")
-  elsif board_full?(brd)
-    prompt("You Have tied") # tie not showing for some reason?
-  end # It probably has to do with the board being reset
+
+end
+
+def announce_win_or_tie(user, cpu, brd)
+initial_user = user.join.to_i
+initial_cpu = cpu.join.to_i
+if user.join.to_i > initial_user  || user.join.to_i > initial_cpu
+  prompt("#{detect_winner(brd)} is the winner!")
+elsif cpu.join.to_i > initial_user || cpu.join.to_i > initial_user
+  prompt("#{detect_winner(brd)} is the winner!")
+else
+  prompt("There is a tie!")
+end
 end
 
 def cpu_game_order_choice(brd)
@@ -173,6 +179,7 @@ loop do
   cpu_score = [0]
 
   loop do
+
     prompt("would you like to go first or second in the game?
       (First/Second) or allow the computer to decide who goes first? (CPU)")
     game_order = gets.chomp
@@ -180,19 +187,25 @@ loop do
   end
   board = initiallize_board
   loop do
+
     board = initiallize_board
+
     current_player = game_order == 'first' ? PLAYER_MARKER : COMPUTER_MARKER
 
     loop do
       display_board(board)
-      declare_winner_or_tie(user_score, cpu_score, board)
+      display_score(user_score, cpu_score, board)
+
       place_piece!(board, current_player)
+
       current_player = alternate_player(current_player)
       break if someone_won?(board) || board_full?(board)
     end
+    announce_win_or_tie(user_score, cpu_score, board)
+    display_score(user_score, cpu_score, board)
     display_board(board)
 
-    declare_winner_or_tie(user_score, cpu_score, board)
+
     break if user_score.join.to_i == 5 || cpu_score.join.to_i == 5
   end
 

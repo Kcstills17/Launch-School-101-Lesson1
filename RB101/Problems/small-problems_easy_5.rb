@@ -161,7 +161,7 @@ def convert_number(time_chunk)
     ten_minute = (negative_time_chunk - 60 * hour)/ 10
     minute = negative_time_chunk.to_s.split('')[-1].to_i
     ten_hour >= 1 ? hour = hour % 10 : hour = hour
-
+    sprintf("%d#{hour}:#{ten_minute}#{minute}", ten_hour)
   else
      sprintf("%d0:00", 0)
   end
@@ -181,8 +181,8 @@ end
 
 
 
-  time_of_day(0) == "00:00"
-  time_of_day(-3) == "23:57"
+  p time_of_day(0) == "00:00"
+  p time_of_day(-3)
   time_of_day(35) == "00:35"
   time_of_day(-1437) == "00:03"
   time_of_day(3000) == "02:00"
@@ -287,8 +287,8 @@ def before_midnight(string)
   after_midnight(string) == 0 ? 0 : 1440 - after_midnight(string)
 end
 
-  after_midnight('00:00') == 0
-  before_midnight('00:00') == 0
+   after_midnight('00:00') == 0
+   before_midnight('00:00') == 0
   after_midnight('12:34') == 754
   before_midnight('12:34') == 686
   after_midnight('24:00') == 0
@@ -412,7 +412,7 @@ def cleanup(input)
 
 end
 
-p cleanup("---what's my +*& line?")   == ' what s my line '
+ cleanup("---what's my +*& line?")   == ' what s my line '
 
 =begin
 LS Solution
@@ -689,7 +689,7 @@ def crunch(input)
     next_digit += 1
   end
  end
- p result
+  result
 end
 
   crunch('ddaaiillyy ddoouubbllee') == 'daily double'
