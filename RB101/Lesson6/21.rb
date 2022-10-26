@@ -92,7 +92,7 @@ def deal_dealer_card(dealer_total)
 end
 
 def dealer_stay_logic(dealer_total)
-  total_card_value(dealer_total) >= 17 ?  true : total_card_value(dealer_total)
+  total_card_value(dealer_total) >= 17 ?  true : false
 end
 
 def total_card_value(current_user)
@@ -137,6 +137,18 @@ def check_for_winner(player_total, dealer_total)
 
 end
 
+def check_for_tie(player_total, dealer_total)
+  player_total = total_card_value(player_total)
+  dealer_total = total_card_value(dealer_total)
+player_total == dealer_total
+end
+
+def display_tie(player_total, dealer_total)
+  if check_for_tie(player_total, dealer_total)
+    prompt("Wow. There is a tie!")
+  end
+end
+
 loop do
 loop do
 prompt("Welcome to 21! Please enter 'Begin' to be dealt 2 cards and start the game")
@@ -148,9 +160,10 @@ prompt("Your hand is #{player_hand.join(", ")}")
 hit_or_stay = ''
 
 loop do
+
+  break if hit_or_stay.downcase == 'stay' || check_for_bust(player_hand, dealer_hand)
   prompt("Do you choose to Hit or Stay?")
   hit_or_stay = gets.chomp
-  break if hit_or_stay.downcase == 'stay' || check_for_bust(player_hand, dealer_hand)
   if hit_or_stay.downcase == "hit"
     ace_value_logic!(player_hand)
     deal_player_card(player_hand)
@@ -161,13 +174,13 @@ loop do
   end
 end
 
-if hit_or_stay == "stay"
+if hit_or_stay == "stay" && !check_for_bust(player_hand, dealer_hand)
 
   loop do
     ace_value_logic!(dealer_hand)
-    p deal_dealer_card(dealer_hand)
     break if check_for_bust(player_hand, dealer_hand) || dealer_stay_logic(dealer_hand)
-    check_for_bust(player_hand, dealer_hand) ? prompt("The Dealer Has Busted!") : prompt("test")
+    check_for_bust(player_hand, dealer_hand) ? prompt("The Dealer Has Busted!") : prompt("Dealer hits ")
+    p deal_dealer_card(dealer_hand)
   end
 end
 
@@ -175,13 +188,23 @@ if check_for_bust(player_hand, dealer_hand)
   p display_bust_winner(player_hand, dealer_hand)
 end
 
-if !check_for_bust(player_hand, dealer_hand)
+if !check_for_bust(player_hand, dealer_hand) && !check_for_tie(player_hand, dealer_hand)
+  prompt("Dealer Stays")
   prompt("Time to compare Scores!!")
   prompt("Your score is #{total_card_value(player_hand)} and the dealer's score is #{total_card_value(dealer_hand)}")
   check_for_21(player_hand, dealer_hand) ? check_for_21(player_hand, dealer_hand) : check_for_winner(player_hand, dealer_hand)
 end
 
-end_game = gets.chomp
-prompt("Good game! Do you wish to play again or call it a day? (Y/N)")
-break if end_game.downcase.start_with?('y')
+if  !check_for_bust(player_hand, dealer_hand) && check_for_tie(player_hand, dealer_hand)
+  prompt("Dealer Stays")
+  display_tie(player_hand, dealer_hand)
+  prompt("Your score is #{total_card_value(player_hand)} and the dealer's score is #{total_card_value(dealer_hand)}")
 end
+
+
+prompt("Good game! Do you wish to play again or call it a day? (Y/N)")
+end_game = gets.chomp
+break unless end_game.downcase.start_with?("y")
+end
+
+
