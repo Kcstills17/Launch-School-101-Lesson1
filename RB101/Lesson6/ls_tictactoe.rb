@@ -32,8 +32,8 @@ def joinor(*arr)
     string
   end
 end
+# rubocop:disable Metrics/AbcSize
 
-# rubocop:disable Metrics/abcSize
 def display_board(brd)
   system 'clear'
   puts ""
@@ -52,7 +52,7 @@ def display_board(brd)
   prompt("Player is #{PLAYER_MARKER}, Computer is #{COMPUTER_MARKER}")
 end
 
-# rubocop:enable Metrics/abcSize
+# rubocop:enable Metrics/AbcSize
 def initiallize_board
   new_board = {}
   (1..9).each { |num| new_board[num] = INITIAL_MARKER }
