@@ -1,18 +1,17 @@
 require "pry"
 require "pry-byebug"
 spades = (2..10).to_a.zip(2..10).to_a.to_h
-spades["King"] = 10
-spades["Queen"] = 10
-spades["Jack"] = 10
+spades["K"] = 10
+spades["Q"] = 10
+spades["J"] = 10
 spades["Ace"] = 11
 diamonds = spades
 hearts = spades
 clubs = spades
 
 DECK = [spades, diamonds, hearts, clubs]
-
-player_hand = []
-dealer_hand = []
+SAMPLE_SUITS = (0..3).to_a.sample
+SAMPLE_DEALER_START = (0..1).to_a.sample
 
 def prompt(string)
   puts "╰┈➤ #{string}"
@@ -21,7 +20,7 @@ end
 def time_delay
   sleep 1.05
 end
-# rubocop:disable Metrics/AbcSize
+
 def game_over_symbol
   prompt("
         ███▀▀▀██ ███▀▀▀███ ███▀█▄█▀███ ██▀▀▀
@@ -57,16 +56,17 @@ def lose_game_symbol
 end
 
 def tie_symbol
-  prompt("   ::::::::::: ::::::::::: :::::::::: :::
-     :+:         :+:     :+:        :+:
-    +:+         +:+     +:+        +:+
-   +#+         +#+     +#++:++#   +#+
-  +#+         +#+     +#+        +#+
- #+#         #+#     #+#
-###     ########### ########## ###       ")
+  prompt(" .------..------..------..
+    |T.--. ||I.--. ||E.--. ||!.--. |
+    | :/\: || (\/) || (\/) || (\/) |
+    | (__) || :\/: || :\/: || :\/: |
+    | '--'T|| '--'I|| '--'E|| '--'!|
+    `------'`------'`------'`------'
+                           ")
 end
 
 def twenty_one_symbol
+  system "clear"
   prompt(" .########..########.########..########.########..######..########.....######...######...#######..########..########.####
   .##.....##.##.......##.....##.##.......##.......##....##....##.......##....##.##....##.##.....##.##.....##.##.......####
   .##.....##.##.......##.....##.##.......##.......##..........##.......##.......##.......##.....##.##.....##.##.......####
@@ -75,21 +75,25 @@ def twenty_one_symbol
   .##........##.......##....##..##.......##.......##....##....##.......##....##.##....##.##.....##.##....##..##.......####
   .##........########.##.....##.##.......########..######.....##........######...######...#######..##.....##.########.####")
 end
-# rubocop:enable Metrics/AbcSize
-def deal_initial_cards(player_total, dealer_total)
+
+def deal_initial_cards(current_keys, key)
   2.times do |_n|
-    dealer_total << DECK.sample.values.sample
-    player_total << DECK.sample.values.sample
+    key = DECK[SAMPLE_SUITS].keys.sample
+    current_keys << key
   end
-  player_total
+  current_keys
 end
 
-def deal_player_card(player_total)
-  player_total << DECK.sample.values.sample
+def display_inital_cards_value(current_key, current_value)
+  current_value << DECK[SAMPLE_SUITS][current_key[0]]
+  current_value << DECK[SAMPLE_SUITS][current_key[1]]
+  current_value
 end
 
-def deal_dealer_card(dealer_total)
-  dealer_total << DECK.sample.values.sample
+def deal_card(current_key, current_value)
+  key = DECK[SAMPLE_SUITS].keys.sample
+  current_value << DECK[SAMPLE_SUITS][key]
+  current_key << key
 end
 
 def dealer_stay_logic(dealer_total)
@@ -97,7 +101,7 @@ def dealer_stay_logic(dealer_total)
 end
 
 def total_card_value(current_user)
-  current_user.reduce { |current_sum, num| current_sum += num }
+  current_user.inject { |sum, num| sum + num }
 end
 
 def ace_value_logic!(current_user)
@@ -115,7 +119,8 @@ def ace_value_logic!(current_user)
 end
 
 def check_for_bust(player_total, dealer_total)
-  total_card_value(player_total) > 21 || total_card_value(dealer_total) > 21
+  total_card_value(player_total) > 21 ||
+    total_card_value(dealer_total) > 21
 end
 
 def check_for_twenty_one(player_total, dealer_total)
@@ -182,16 +187,25 @@ def display_tie(player_total, dealer_total)
 end
 
 loop do
+  player_key = []
+  dealer_key = []
   player_hand = []
   dealer_hand = []
+  sample_keys = []
   loop do
     prompt("Welcome to 21! Please enter 'Begin' to be dealt 2 cards
     and start the game")
     start_game = gets.chomp
     break if start_game.downcase == "begin"
   end
-  deal_initial_cards(player_hand, dealer_hand)
-  prompt("Your hand is #{player_hand.join(', ')}")
+  deal_initial_cards(player_key, sample_keys)
+  deal_initial_cards(dealer_key, dealer_key)
+  display_inital_cards_value(player_key, player_hand)
+  display_inital_cards_value(dealer_key, dealer_hand)
+
+  prompt("Your hand is #{player_key.join(', ')}")
+
+  p total_card_value(player_hand)
   time_delay
   hit_or_stay = ''
 
@@ -202,37 +216,39 @@ loop do
     hit_or_stay = gets.chomp
     if hit_or_stay.downcase == "hit"
       ace_value_logic!(player_hand)
-      deal_player_card(player_hand)
-      prompt("This is your current hand #{player_hand.join(', ')}")
+      deal_card(player_key, player_hand)
+      prompt("This is your current hand #{player_key.join(', ')}")
+
     end
     if check_for_bust(player_hand, dealer_hand)
       time_delay
-
-      time_delay
+      display_bust_winner(player_hand, dealer_hand)
     end
   end
 
   if hit_or_stay == "stay" && !check_for_bust(player_hand, dealer_hand)
-
+    prompt("You can see this from the dealer hand
+          #{dealer_key[SAMPLE_DEALER_START]}")
     loop do
       ace_value_logic!(dealer_hand)
+      time_delay
       break if check_for_bust(player_hand,
                               dealer_hand) || dealer_stay_logic(dealer_hand)
-      if check_for_bust(player_hand,
-                        dealer_hand)
+      if check_for_bust(player_hand, dealer_hand)
         prompt("The Dealer Has Busted!")
       else
         prompt("Dealer hits ")
       end
       time_delay
-      deal_dealer_card(dealer_hand)
-      prompt("Dealer Hand: #{dealer_hand.join(' ')}")
+
+      deal_card(dealer_key, dealer_hand)
+      prompt("Dealer Hand: #{dealer_key[SAMPLE_DEALER_START]}, ? ")
       time_delay
     end
   end
 
   if check_for_bust(player_hand, dealer_hand)
-    p display_bust_winner(player_hand, dealer_hand)
+    display_bust_winner(player_hand, dealer_hand)
   end
 
   if !check_for_bust(player_hand,
@@ -265,9 +281,10 @@ loop do
     time_delay
   end
 
-  prompt("Good game! Do you wish to play again? (Y/N)")
+  prompt("▰▰▰▰▰▰▰▰▰▰▰▰Good game! Do you wish to play again? (Y/N)▰▰▰▰▰▰▰▰▰▰▰▰")
 
   end_game = gets.chomp
   break unless end_game.downcase.start_with?("y")
   system "clear"
 end
+prompt("╚══ ≪ Thank You and please play 21 again when you are up to it!' ≫ ══╝")

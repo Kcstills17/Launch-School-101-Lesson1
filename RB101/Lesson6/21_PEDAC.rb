@@ -23,6 +23,7 @@ P. Understand the Problem
     until one has either reached 21 or busted.
   - if both users stay than both scores should be compared to see who has
     the higher total
+  - can only see one of the cards the dealer is initially dealt
     end
 
 

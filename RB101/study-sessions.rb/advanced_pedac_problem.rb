@@ -84,41 +84,39 @@ D: Data Structures
 
 
 A: Algorithm
-def minSUbLength(arr, positive_int)
-- initiallize arr check_value
-- initiallize counter to 0
-- set check_value = to arr[0]
-loop do
-- if check_value is greater or equal  to positive_int
-  - break if the value of check_value is greater or equal to positive_int
-- else
-  - counter += 1
+def minSubLength(arr, positive_int)
+  - intiallize variable counter and set to 0
+  - initiallize variable check_value and set to an empty array
   - append arr[counter] to check_value
-  - break if the value of check_value is greater or equal to positive_int
-- end
-return the lenght of check_value
+  - initiallize variable escape_value and set to 0
+  create until loop with the condition that escape_value is >= to positive_int  or counter >= to the size of arr
+    -iterate through check_value and each num
+      - add the total of each num and set that value to escape_value
+    end method
+     append arr[counter] to escape_value
+  end loop
+  return escape_value
+
 end
 
 C: Code with intent
+=end
+
+require "pry"
 
 def minSubLength(arr, positive_int)
-  check_value = []
   counter = 0
-  check_value << arr[0]
-  p total_sum = check_value.reduce( {|sum, num| sum += num}
-  loop do
-    if check_value >= positive_int
-      break
-    else
-      counter += 1
-      check_value >> arr[counter]
-      break if check_value >= positive_int
-    end
+  check_value = []
+  check_value << arr[counter]
+  escape_value = 0
+until escape_value >= positive_int || counter >= arr.size
+  check_value.inject do |sum, num|
+ escape_value += sum
   end
-  p check_value
+  counter += 1
+  check_value << arr[counter]
+end
+escape_value >= positive_int ? escape_value = escape_value : escape_value = 0
 end
 
-p minSubLength([1,2,3,1], 4)
-
-
-=end
+p minSubLength([1,2,3,], 4)
