@@ -1,5 +1,3 @@
-require "pry"
-require "pry-byebug"
 spades = (2..10).to_a.zip(2..10).to_a.to_h
 spades["K"] = 10
 spades["Q"] = 10
