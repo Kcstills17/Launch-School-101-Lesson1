@@ -1,5 +1,7 @@
 =begin
 
+Given an array of n positive integers and a positive integer, find the minimal length of a contiguous subarray for which the sum >= integer.
+
 P. Understand the Problem
   Explicit Requirements:
   - Given an array of n positive integers & a positive integer, find the smallest length of a contingous subarray for which the sum is >= integer
@@ -32,22 +34,48 @@ D: Data Structures
   - output: an integer
   -possible path: perhaps a new array that is appended
 
+=end
 
-A: Algorithm
-def minSUbLength(arr, positive_int)
-  - initiallize arr check_value
-  - initiallize counter to 0
-  - set check_value = to arr[0]
-  loop do
-  - if check_value is greater or equal  to positive_int
-    - break if the value of check_value is greater or equal to positive_int
-  - else
-    - counter += 1
-    - append arr[counter] to check_value
-    - break if the value of check_value is greater or equal to positive_int
-  - end
-  return the lenght of check_value
- end
+arr = [2, 3, 1, 2, 4, 3]
+
+=begin
+A:
+- Initialize a variable `lens` which will store the lengths of subarrays which have a sum >= integer argument.
+- Perform nested iteration
+    - At the first level, with the parameter `idx1` iterate over all elements from 0 to the length of the array - 1
+    - At the second level, with the parameter `idx2` iterate over all elements starting from `idx1` until length of the array - 1
+    - if `arr[idx1..idx2].sum >= target` append `(idx2 - idx1) + 1` to the array
+=end
+
+# 2
+#   - [2, 2]
+#   - [2, 3]
+#   - [2, 1]
+#   - [2,2]
+#   - [2,4]
+#   - [2,3]
+
+
+
+arr = [2, 3, 1, 2, 4, 3]
+lens = []
+target = 7
+
+(0..arr.size-1).each do |idx1|
+  (idx1..arr.size-1).each do |idx2|
+    p(arr[idx1..idx2]) if arr[idx1..idx2].sum >= target
+  end
+end
+
+
+# Given an array of n positive integers and a positive integer, find the minimal length of a contiguous subarray for which the sum >= integer.
+
+# ```ruby
+# p minSubLength([2, 3, 1, 2, 4, 3], 7) == 2
+# p minSubLength([1, 10, 5, 2, 7], 9) == 1
+# p minSubLength([1, 11, 100, 1, 0, 200, 3, 2, 1, 250], 280) == 4
+# p minSubLength([1, 2, 4], 8) == 0
+# ```
 
 C: Code with intent
 P. Understand the Problem
@@ -120,3 +148,32 @@ escape_value >= positive_int ? escape_value = escape_value : escape_value = 0
 end
 
 p minSubLength([1,2,3,], 4)
+
+
+
+
+
+def repeater(string)
+  result = ''
+  string.each_char do |char|
+  string.chars.each
+    result << char << char
+  end
+  result
+end
+repeater('Hello')
+
+=begin
+On line 8 the `repeater` method is called and the sting object `Hello` is passed to it as an argument.
+
+This is a method definition for the `repeater` Method
+
+On line 2 local variable `result` is initialized to the value ''
+
+On line 3 the `each_char` method is call on the parameter `string` and a `do..end` block is passed to the `each_char` method call.  Within the block, each element in `string` is appended twice to the object that local variable `result` is referencing.  This is destructive/mutating method which changes the value of `result`.  Line 6 is the last evaluated line in this method so the object assigned to result is implciitly returned.
+
+This method returns the string argument with each element repeated twice.  It outputs nothing.  The concept demonstrated is mutating methods.
+=end
+
+
+# https://fine-ocean-68c.notion.site/SPOT-Wiki-b58ff38ab84440bdb96797e59ee5fd34

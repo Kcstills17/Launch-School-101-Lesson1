@@ -286,3 +286,6 @@ loop do
   system "clear"
 end
 prompt("╚══ ≪ Thank You and please play 21 again when you are up to it!' ≫ ══╝")
+
+
+
