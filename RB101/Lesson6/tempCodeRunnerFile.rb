@@ -1,1 +1,1 @@
- game_over_symbol
+b

@@ -1,3 +1,5 @@
+require "pry"
+require "pry-byebug"
 
 spades = (2..10).to_a.zip(2..10).to_a.to_h
 spades["K"] = 10
@@ -8,22 +10,22 @@ diamonds = spades
 hearts = spades
 clubs = spades
 
-DECK = [{ 'spades' => spades }, { 'diamonds' => diamonds }, { 'hearts' => hearts },
-        { 'clubs' => clubs }]
+DECK = [{ 'spades' => spades }, { 'diamonds' => diamonds },
+        { 'hearts' => hearts }, { 'clubs' => clubs }]
 
 def prompt(string)
   puts "╰┈➤ #{string}"
 end
 
-def randomize_suits(suit)
-  suit = (0..3).to_a.sample
+def randomize_suits(_suit)
+  (0..3).to_a.sample
 end
 
 def time_delay
   sleep 1.05
 end
 
-def game_over_symbol
+def display_game_over_symbol
   prompt("
         ███▀▀▀██ ███▀▀▀███ ███▀█▄█▀███ ██▀▀▀
         ██    ██ ██     ██ ██   █   ██ ██
@@ -38,7 +40,7 @@ def game_over_symbol
         ███▄▄▄███    ▀█▀    ██▄▄▄ ██     ██▄")
 end
 
-def victory_symbol
+def display_victory_symbol
   prompt('__  __     ______     __  __        __     __     __     __   __
     /\ \_\ \   /\  __ \   /\ \/\ \      /\ \  _ \ \   /\ \   /\ "-.\ \
     \ \____ \  \ \ \/\ \  \ \ \_\ \     \ \ \/ ".\ \  \ \ \  \ \ \-.  \
@@ -47,7 +49,7 @@ def victory_symbol
                                                                          ')
 end
 
-def lose_game_symbol
+def display_lose_game_symbol
   prompt("
     _|      _|                        _|
       _|  _|    _|_|    _|    _|      _|          _|_|      _|_|_|    _|_|
@@ -57,17 +59,17 @@ def lose_game_symbol
                                                                               ")
 end
 
-def tie_symbol
+def display_tie_symbol
   prompt(" .------..------..------..
     |T.--. ||I.--. ||E.--. ||!.--. |
     | :/\: || (\/) || (\/) || (\/) |
     | (__) || :\/: || :\/: || :\/: |
     | '--'T|| '--'I|| '--'E|| '--'!|
     `------'`------'`------'`------'
-                           ")
+                                      ")
 end
 
-def twenty_one_symbol
+def display_twenty_one_symbol
   system "clear"
   prompt(" .########..########.########..########.########..######..########.....######...######...#######..########..########.####
   .##.....##.##.......##.....##.##.......##.......##....##....##.......##....##.##....##.##.....##.##.....##.##.......####
@@ -78,7 +80,7 @@ def twenty_one_symbol
   .##........########.##.....##.##.......########..######.....##........######...######...#######..##.....##.########.####")
 end
 
-def deal_card(current_key, current_value, sample_index, suit_key)
+def deal_card(current_key, current_value, sample_index)
   sample_suit = randomize_suits(sample_index)
   suit_key = DECK[sample_suit].keys.join
   key = DECK[sample_suit][suit_key].keys.sample
@@ -95,8 +97,8 @@ def total_card_value(current_user)
   current_user.reduce { |sum, num| sum + num }
 end
 
-def ace_value_logic!(current_user)
-  if 11 + current_user <= 21
+def ace_value_logic!(user_total, opp_total)
+  if 11 + user_total <= 21 || 11 + opp_total <= 21
     DECK[0]['spades']["Ace"] = 11
     DECK[1]['diamonds']["Ace"] = 11
     DECK[2]['hearts']["Ace"] = 11
@@ -129,11 +131,13 @@ end
 def display_winner(player_total, dealer_total)
   if check_for_winner(player_total, dealer_total)
     time_delay
-    victory_symbol
+    system 'clear'
+    display_victory_symbol
     prompt("Congratulations You Have Won!")
   elsif check_for_winner(dealer_total, player_total)
     time_delay
-    lose_game_symbol
+    system 'clear'
+    display_lose_game_symbol
     prompt("You Have lost the game. Better Luck next time")
   end
 end
@@ -141,28 +145,30 @@ end
 def display_bust_winner(player_total, dealer_total)
   if player_total > 21
     prompt("Oh no! You Busted! You have lost the game")
-    lose_game_symbol
+    display_lose_game_symbol
     time_delay
   elsif dealer_total > 21
     prompt("The Dealer has Busted! You win the game!")
-    victory_symbol
+    display_victory_symbol
     time_delay
   end
   time_delay
   system "clear"
-  game_over_symbol
+  display_game_over_symbol
 end
 
 def display_twenty_one(player_total, dealer_total)
   if player_total == 21
     time_delay
-    twenty_one_symbol
-    victory_symbol
+    system 'clear'
+    display_twenty_one_symbol
+    display_victory_symbol
     prompt("WOW. You have a perfect Score. Congratulations")
   elsif dealer_total == 21
     time_delay
-    twenty_one_symbol
-    lose_game_symbol
+    system 'clear'
+    display_twenty_one_symbol
+    display_lose_game_symbol
     prompt("The Dealer has a perfect score. Impressive")
 
   end
@@ -170,8 +176,10 @@ end
 
 def display_tie(player_total, dealer_total)
   if check_for_tie(player_total, dealer_total)
+    prompt("Player score : #{player_total} Dealer total #{dealer_total}")
     time_delay
-    tie_symbol
+    system 'clear'
+    display_tie_symbol
     prompt("Wow. There is a tie!")
   end
 end
@@ -179,7 +187,6 @@ end
 def display_endgame_results(user_sum, opp_sum)
   prompt("Dealer Stays")
   time_delay
-  display_tie(user_sum, opp_sum)
   prompt("Your score is #{user_sum}
   and the dealer's score is #{opp_sum}")
   time_delay
@@ -199,31 +206,28 @@ def play_again?
 end
 
 loop do
+  system 'clear'
   player_key = []
   dealer_key = []
   player_hand = []
   dealer_hand = []
-  sample_suits = []
   current_suit = 0
-  sample_suit_key = ''
 
   loop do
     break if begin_game
   end
 
-  deal_card(player_key, player_hand, current_suit, sample_suit_key)
-  deal_card(dealer_key, dealer_hand, current_suit, sample_suit_key)
+  deal_card(player_key, player_hand, current_suit)
+  deal_card(dealer_key, dealer_hand, current_suit)
   player_sum = total_card_value(player_hand)
   dealer_sum = total_card_value(dealer_hand)
-  ace_value_logic!(player_sum)
-  ace_value_logic!(dealer_sum)
+  ace_value_logic!(player_sum, dealer_sum)
 
-  deal_card(player_key, player_hand, current_suit, sample_suit_key)
-  deal_card(dealer_key, dealer_hand, current_suit, sample_suit_key)
+  deal_card(player_key, player_hand, current_suit)
+  deal_card(dealer_key, dealer_hand, current_suit)
   player_sum = total_card_value(player_hand)
   dealer_sum = total_card_value(dealer_hand)
-  ace_value_logic!(player_sum)
-  ace_value_logic!(dealer_sum)
+  ace_value_logic!(player_sum, dealer_sum)
 
   prompt("Your hand is #{player_key.join(', ')}")
   prompt("Your score: #{player_sum}")
@@ -241,12 +245,11 @@ loop do
     hit_or_stay = gets.chomp
     if hit_or_stay.downcase == "hit"
 
-      ace_value_logic!(player_sum)
-      deal_card(player_key, player_hand, current_suit, sample_suit_key)
+      ace_value_logic!(player_sum, dealer_sum)
+      deal_card(player_key, player_hand, current_suit)
       player_sum = total_card_value(player_hand)
       prompt("This is your current hand #{player_key.join(', ')}")
       prompt("Your score: #{player_sum}")
-
     end
     if check_for_bust(player_sum, dealer_sum)
       time_delay
@@ -257,7 +260,7 @@ loop do
   if hit_or_stay == "stay" && !check_for_bust(player_sum, dealer_sum)
 
     loop do
-      ace_value_logic!(dealer_sum)
+      ace_value_logic!(player_sum, dealer_sum)
       time_delay
       break if check_for_bust(player_sum,
                               dealer_sum) || dealer_stay_logic(dealer_sum)
@@ -268,7 +271,7 @@ loop do
       end
       time_delay
 
-      deal_card(dealer_key, dealer_hand, current_suit, sample_suit_key)
+      deal_card(dealer_key, dealer_hand, current_suit)
       dealer_sum = total_card_value(dealer_hand)
       prompt(dealer_key.join(" "))
       prompt("Dealer's Score: #{dealer_sum}")
@@ -282,7 +285,7 @@ loop do
 
   if !check_for_bust(player_sum,
                      dealer_sum) && !check_for_tie(player_sum, dealer_sum)
-  display_endgame_results(player_sum, dealer_sum)
+    display_endgame_results(player_sum, dealer_sum)
     if check_for_twenty_one(player_sum,
                             dealer_sum)
       display_twenty_one(player_sum,
@@ -294,13 +297,11 @@ loop do
     end
     time_delay
   end
-
-  if !check_for_bust(player_sum,
-                     dealer_sum) && check_for_tie(player_sum, dealer_sum)
-
+  if check_for_tie(player_sum,
+                   dealer_sum)
+    display_tie(player_sum, dealer_sum)
   end
-
   break unless play_again?
 end
-system "clear"
+
 prompt("╚══ ≪ Thank You and please play 21 again when you are up to it!' ≫ ══╝")
