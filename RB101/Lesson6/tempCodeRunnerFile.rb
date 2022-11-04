@@ -1,1 +1,1 @@
-b
+ display_compare_scores(player_cards, dealer_cards, player_total, dealer_total)
