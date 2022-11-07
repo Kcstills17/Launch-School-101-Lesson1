@@ -1,5 +1,3 @@
-require 'pry'
-require 'pry-byebug'
 SUITS = ['H', 'D', 'S', 'C']
 VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 score = { "Player" => 0, 'Dealer' => 0 }
