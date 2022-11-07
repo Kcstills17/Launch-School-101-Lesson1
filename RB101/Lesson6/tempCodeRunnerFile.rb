@@ -1,1 +1,4 @@
- display_compare_scores(player_cards, dealer_cards, player_total, dealer_total)
+if display_total_rounds_game_winner(score)
+     play_again? ? next : break
+    end
+next
