@@ -748,7 +748,50 @@ C: Code with intent
 =end
 
 def print_in_box(input)
-  input.center(input.size + 10)
+  horizontal_symbols = ""
+  horizontal_symbols_space = horizontal_symbols.center(input.size + 2 , "-").prepend("+") + "+"
+  inner_padding = ""
+  inner_padding_space = inner_padding.center(input.size + 2 , " ").prepend("|") + "|"
+  contained_word_space = input.center(input.size + 2, " ").prepend("|") + "|"
+  p horizontal_symbols_space
+  p inner_padding_space
+  p contained_word_space
+  p inner_padding_space
+  p horizontal_symbols_space
 end
 
- print_in_box("hello world ")
+print_in_box('Show me the box ')
+
+
+
+=begin
+10. Spin me around in circles
+
+You are given a method named spin_me that takes a string as an argument and returns a string
+that contains the same words, but with each word's characters reversed.
+Given the method's implementation, will the returned string be the same object
+as the one passed in as an argument or a different object?
+
+
+def spin_me(str)
+  str.split.each do |word|
+    word.reverse!
+  end.join(" ")
+end
+
+spin_me("hello world") # "olleh dlrow"
+
+on line 782 spin_me is invoked with the string argument "hello world" being passed through
+on line 776 method spin_me is defined with the parameter str which represents a string object
+on line 777 the given str object has the method split which creates a new array that points to a separate location in memory
+  than our str. and thus contains a separate object
+on line 777 the new array has the each method invoked upon it which returns the same object that it is called on.
+on line 777 the block parameter word is defined to represent the iteration of our new array
+on line 778 word has the destructive method reverse! invoked upon it which mutates each iteration of word
+on line 779 the return value of the block has the join method invoked which will create a new string that is reference to a different address in memory
+the result of line 782 based on the affects of our method should be string pointing to a different address in memory than our argument 'str'
+and both addresses contain different objects
+
+
+
+=end

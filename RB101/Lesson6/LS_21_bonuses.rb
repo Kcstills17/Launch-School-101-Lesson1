@@ -37,7 +37,8 @@ end
 
 def busted?(cards)
   total(cards) > GAME_DETERMINE_VALUE
-end
+end]
+
 
 # :tie, :dealer, :player, :dealer_busted, :player_busted
 def detect_result(player_sum, dealer_sum)
