@@ -783,10 +783,10 @@ spin_me("hello world") # "olleh dlrow"
 
 on line 782 spin_me is invoked with the string argument "hello world" being passed through
 on line 776 method spin_me is defined with the parameter str which represents a string object
-on line 777 the given str object has the method split which creates a new array that points to a separate location in memory
-  than our str. and thus contains a separate object
+on line 777 the split method which divides string into substring based on a delimiter and
+  creates a new array from the given string is invoked on our str argument
 on line 777 the new array has the each method invoked upon it which returns the same object that it is called on.
-on line 777 the block parameter word is defined to represent the iteration of our new array
+on line 777 each element of the new array returned from split is passed into the block as the argument word
 on line 778 word has the destructive method reverse! invoked upon it which mutates each iteration of word
 on line 779 the return value of the block has the join method invoked which will create a new string that is reference to a different address in memory
 the result of line 782 based on the affects of our method should be string pointing to a different address in memory than our argument 'str'

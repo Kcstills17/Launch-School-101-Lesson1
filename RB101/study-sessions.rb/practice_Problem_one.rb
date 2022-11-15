@@ -36,3 +36,9 @@ the variable i can be used inside the method because of scoping rules, since the
 The variable can be used inside the `do..end`` block, that is passed to the method `loop`, because the scoping rules of a block: a variable that is initialized in the outer scope is acccessible in the inner scope.
 
 =end
+
+
+
+
+
+

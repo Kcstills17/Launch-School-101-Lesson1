@@ -164,3 +164,212 @@ end
 # end
 
 p DNA_strand("ATTCG")
+
+
+=begin
+Count letters in string
+In this kata, you've to count lowercase letters in a given string and return the letter count in a hash with 'letter' as key
+and count as 'value'. The key must be 'symbol' instead of string in Ruby and 'char' instead of string in Crystal.
+Example:
+letterCount('arithmetics') #=> {:a=>1, :c=>1, :e=>1, :h=>1, :i=>2, :m=>1, :r=>1, :s=>1, :t=>2}
+
+
+
+P. Understand the Problem
+  Explicit Requirements:
+  -  input is a given string
+  - output is the letter count of the given lowercase strings with the letter as the key and the count as the value  in a hash
+  - the key must be a symbol instead of a string
+
+
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+  -  letter_count('codewars') == {:a=>1, :c=>1, :d=>1, :e=>1, :o=>1, :r=>1, :s=>1, :w=>1})
+  -  letter_count('activity') == {:a=>1, :c=>1, :i=>2, :t=>2, :v=>1, :y=>1}
+  -  letter_count('arithmetics') == {:a=>1, :c=>1, :e=>1, :h=>1, :i=>2, :m=>1, :r=>1, :s=>1, :t=>2})
+
+D: Data Structures
+  -  input: string
+  - output: hash
+  - intermediary structure: array
+
+
+A: Algorithm
+  def letter_count(str)
+    - create a hash with a base value of 0  and label it letter_count_hash
+    -convert str into an array
+    - iterate through the array and each element of the array
+      - access each value of letter_count_hash at each element and increment the value by 1 and set to new value
+      - convert the string value keys of  letter_count_hash into symbols
+      - end block
+    return letter_count_hash
+  end
+
+C: Code with intent
+
+=end
+
+
+
+
+
+def letter_count(str)
+   letter_count_hash = Hash.new(0)
+ str.chars.each do |element|
+    letter_count_hash[element.to_sym] += 1
+  end
+   letter_count_hash
+end
+
+ letter_count('codewars') == {:a=>1, :c=>1, :d=>1, :e=>1, :o=>1, :r=>1, :s=>1, :w=>1}
+
+ letter_count('activity') == {:a=>1, :c=>1, :i=>2, :t=>2, :v=>1, :y=>1}
+ letter_count('arithmetics') == {:a=>1, :c=>1, :e=>1, :h=>1, :i=>2, :m=>1, :r=>1, :s=>1, :t=>2}
+
+
+# Detect Pangram
+=begin
+A pangram is a sentence that contains every single letter of the alphabet at least once. For example, the sentence "The
+quick brown fox jumps over the lazy dog" is a pangram, because it uses the letters A-Z at least once (case is irrelevant).
+Given a string, detect whether or not it is a pangram. Return True if it is, False if not. Ignore numbers and punctuation.
+
+
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is string
+  - output is a boolean that is true if the input contains every single string or false if it does not
+  - capitalization does not matter
+  - ignore numbers and punctuation
+
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  - pangram is a sentence that contains every single letter of the alphabet
+
+E: Examples/ Edge Cases
+  - panagram?("The quick brown fox jumps over the lazy dog.") == true
+  - panagram?("This is not a pangram.") == false
+
+D: Data Structures
+  -  input: string
+  - output: boolean
+
+
+A: Algorithm
+  initiallize constant ALPHABET and set to letters a - z
+  def panagram?(str)
+    - iterate through ALPHABET
+    -  check to see if every element downcase and greater than 0 is included in ALPHABET
+    - else return false
+  end
+
+C: Code with intent
+
+=end
+  p ALPHABET = ('a'..'z').to_a
+def panagram?(str)
+  ALPHABET.all? do |element|
+    element.downcase.count(element) > 0
+  end
+end
+
+
+   panagram?("The quick brown fox jumps over the lazy dog.")
+  panagram?("This is not a pangram.") == false
+  #panagram?("abcdefghijklmnopqrstuvwxyz")
+
+=begin
+Return substring instance count
+Complete the solution so that it returns the number of times the search_text is found within the full_text.
+Usage example:
+solution('aa_bb_cc_dd_bb_e', 'bb') # should return 2 since bb shows up twice
+solution('aaabbbcccc', 'bbb') # should return 1
+
+
+P. Understand the Problem
+  Explicit Requirements:
+  -  input is string that represents a series of substring , and a search_text that we will searching the output with
+  - output should  be the number of times the search_text is within the substring
+
+
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+  - solution('abcdeb','b') == 2
+  - solution('abcdeb', 'a') == 1
+  - solution('abbc', 'bb') == 1
+
+D: Data Structures
+  - input: string
+  - output: integer
+
+
+A: Algorithm
+  def soultion(str, search_str)
+    - create a hash named count_substr and set the initial value to 0
+    - iterate through substr (which is the result of a helper method) and each element of it
+      - access each element at the key of count_substr and increment by 1/ set new value on each increment
+      -end block
+      return count_substr[search_str]
+  end
+
+  Helper Method: get_substrings(str)
+  def get_substrings(str)
+    initiallize variable substring and set to an empty array
+    -  iterate  a range from 0 until the size of the string exclusive as each element
+      - iterate through a range from element until the size of the string inclusive  as each inner_elem
+        - append each str slice from element to inner_elem inclusive
+        -end inner block
+        -end outer block
+      - return substring
+
+  end
+
+
+C: Code with intent
+
+=end
+
+def get_substrings(str)
+  substring = []
+ (0..str.size ).each do |element|
+  (element.. str.size).each do |inner_elem|
+    substring << str[element..inner_elem]
+  end
+ end
+ substring
+end
+
+p get_substrings('abcdeb')
+
+
+def solution(str, search_str)
+   count_substr = Hash.new(0)
+  substr = get_substrings(str)
+  substr.each do |element|
+    count_substr[element] += 1
+  end
+   count_substr
+
+end
+
+
+
+
+ p solution('abcdeb','b')
+
+
