@@ -81,13 +81,13 @@ A: Algorithm
     initiallize constant LOWERCASE and set to range from 'a to 'z
     initiallize constant UPPERCASE and set to range from "A" to "Z"
   def letter_case_count(str)
-    - join str into an array  then iterate each element onto a new object name count_hash with the set value of 0
-      - set count_hash to have the keys :lowercase, :uppercase, and :neither
+    - initiallize check_hash and set hash to contain keys :lowercase, :uppercase, and :neither with all values set to 0
+    - join str into an array  then iterate each element
       - if element is included in LOWERCASE than increment the value of :lowercase and set as new value
       - elsif element is included in UPPERCASE then increment the value of :uppercase and set as new value
       - else increment the value of :neither and set as new value
-
-
+      end block
+      return check_hash
   end
 
 C: Code with intent
@@ -97,21 +97,270 @@ C: Code with intent
 
 LOWERCASE = ('a'..'z')
 UPPERCASE = ("A".."Z")
+
+
 def letter_case_count(str)
-   str.chars.each_with_object (Hash.new(0)) do |element, count_hash|
-    count_hash[:lowercase] = 0 && count_hash[:uppercase] = 0 && count_hash[:neither] = 0
-    case count_hash
-    when LOWERCASE.include?(element)
-      then  count_hash[:lowercase] += 1
-    when UPPERCASE.include?(element)
-      then count_hash[:uppercase] += 1
-    else
-      count_hash[:neither] += 1
-    end
+  count_hash = {:lowercase => 0, :uppercase => 0, :neither => 0 }
+   str.chars.each do |element|
+   if LOWERCASE.include?(element)
+    count_hash[:lowercase] += 1
+   elsif UPPERCASE.include?(element)
+    count_hash[:uppercase] += 1
+   else
+    count_hash[:neither] += 1
+   end
   end
+count_hash
+end
+
+ letter_case_count('abCdef 123')   == { lowercase: 5, uppercase: 1, neither: 4 }
+
+
+=begin
+  3. capitalize words
+  Write a method that takes a single String argument and returns a new string that contains the
+  original value of the argument with the first character of every word capitalized and all other letters lowercase.
+
+You may assume that words are any sequence of non-blank characters.
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is a string
+  - output is new string that contains the original value of the arg string and each first character of every word is capitalized.
+  - all other characters should be uppercased
+  - you can asuume that words are any sequence of non-blank characters
+
+
+
+  Implicit Requirements:
+  - if before any specific word there is a non alphabetic character such as quotes " " do not uppercase the first character.
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+  - word_cap('four score and seven') == 'Four Score And Seven'
+  - word_cap('the javaScript language') == 'The Javascript Language'
+  - word_cap('this is a "quoted" word') == 'This Is A "quoted" Word'
+
+
+D: Data Structures
+  - input: string
+  - output: new string with each first word capitalized
+
+
+A: Algorithm
+  def word_cap(str)
+    - initallize variable return_str and set to an empty array
+    - split string based on spaces into an array
+    - iterate through the  array and its elements
+    -  capitalize each element and append back to return_str
+
+C: Code with intent
+
+
+
+=end
+
+def word_cap(str)
+  return_str = []
+  str.split.map do  |e|
+    e.capitalize
+ end.join(' ')
 
 end
 
-p letter_case_count('abCdef 123')  # == { lowercase: 5, uppercase: 1, neither: 4 }
+     word_cap('four score and seven')    == 'Four Score And Seven'
+    word_cap('the javaScript language') == 'The Javascript Language'
+    word_cap('this is a "quoted" word') == 'This Is A "quoted" Word'
 
 
+=begin
+ 4. Swap case
+
+  Write a mehod that takes a string as an argument and a reutrns a new string in which every uppercase letter is replaced by a lowercase version, and every
+  lower case letter is replaced by an uppercase one. Every other character is unaffected.
+  You may not use String#Swapcase, write your own method
+
+  P. Understand the Problem
+  Explicit Requirements:
+  - input is a string
+  - output is a new string with each lowercase letter changed to uppercase and each lowercase changed to uppercase
+  - do not use String#Swapcase
+
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+    - swapcase(CamelCase) == "cAMELcASE"
+    - swapcase('Tonight on XYZ-TV') == 'tONIGHT ON xyz-tv'
+
+D: Data Structures
+  - input: string
+  - output: string with upcase reversed with lowercase and viceversa
+
+
+A: Algorithm
+    - create a constand UPPERCASE for all uppercase string
+    - create a constant LOWERCASE for all lowercase string
+  def swapcase(str)
+    - convert str into an array and iterate through the new arr and transform elements onto a new arr object
+      - if UPPERCASE includes an element
+        - change the element to be downcase
+      - elsif LOWERCASE includes the element
+        - change the element to be upcase
+      - else
+        element
+      end if statemenet
+    end block
+
+  end
+
+C: Code with intent
+
+=end
+UPPERCASE1 = ("A"..'Z')
+LOWERCASE1 = ('a'.."z")
+
+def swapcase(str)
+str.chars.map do |element|
+  if UPPERCASE1.include?(element)
+    element.downcase
+  elsif LOWERCASE1.include?(element)
+    element.upcase
+  else
+    element
+  end
+end.join
+end
+
+  swapcase("CamelCase")  == "cAMELcASE"
+  swapcase('Tonight on XYZ-TV')  == 'tONIGHT ON xyz-tv'
+
+=begin
+5. Staggered caps (Part 1)
+
+Write a method that takes a String as an argument, and returns a new String that contains the original value
+using a staggered capitalization scheme in which every other character is capitalized,
+and the remaining characters are lowercase. Characters that are not letters should not be changed,
+but count as characters when switching between upper and lowercase.
+
+P. Understand the Problem
+  Explicit Requirements:
+  -  input is a string
+  - output is a new string that contains the original value
+  - output value has the effects of staggering capitalization which every other character is capitalized
+  - reamaining characters are lowercased
+  - if character is not a letter it should not be changed, but still count as a character for the switching mechanic
+
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+   - staggered_case('I Love Launch School!') == 'I LoVe lAuNcH ScHoOl!'
+   - staggered_case('ALL_CAPS') == 'AlL_CaPs'
+   - staggered_case('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 NuMbErS'
+
+D: Data Structures
+  - input: string
+  - output: new string containing the same value with the results of the staggering caps mechanic
+
+
+A: Algorithm
+  - create constant ALPHABET that contains all lowercase and uppercase letters
+    def staggered_case(str)
+      - initiallize variable final_str and set to ''
+      - initiallize variable counter and set to 0
+      - str.size times do
+        - if counter is even?
+        - upcase the character and append to final_str  if it is included in ALPHABET else append character to final_str
+          counter += 1
+        - elsif counter is odd?
+        - downcase the character and append to final_str  if it is included in ALPHABET else append character to final_str
+          counter += 1
+      - end if statement
+    - end block
+    return final_str
+  end
+
+C: Code with intent
+
+=end
+ ALPHABET = UPPERCASE.zip(LOWERCASE).flatten
+
+ def staggered_case(str)
+  final_str = ''
+  counter = 0
+  str.size.times do |n|
+   if counter.even?
+    p str[counter]
+     ALPHABET.include?(str[counter]) ?  final_str << str[counter].upcase :  final_str << str[counter]
+     counter += 1
+   elsif counter.odd?
+    p str[counter]
+    ALPHABET.include?(str[counter]) ?  final_str << str[counter].downcase :  final_str << str[counter]
+     counter += 1
+   else
+      final_str << str[counter]
+
+   end
+  end
+   final_str
+ end
+
+
+#  staggered_case('I Love Launch School!')   #== 'I LoVe lAuNcH ScHoOl!'
+ #  staggered_case('ALL_CAPS') == 'AlL_CaPs'
+ #  staggered_case('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 NuMbErS'
+
+=begin
+6. Staggered caps (Part 2)
+
+Modify the method from the previous exercise so it ignores non-alphabetic characters
+when determining whether it should uppercase or lowercase each letter.
+The non-alphabetic characters should still be included in the return value; they just don't count when toggling the desired case.
+
+P:
+Explicit Requirements:
+- the non alpha characters from the previous problem now no longer count for the toggle for staggered caps
+
+E:
+Edge cases/Examples:
+  - staggered_case('I Love Launch School!') == 'I lOvE lAuNcH sChOoL!'
+  - staggered_case('ALL CAPS') == 'AlL cApS'
+  - staggered_case('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 nUmBeRs'
+
+
+A:
+  def staggered_case_two(str)
+    initiallize and set variable stagger_case to equal true
+    convert str into an array and then transform each element of said array onto a new array object
+  end
+
+=end
+def stagger_case_two(str)
+  stagger_case = true
+str.chars.map do |element|
+  if stagger_case
+    element.upcase
+  else
+    element.downcase
+  end
+if ALPHABET.include?(element)
+  stagger_case = !stagger_case
+end
+end
+end
+
+
+    p staggered_case('I Love Launch School!') #== 'I lOvE lAuNcH sChOoL!'
+  #staggered_case('ALL CAPS') #== 'AlL cApS'
+  #staggered_case('ignore 77 the 444 numbers') #== 'IgNoRe 77 ThE 444 nUmBeRs'
