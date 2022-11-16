@@ -24,7 +24,7 @@ p method_result.object_id
 
 
 
-method_result = arr.select do |num|
+method_result = arr.map do |num|
   num += 1
 end
 

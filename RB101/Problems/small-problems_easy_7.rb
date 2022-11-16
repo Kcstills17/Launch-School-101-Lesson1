@@ -354,13 +354,12 @@ str.chars.map do |element|
   else
     element.downcase
   end
-if ALPHABET.include?(element)
   stagger_case = !stagger_case
-end
+
 end
 end
 
 
-    p staggered_case('I Love Launch School!') #== 'I lOvE lAuNcH sChOoL!'
+    p stagger_case_two('I Love Launch School!') #== 'I lOvE lAuNcH sChOoL!'
   #staggered_case('ALL CAPS') #== 'AlL cApS'
   #staggered_case('ignore 77 the 444 numbers') #== 'IgNoRe 77 ThE 444 nUmBeRs'
