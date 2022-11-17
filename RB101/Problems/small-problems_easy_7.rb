@@ -341,25 +341,247 @@ Edge cases/Examples:
 
 A:
   def staggered_case_two(str)
-    initiallize and set variable stagger_case to equal true
+    initiallize and set variable stagger_case to equal false
     convert str into an array and then transform each element of said array onto a new array object
+      - if the element is included within ALPHABET than set stagger_case to not equal stagger_case else leave stagger_case
+      - if stagger_case is true upcase the elemnt and if it is not then downcase the element
+      end block (join the return value of the block into a string)
   end
 
 =end
-def stagger_case_two(str)
-  stagger_case = true
+def staggered_case_two(str)
+  stagger_case = false
 str.chars.map do |element|
-  if stagger_case
-    element.upcase
-  else
-    element.downcase
+  ALPHABET.include?(element) ? stagger_case = !stagger_case : stagger_case
+  stagger_case ?  element.upcase : element.downcase
+end.join
+end
+
+
+
+ staggered_case_two('I Love Launch School!') == 'I lOvE lAuNcH sChOoL!'
+ staggered_case_two('ALL CAPS') == 'AlL cApS'
+ staggered_case_two('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 nUmBeRs'
+
+
+=begin
+7. Multiplicative Average
+Write a method that takes an Array of integers as input, multiplies all the numbers together,
+divides the result by the number of entries in the Array, and then prints the result rounded to 3 decimal places. Assume the array is non-empty.
+
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is an array of integers
+  - output is the result of all input numbers multiplied together and then divided by the number of elements withing the array.
+  - round the results of the output to 3 decimal places
+  - assuume the array is non-empty
+
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+
+
+E: Examples/ Edge Cases
+  - show_multiplicative_average([3, 5])                # => The result is 7.500
+  - show_multiplicative_average([6])                   # => The result is 6.000
+  - show_multiplicative_average([2, 5, 7, 11, 13, 17]) # => The result is 28361.667
+
+D: Data Structures
+  - input : array
+  - output: integer that is the result of taking the input values and multiplying together and dividing by the amount of array values
+
+
+A: Algorithm
+  def show_multiplicative_average(arr)
+    - initallize num_average and set to 0
+    - intiallize variable total_num and set to the result of subsequent block
+    -iterate through  arr and add the total amount of each num within arr
+      - calculate product  of num within  block
+    - end block
+    - divide total_num by arr.size and set to num_average converted to a float
+    - format num_average to have 3 decimal places
+    - print "the result is #{num_average}"
   end
-  stagger_case = !stagger_case
 
+C: Code with intent
+
+=end
+
+
+def show_multiplicative_average(arr)
+  num_average = 0
+  total_num = arr.reduce do |num, sum|
+      num *= sum
+  end
+   num_average = total_num/arr.size.to_f
+     "the result is #{ sprintf("%.3f", "#{num_average}")}"
 end
+
+    show_multiplicative_average([3, 5])                # => The result is 7.500
+   show_multiplicative_average([6])                   # => The result is 6.000
+   show_multiplicative_average([2, 5, 7, 11, 13, 17]) # => The result is 28361.667
+
+
+=begin
+8. Multiply List
+
+Write a method that takes two Array arguments in which each Array contains a list of numbers,
+and returns a new Array that contains the product of each pair of numbers from the arguments
+that have the same index. You may assume that the arguments contain the same number of elements.
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is two arrays that both contain a list of numbers
+  - output is a new array that takes a product of each pair of numbers (numbers with the same index)
+  - You may assume the argument contains the same number of elements
+
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+  - multiply_list([3, 5, 7], [9, 10, 11]) == [27, 50, 77]
+
+D: Data Structures
+  - input: 2 arrays that contain numbers
+  - output: new array that contains the product of each index pair
+
+
+A: Algorithm
+  def multiply_list(arr1,arr2)
+  - initiallize variable list_product and set to an empty array
+  - initiallize counter and set to 0
+  as many times as arr1.size
+    - multiply arr1[counter] by arr2[counter] and append to list_product
+    - counter += 1
+  end block
+  return list_product
+  end
+C: Code with intent
+
+=end
+def multiply_list(arr1, arr2)
+  list_product = []
+  arr1.size.times do |num|
+   list_product <<  arr1[num] * arr2[num]
+  end
+   list_product
+end
+
+p multiply_list([3, 5, 7], [9, 10, 11]) == [27, 50, 77]
+
+ # quick one liner for LS bonus solution
+def multiply_list2(arr1, arr2)
+   arr1.zip(arr2).map {|num| num.reduce(:*)}
 end
 
 
-    p stagger_case_two('I Love Launch School!') #== 'I lOvE lAuNcH sChOoL!'
-  #staggered_case('ALL CAPS') #== 'AlL cApS'
-  #staggered_case('ignore 77 the 444 numbers') #== 'IgNoRe 77 ThE 444 nUmBeRs'
+ multiply_list2([3, 5, 7], [9, 10, 11]) == [27, 50, 77]
+
+=begin
+9. Multiply pairs
+Write a method that takes two Array arguments in which each Array contains a list of numbers,
+and returns a new Array that contains the product of every pair of numbers
+that can be formed between the elements of the two Arrays. The results should be sorted by increasing value.
+
+You may assume that neither argument is an empty Array.
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is two arrays that contain a list of numbers
+  - output is a new array that contains the product of every single pair of numbers
+  - pairs in this case is every possible different product between each number within each array
+  - the output should be sorted from least to greatest in value
+  - you may assume neither argument is an empty array
+
+
+  Implicit Requirements:
+  - if more than one product is the same output all products of the same value
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+   - multiply_all_pairs([2, 4], [4, 3, 1, 2]) == [2, 4, 4, 6, 8, 8, 12, 16]
+
+D: Data Structures
+  - input : two arrays containing numbers
+  - output: new array containg all possible products between the two arrays
+
+
+A: Algorithm
+  - iterate through and transform arr1 into the return values onto num1
+    - itertae through and transform arr2 into the return values onto num2
+      - multiply num1 by num 2
+    -end inner block
+  - end outer block (flatten the nested array and then sort)
+  end
+C: Code with intent
+
+
+=end
+
+def multiply_all_pairs(arr1, arr2)
+  arr1.map do |num1|
+    arr2.map do |num2|
+     num1 * num2
+    end
+  end.flatten.sort
+  end
+
+    multiply_all_pairs([2, 4], [4, 3, 1, 2]) == [2, 4, 4, 6, 8, 8, 12, 16]
+
+=begin
+10. The End Is Near But Not Here
+
+Write a method that returns the next to last word in the String passed to it as an argument.
+
+Words are any sequence of non-blank characters.
+
+You may assume that the input String will always contain at least two words.
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is a string
+  - output is the 2nd to last word in the given string
+  - words are any sequence of non blank characters
+  - you may assume there will always be at least two words
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+  - penultimate('last word') == 'last'
+  - penultimate('Launch School is great!') == 'is'
+
+D: Data Structures
+  - input: string
+  - output: string
+  - intermediary: probable array
+
+
+A: Algorithm
+def penultimate(str)
+  - convert str into an array and then access the 2nd to last index of array
+end
+
+
+C: Code with intent
+
+=end
+
+def penultimate(str)
+ str.split[-2]
+end
+
+penultimate('last word') == 'last'
+ penultimate('Launch School is great!') == 'is'

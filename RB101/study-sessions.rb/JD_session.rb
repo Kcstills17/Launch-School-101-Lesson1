@@ -119,6 +119,23 @@ p substrings('abcd')
 # p solution('abbc', 'bb') == 1
 
 
+# working on hashes and accessing hash keys and values.
+a = {:a => 1, :b => 2, :c => 3}
 
+# create a new hash with the values of a all being incremented by 1
+
+a.each_with_object ({}) do |(key, value), hash|
+ hash[key] = value + 1
+ p hash
+end
+
+# a is invoked with the method each_with_object  and passes in a block.
+# on the same line on each iteration of the block the local parameters (key, value) which represent one of a pair in this case
+# and hash are passed into each iteration of the block
+# on the following line we set the new key for hash by using the hash #[]= method (which creates a new key in this case because our hash is empty )
+# on passed in argument key
+# with the right side of the #[]= method we set the value of hash through passed in argument value
+# on the same line we increment each value by 1
+# on the final line we print the value of hash
 
 
