@@ -740,7 +740,6 @@ end
       stars = num
     end
     num.times do |n|
-
       if y_side == 'top'
         x_side == 'left' ? (puts (' ' * spaces) + ('*' * stars)) :   (puts ('*' * stars) + (' ' * spaces))
         spaces -= 1

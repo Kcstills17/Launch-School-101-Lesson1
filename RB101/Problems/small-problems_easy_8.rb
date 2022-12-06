@@ -250,6 +250,7 @@ end
 ]
 
 
+
 =begin
 5. FizzBuzz
 
@@ -421,3 +422,217 @@ end
   double_consonants("Hello-World!") #== "HHellllo-WWorrlldd!"
  double_consonants("July 4th") == "JJullyy 4tthh"
   double_consonants('') == ""
+
+
+=begin
+8. Reverse The Digits in a Number
+Write a method that takes a positive integer as an argument and returns that number with its digits reversed.
+Don't worry about arguments with leading zeros - Ruby sees those as octal numbers, which will cause confusing results. F
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is a  positive integer
+  - output is an integer with the digits of input reversed
+  - do not worry about leading zeros. Ruby will return the number as if those zeros were not there
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+    - reversed_number(12345) == 54321
+    - reversed_number(12213) == 31221
+    - reversed_number(456) == 654
+    - reversed_number(12000) == 21 # No leading zeros in return value!
+    - reversed_number(12003) == 30021
+    - reversed_number(1) == 1
+
+D: Data Structures
+  - input: integer
+  - output: integer that is the result of the input being reversed
+
+
+A: Algorithm
+    def reversed_number(int)
+    - convert int into a string followed by reversing the string
+    - convert the string back into an integer
+    end
+
+C: Code with intent
+
+=end
+def reversed_number(int)
+ int.to_s.reverse.to_i
+end
+
+  reversed_number(12345) == 54321
+  reversed_number(12213) == 31221
+  reversed_number(456) == 654
+  reversed_number(12000) == 21 # No leading zeros in return value!
+  reversed_number(12003) == 30021
+  reversed_number(1) == 1
+
+
+=begin
+9. Get The Middle Character
+
+Write a method that takes a non-empty string argument, and returns the middle character
+or characters of the argument. If the argument has an odd length, you should return
+exactly one character. If the argument has an even length, you should return exactly two characters.
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is an non-empty string
+  - output is the middle character or characters of the argument.
+  - if the argument is an odd length than return a single character
+  - if the argument is a even length than return two characters
+
+  Implicit Requirements:
+  - you can return a single space as a character if the input is odd in length and that is the middle character
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+  center_of('I love ruby') == 'e'
+  center_of('Launch School') == ' '
+  center_of('Launch') == 'un'
+  center_of('Launchschool') == 'hs'
+  center_of('x') == 'x'
+
+D: Data Structures
+  - input: string
+  - output: string that is either single in length or 2 based on whether the input is odd/even in size
+
+
+
+A: Algorithm
+    def center_of(str)
+      even_size_result = []
+- if str.size is even
+      - iterate through each character and pass through block
+      - if idx is equal to arr.size/2  or (arr.size/2) - 1  then append char to even_size_result : else return char
+    - end even size block
+
+      elsifif str.size is odd
+       - iterate through each character and pass through block
+          - if idx is equal to arr.size/2 then return element. else delete the element
+      - end (join if str.size is odd )
+      - return if str.size is even
+    -end outer size block
+  -end if statement
+    return the joined value of even_size_result
+C: Code with intent
+
+=end
+def center_of(str)
+  even_size_result = []
+if str.size.even?
+  str.chars.each_with_index do |char, idx|
+    idx == str.size/2 || idx == (str.size/2) - 1 ? even_size_result << char : char
+  end
+
+elsif str.size.odd?
+    str.chars.each_with_index do |element, idx|
+     idx == str.size/2 ?  even_size_result << element : element
+    end
+  end
+ even_size_result.join
+end
+
+  center_of('I love ruby') == 'e'
+  center_of('Launch School') == ' '
+  center_of('Launch') == 'un'
+  center_of('Launchschool') == 'hs'
+  center_of('x') == 'x'
+
+
+=begin
+10. Palindromatic substring
+
+Write a method that returns a list of all substrings of a string that are palindromic.
+That is, each substring must consist of the same sequence of characters forwards as it does backwards.
+The return value should be arranged in the same sequence as the substrings appear
+in the string. Duplicate palindromes should be included multiple times.
+
+You may (and should) use the substrings method you wrote in the previous exercise.
+
+For the purposes of this exercise, you should consider all characters and pay attention to case;
+that is, "AbcbA" is a palindrome, but neither "Abcba" nor "Abc-bA" are.
+in addition, assume that single characters are not palindromes.
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is a string
+  - output is string that represents all substring from the given string that is a palindrome
+  - use your substrings method created earlier
+  - case matters in this case for whether a palindrome is true
+  - single cases are not palindromes
+
+  Implicit Requirements:
+  - if there are no palindromes then return an empty array
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+  - palindromes('abcd') == []
+  - palindromes('madam') == ['madam', 'ada']
+  - palindromes('hello-madam-did-madam-goodbye') == [
+  'll', '-madam-', '-madam-did-madam-', 'madam', 'madam-did-madam', 'ada',
+  'adam-did-mada', 'dam-did-mad', 'am-did-ma', 'm-did-m', '-did-', 'did',
+  '-madam-', 'madam', 'ada', 'oo'
+]
+- palindromes('knitting cassettes') == [
+  'nittin', 'itti', 'tt', 'ss', 'settes', 'ette', 'tt'
+]
+
+D: Data Structures
+  - input: string
+  - output: array containing all palindromic substring
+
+
+A: Algorithm
+  def palindromes(str)
+    - get all substr from substrings(str) and initiallize result as all_substr
+    -  iterate through all_substr and  select all palindromic element s
+      - return elements if palindromic and greater than one in size
+      - end
+  end
+
+C: Code with intent
+
+=end
+
+
+
+
+def substr(str)
+  result = []
+    (0...str.size).each do |elements|
+      (elements...str.size).each do |inner_elem|
+          result << str[elements..inner_elem]
+      end
+    end
+     result
+end
+
+def palindromes(str)
+  all_substr = substr(str)
+  all_substr.select do |element|
+       element.size != 1 && element == element.reverse
+  end
+end
+
+ p palindromes('abcd') == []
+ p  palindromes('madam') == ['madam', 'ada']
+ p  palindromes('hello-madam-did-madam-goodbye') == [
+'ll', '-madam-', '-madam-did-madam-', 'madam', 'madam-did-madam', 'ada',
+'adam-did-mada', 'dam-did-mad', 'am-did-ma', 'm-did-m', '-did-', 'did',
+'-madam-', 'madam', 'ada', 'oo']
+
+ p palindromes('knitting cassettes') #== [
+#'nittin', 'itti', 'tt', 'ss', 'settes', 'ette', 'tt'
+#]

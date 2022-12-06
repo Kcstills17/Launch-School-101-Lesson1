@@ -129,13 +129,12 @@ a.each_with_object ({}) do |(key, value), hash|
  p hash
 end
 
-# a is invoked with the method each_with_object  and passes in a block.
+# each_with_object is invoked on the hash referenced by a and passed in a block
 # on the same line on each iteration of the block the local parameters (key, value) which represent one of a pair in this case
 # and hash are passed into each iteration of the block
-# on the following line we set the new key for hash by using the hash #[]= method (which creates a new key in this case because our hash is empty )
-# on passed in argument key
-# with the right side of the #[]= method we set the value of hash through passed in argument value
-# on the same line we increment each value by 1
-# on the final line we print the value of hash
+# on the following line we use the setter method #[]= to set the current key as key and
+# pass in the current value  with our block parameter value + 1
+# on the final line the variable hash is pointing towards the address in memory containing our literal hash
+# on the final line the variable hash which references our literal hash is returned
 
 

@@ -119,9 +119,21 @@ end
 
 
 
-    p longest_vowel_substr_length('codewariors') == 2
-    p longest_vowel_substr_length('ybd') == 0
-    p longest_vowel_substr_length('caeioucu') == 5
-    p longest_vowel_substr_length('aaa') == 3
+     longest_vowel_substr_length('codewariors') == 2
+     longest_vowel_substr_length('ybd') == 0
+     longest_vowel_substr_length('caeioucu') == 5
+     longest_vowel_substr_length('aaa') == 3
 
 
+
+
+
+
+
+      loop do
+        christmas = 'jolly'
+        st_patricks = 'drunk'
+        halloween = 'scary'
+      puts "#{halloween}, #{christmas}, #{st_patricks}"
+      break
+    end
