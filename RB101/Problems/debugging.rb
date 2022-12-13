@@ -628,3 +628,75 @@ p(
 ```
 
 =end
+
+
+=begin
+
+write a method that determines the index of the 3rd occurrence of a given character in a string. For instance, if the given character is
+'x' and the string is 'axbxcdxex', the method should return 6 (the index of the 3rd 'x'). If the given character does not occur
+ at least 3 times, return nil.
+
+
+P. Understand the Problem
+  Explicit Requirements:
+  - we must determine and return the index of the 3rd occurence of the given or passed in argument character in a string.
+  -  if the given character does not occur 3 times then return nil
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+    third_occurence_index('x', 'axbxcdxex') => 6
+
+D: Data Structures
+  - input: input is two parameters, one the string character you are checking for occurences, and two the string you are searching
+  - output: an integer object value that represents the 3rd occurrence of a particular string
+  - possible intermediary structure: a possible array
+
+
+A: Algorithm
+def third_occurence_index(value_occurence, str)
+  -initialize third_index and assign an empty array object value
+    - iterate through `str` and passed each string char one time into the block and bind to local block variable `char` Iterate through each idx at each iteration and bind to `idx`
+      - within the block check if  `char` values are  equal to `search_value`
+        - if true append the `idx` to  `third_index`
+      -end
+end
+check `third_index` at position 2 or index 3 to return the value that we want.
+end
+
+
+C: Code with intent
+
+=end
+
+def third_occurence_index(search_value, str)
+  third_index = []
+   str.chars.each_with_index do |char, idx |
+  if search_value == char
+    third_index << idx
+  end
+  end
+  third_index[2]
+end
+
+
+
+ third_occurence_index('x', 'axbxcdxex') == 6
+ third_occurence_index('a',  'hello') == nil
+
+
+ nested_arr = [[38, 16], [28, 39], [40, 5], [24, 19], [27, 19], [35, 14], [8, 37], [16, 47], [47, 46], [24, 28]]
+
+
+
+ a = 5.2
+ b = 7.3
+ a = b
+ b += 1.1
+
+ p a
+ p b

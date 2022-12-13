@@ -127,13 +127,29 @@ end
 
 
 
-
-
-
-      loop do
-        christmas = 'jolly'
-        st_patricks = 'drunk'
-        halloween = 'scary'
-      puts "#{halloween}, #{christmas}, #{st_patricks}"
-      break
+[[[1, 2], [3, 4]], [5, 6]].map do |arr|
+  arr.map do |el|
+    if el.to_s.to_i == el   # it's an integer
+      el + 1
+    else                    # it's an array
+      el.map do |n|
+        n + 1
+      end
     end
+  end
+end
+
+
+
+a = [1, 2, 3, 3]
+b = a
+c = a.uniq!
+
+
+def fix(value)
+  value[1] = 'x'
+  value
+ end
+
+ s = 'abc'
+ p t = fix(s)

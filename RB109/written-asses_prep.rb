@@ -94,26 +94,35 @@ The return value is `[["a", "car", "d"], ["a", "car", "d", 3], ["a", "cat", "b",
 
 On line 64, the local variable `arr` is initialized to an array object.
 
-On line 65, `sort` is invoked on the array object referenced by `arr`. To dive deeper, `sort` method utilizes the `<=>` spaceship operator to evaluate each element.  It compares each element in each array to the other elements of the other array.
+On line 65, `sort` is invoked on the array object referenced by `arr`. To dive deeper, `sort` method utilizes the `<=>` spaceship operator to evaluate each element.
+It compares each element in each array to the other elements of the other array.
 
-`sort` uses the return value of the spaceship operator to order the array elements.  `sort` returns -1, 0, or 1 depending which operand is greater than or less than the other. For example 'a' <=> 'b' would return 1.  `sort` uses this return value to order the elements that it returns.
+`sort` uses the return value of the spaceship operator to order the array elements.  `sort` returns -1, 0, or 1 depending which operand is greater than or less than
+ the other. For example 'a' <=> 'b' would return 1.  `sort` uses this return value to order the elements that it returns.
 
-We first look at the first element 'a', the sub-arrays who have the first element 'a' will come before the arrays that have the first element `'b'`.  When sorting arrays, we go element by element.  If all of the elements are identical up to a certain point, the shorter sub-array comes first.
+We first look at the first element 'a', the sub-arrays who have the first element 'a' will come before the arrays that have the first element `'b'`.  When sorting
+arrays, we go element by element.  If all of the elements are identical up to a certain point, the shorter sub-array comes first.
 
 ## Thomas
 
-The return value is `[["a", "car", "d"], ["a", "car", "d", 3], ["a", "cat", "b", "c"], ["b", 2]]`. This demonstrates how the `sort` method works when invoked on a nested array object whose elements are arrays.
+The return value is `[["a", "car", "d"], ["a", "car", "d", 3], ["a", "cat", "b", "c"], ["b", 2]]`. This demonstrates how the `sort` method works when invoked on a
+nested array object whose elements are arrays.
 
-On line 64, the local variable `arr` is initialized to an array object. On line 65, `sort` is invoked on the array object referenced by `arr`. To dive deeper, `sort` method utilizes the `<=>` spaceship operator to compare each element in `arr`. Since the element in `arr` are arrays `<=>` compares the two arrays. It first compares each element in one array to the element in the other array with the same index value.
+On line 64, the local variable `arr` is initialized to an array object. On line 65, `sort` is invoked on the array object referenced by `arr`. To dive deeper, `sort`
+method utilizes the `<=>` spaceship operator to compare each element in `arr`. Since the element in `arr` are arrays `<=>` compares the two arrays. It first compares each element in one array to the element in the other array with the same index value.
 
-sort` uses the return value of the spaceship operator to order the array elements.  `sort` returns -1, 0, or 1 depending upon which operand is greater than or less than the other. For example 'a' <=> 'b' would return 1.  `sort` uses this return value to order the elements that it returns.
+sort` uses the return value of the spaceship operator to order the array elements.  `sort` returns -1, 0, or 1 depending upon which operand is greater than or less
+than the other. For example 'a' <=> 'b' would return 1.  `sort` uses this return value to order the elements that it returns.
 
-If one element on the left is less than its corresponding element on the right, then `Array#<=>` will return -1. If one element on the left is greater than the element on the right, then `Array#<=>` will return 1.
+If one element on the left is less than its corresponding element on the right, then `Array#<=>` will return -1. If one element on the left is greater than the element
+on the right, then `Array#<=>` will return 1.
 
-If the return value of the comparison between array elements with like indexes is 0 for all elements, then the array with more elements is deemed larger than the array with less.
+If the return value of the comparison between array elements with like indexes is 0 for all elements, then the array with more elements is deemed larger than the array
+with less.
 
 
-We first look at the first element 'a', the sub-arrays who have the first element 'a' will come before the arrays that have the first element `'b'`.  When sorting arrays, we go element by element.  If all of the elements are identical up to a certain point, the shorter sub-array comes first.
+We first look at the first element 'a', the sub-arrays who have the first element 'a' will come before the arrays that have the first element `'b'`.  When sorting arrays,
+we go element by element.  If all of the elements are identical up to a certain point, the shorter sub-array comes first.
 =end
 
 
@@ -130,3 +139,19 @@ For example, we have the code [1, 2, 3].map { |num| num * 2 }.
 
 =end
 
+
+
+=begin
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+=end
+
+{ a: "ant", b: "bear", c: "cat" }.each_with_object([]) do |pair, array|
+  array << pair.last
+end
+
+=begin
+on line 162 the `#each_with_object` method is invoked upon a hash object `{a: 'ant', b: 'bear', c: 'cat'}` Which contains three key: value pairs. Each key is a symbol object value  and each value is a string object value.  A new object is created within the block and is an **empty** array object `[]`. Each key-value pair is passed into the block once and assigned the block parameter value   `pair`. The new array object is passed into  the block as `array`. `Each_with_object` will not take into account the result of the block and return the object that has been created within the block. Which is `array`. Within the block `array` is appended the return value of `#last` being invoked upon `pair`. This will take the last value based on its index in a collection and return that value on each iteration of the block. In this case that will be our value section of the pair. Which will be the string objects within our original hash object.
+
+  The return value shall be the object `array` is in reference to `['ant', 'bear', 'cat']`. There shall be no output. The concept that is demonstrated is how   #each_with_object functions. How it creates a new specified object that is passed in as an argument. And then will return that new object instead of the original caller similar to how `#each` will function.
+
+=end
