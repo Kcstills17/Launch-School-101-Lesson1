@@ -5,9 +5,9 @@ Suggested response format (based on feedback from other students & Srdjan’s bl
 
     What does the code output? What are the return values?
     Answer the why behind the output/return:
-        Focus only on the lines of code that deliver the output and return values.
+    Focus only on the lines of code that deliver the output and return values.
     Summarize what the problem demonstrates and why: i.e. "This problem demonstrates the concept of local variable scope/etc…"
-        This can be at the beginning or end of your answer - personal preference.
+    his can be at the beginning or end of your answer - personal preference.
 
 The following questions are taken from the shared RB109 Written Assessment: Practice Problems Google Docs
 =end
@@ -52,13 +52,14 @@ On line 1 local variable `arr` is iniitalized  to an array object value containi
 is initialized to the return value of the `#map` method being invoked upon `arr`. This will pass each item from the object that `arr` references into the block one time. the
 `#map` method evaluates  the return value of the block and based on that return value will transform these values onto a new collection onto a new array object value. This
 collection will be of the same size as the original collection. On line 3-5 a block is invoked.  On line 3 `n` is compared to `1` using the `#>` method. This will return a boolean value of true every time
- the left hand value is a greater integer value than the right hand value and `false` otherwise. The return value shall be `[false, true, true, true, true, true, true, true,
-  true, true ] . The boolean values returned in the block makeup the new collection on the new array. On line 6 the `#p` method is invoked on `new_arr` which will output
-  `[false, true, true, true, true, true, true, true, true, true ]` and will return the same object `[false, true, true, true, true, true, true, true, true, true ]` as the `#p`
-  method will return the calling object and output the value of the object being called.
+the left hand value is a greater integer value than the right hand value and `false` otherwise. The return value shall be `[false, true, true, true, true, true, true, true,
+true, true ] . The boolean values returned in the block makeup the new collection on the new array. On line 6 the `#p` method is invoked on `new_arr` which will output
+`[false, true, true, true, true, true, true, true, true, true ]` and will return the same object `[false, true, true, true, true, true, true, true, true, true ]` as the `#p`
+method will return the calling object and output the value of the object being called.
 
-  This demonstrates the concept of `#map` and how it evaluates the return value of the block, takes those values and creates a new transformed collection onto a new array
-  of the same size as the original object.
+This demonstrates the concept of `#map` and how it evaluates the return value of the block, takes those values and creates a new transformed collection onto a new array
+of the same size as the original object.
+
 =end
 
 
@@ -75,14 +76,15 @@ end
 On line 1 a hash object value that contains three key- value pairs. The keys being 3 symbol object values `a:`. `b:`, `c:` and the values being 3 string object values
 `'ant'`, `'bear'`, `'cat'`. On lines 1-3 a block is invoked. On line 1 the `#all?` method is invoked upon the hash object value and each key symbol object value is
 passed into the block once and assigned to the local block parameter `key`. And each string object value value is passed into the block once and assigned to
- the local block parameter `value`. the `#all?` method evaluates the return value of the block for truthy values. if any value is not a truthy value  then the boolean value  `false` will be returned. Else the boolean `true`
+the local block parameter `value`. the `#all?` method evaluates the return value of the block for truthy values. if any value is not a truthy value  then the boolean value  `false` will be returned. Else the boolean `true`
 will be returned. On line 2 the `#length` method is invoked upon the  value that `value` references and will return an integer object value representing how many characters are
 within the string object value. It is then compared using the `#>=` method which evaluates whether the left hand element is either equal or greater than the left hand
 element and will return `true` if so and `false` otherwise. `true` shall be returned as each iteration of `value`  will  evaluate as `true`. There is no output in the code.
 
 The concept demonstrated is how the `#all?` method functions, how it evaluates the return value of the block and it will return true only if at each iteration, the value
 is truthy or evaluates to true.
- =end
+
+=end
 
 #4
 
@@ -93,23 +95,21 @@ is truthy or evaluates to true.
 end
 
 =begin
-On line{ a: "ant", b: "bear", c: "cat" }.all? do |key, value|
-  value.length >= 3
+
+
 on line1 there is  a hash object value  of key-value pairs containing 3 symbol object values `a:`, `b:`, `c:` as keys and 3 string object values as `'ant'`, `'bear'`, `'cat'`
 as values. The `#each_with_object` method is invoked upon the hash object value.  A new object is created through `({})` which creates a new empty hash object value.
- and each key of the hash is passed into the block as local block parameter `key`. Each value of the hash is passed in the block once as local block param `value`. The new
-  empty hash object value is passed into the block as `hash`. the `#each_with_object` method does not take into account the return value of the block and will instead
-  return the new object object value. On line 2 the new hash object value is created keys and values through the setter method `#hash[value] = key` this will cause us to return
-  `{ a: "ant", b: "bear", c: "cat" }` . a different hash object value than the original hash object that was called but that looks the same due to the setter method. There
-  is no output in this code
+and each key of the hash is passed into the block as local block parameter `key`. Each value of the hash is passed in the block once as local block param `value`. The new
+empty hash object value is passed into the block as `hash`. the `#each_with_object` method does not take into account the return value of the block and will instead
+return the new object object value. On line 2 the new hash object value is created keys and values through the setter method `#hash[value] = key` this will cause us to return
+`{ a: "ant", b: "bear", c: "cat" }` . a different hash object value than the original hash object that was called but that looks the same due to the setter method. There
+is no output in this code
 
-  The concept demonstrated is how the `#each_with_object` method functions and returns the new object value instead of the original object like in `#each`
+The concept demonstrated is how the `#each_with_object` method functions and returns the new object value instead of the original object like in `#each`
 
 =end
 
 #5
-
-
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
 
@@ -129,6 +129,7 @@ towards the same mutated object `[1, 2, 3,]`.
 
 This demonstrates variables as pointers and how while two variables are pointing to the same object. each can reflect the same result if there is a mutation, and reflect
 different values if there is none
+
 =end
 
 
@@ -155,6 +156,7 @@ are no other return values. the object value that both `s` and `t` are in refere
 has been modified within the method.
 
 This demonstrates object mutating. The results of the `#String[[=` method mutated the original object value passed in. Which is reflect in both variables `s` and `t`.
+
 =end
 
 
@@ -172,14 +174,16 @@ a_method(a)
 p a
 
 =begin
+
 On line 5 local variable `a` is initialized to the string object value `'hello'`. On line 6 method `#a_method` is invoked and the object value that `a` references
 is passed into the method as an argument and assigned to local block parameter `string`. ON line 1-3 method definition `#a_method`  executes. On line 2  the mutating method `<<` is invoked which will append the
- string object value `'world` to the object value  that local block parameter `string` references. This will return  `'hello world' ` as the passed in argument value `'hello`
- is mutated to have `world` appended to it. On line 8 the `#p` method is invoked upon the object that `a` references. this will output and return `'hello world`. This is
- the case because object that `a` is in reference to was modified within the method definition `#a_method`. And this returned because the `#p` method returns the calling object.
+string object value `'world` to the object value  that local block parameter `string` references. This will return  `'hello world' ` as the passed in argument value `'hello`
+is mutated to have `world` appended to it. On line 8 the `#p` method is invoked upon the object that `a` references. this will output and return `'hello world`. This is
+the case because object that `a` is in reference to was modified within the method definition `#a_method`. And this returned because the `#p` method returns the calling object.
 
-  This demonstrates object mutating. The passed in object value is modified due to the affects of the `#<<` method and this is reflectd with the output and return value of
-  `p a `
+This demonstrates object mutating. The passed in object value is modified due to the affects of the `#<<` method and this is reflectd with the output and return value of
+`p a `
+
 =end
 
 
@@ -199,6 +203,7 @@ s = 'hello'
 t = fix(s)
 
 =begin
+
 On line 6 local variable `s` is initialized to the string object value `'hello'`. On line 7 local variable `t` is initialized to the return value of the `#fix` method
 being invoked with the object that `s` references being passed in to the method as an argument and assigned to local
 method parameter `value`. On lines 1-4 the `#fix` method definition executes. On line 2 `value` is assigned the return value of the mutating `#upcase!` method being
@@ -224,12 +229,14 @@ puts b
 
 
 =begin
+
 On line 1 local variable `a` is initialized to  the string object value `'Hello'`. On line 2 local variable `b` is initialized to the same object that `a` references.
 On line 3 `a` is reassigned to the string object valeu `'Goodbye'`. On line 4 the `#puts` method is invoked upon `a` which will output `'Goodbye'` and will return `nil`
 due to `#puts` always returnng `nil`. On line 5 `#puts` is invoked on `b` and will output `'Hello'` and will return `nil`.
 
 This demonstrates variables as pointers and due to `a` and `b` both iniitally pointing towards the same object. However once `a` is reassigned they no longer point towards
 the same object and the output reflects this.
+
 =end
 
 
@@ -243,14 +250,15 @@ a = "hello"
 
 
 =begin
+
 On line 1 local variable `a` is initialized to string object value `'hello'`. On line 3 a block is invoked. On line 3 the `#map` method is invoked upon  an array object  value containing a
 collection of integer object values [1, 2, 3]`. the `#map` method evaluates the return value of the block. based on that return value at every iteration it will add the value
 as part of a transformed collection onto a new array object value. The new collection will be the same length as the calling object.  Within the block each item of the calling array object is passed into the block and assigned to local block
 parameter `num`. in the block `a` is the only line of code. this will return the value that `a` is in reference to `'hello'` at each iteration. `'hello'` will be added onto the
- new transformed array at every iteration as well. The return value is the new array [`'hello'`, 'hello'`, 'hello'`]. there is no ouput in this code .
+new transformed array at every iteration as well. The return value is the new array [`'hello'`, 'hello'`, 'hello'`]. there is no ouput in this code .
 
- What is demonstrated is how the `#map` method functions. How it evaluates the return value of the block at each iteration. Takes each value and adds to a new
- transformed collection onto a new array object value. And it will have the same amount of items as the original calling object
+What is demonstrated is how the `#map` method functions. How it evaluates the return value of the block at each iteration. Takes each value and adds to a new
+transformed collection onto a new array object value. And it will have the same amount of items as the original calling object
 
 =end
 
@@ -264,12 +272,14 @@ parameter `num`. in the block `a` is the only line of code. this will return the
 end
 
 =begin
+
 On line  1-3 a block is invoked. On line 1 the `#each` method is invoked upon an array object value containing a collection of integer object values `[1, 2, 3]`. Each
 item of the collection is passed once into the block and assigned to local block parameter `num`.  On line 2  the `#puts` method is invoked upon `num`. this should
 return `nil` as puts returns `nil` however, the `#each` method does not evaluate the return value of the block. It returns the original object. so `[1, 2, 3]` is what is returned.
 `#puts` will output `num` at each iteration `1`, `2`, `3`.
 
 This demonstrates how the `#each` method functions. how it returns the original calling object and does not take into account the return value of the given block.
+
 =end
 
 #12
@@ -285,6 +295,7 @@ p incremented
 
 
 =begin
+
 On line 1 local variable `arr` is iniitalized to an array object value containing a collection of integer object values `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`.
 on line 3 local variable `incremented` is initialized to the return value of the `#map` method being invoked upon the object value that `arr` references. On lines 3-5
 a block is invoked. On line 3 each item from the object that `arr` references is passed into the block once and assigned to the local block parameter `n`.
@@ -294,8 +305,8 @@ each iteration the return value is a new array object value containing new integ
 on  incremented which will output `[2, 3, 4, 5, 6, 7, 8, 9, 10, 11]` and return `[2, 3, 4, 5, 6, 7, 8, 9, 10, 11]`. as the `#p` method returns the calling object
 
 
- What is demonstrated is how the `#map` method functions. How it evaluates the return value of the block at each iteration. Takes each value and adds to a new
- transformed collection onto a new array object value. And it will have the same amount of items as the original calling object
+What is demonstrated is how the `#map` method functions. How it evaluates the return value of the block at each iteration. Takes each value and adds to a new
+transformed collection onto a new array object value. And it will have the same amount of items as the original calling object
 
 =end
 
@@ -318,6 +329,7 @@ puts b
 
 
 =begin
+
 On line 1 local variable `a` is initialized and assigned to integer object value `4`. On lines 3-8 a block is invoked. On line 3 the `#loop` method is invoked and a `do..end`
 block is passed into the block as an argument. On line 4 `a` is reassigned to the integer object value `5`. On line 5 local block parameter `b` is intialized to the integer
 object value `3`. On line 7 the condition to terminate the loop is given with `break`. `nil` will be returned as `break` is implicitly returned within the  block and holds no
@@ -343,6 +355,7 @@ end
 p a
 
 =begin
+
 on line 1 local variable `a` is intialized and assigned to string object value `'Bob`. On lines 3-5 a block is invoked. On line 3 the `#times` method is invoked upon the
 integer object value `5`. An index based integer representing the iterations within the block is passed into the block and assigned to local block variable `x`. On line
 4 `a` is reassigned to the string object value `'Bill`. the block returns `5` as the `#times` method will always return the calling object. On line 7 the `#p` method is invoked
@@ -351,6 +364,7 @@ references was reassigned within the scope of the block.
 
 This demonstrates local variable scoping. The reason when the object that `a` references  shows a different output is only because of the rules of block scoping here. `a` is
 intiialized in an outer scope which then gives the block access to reach it and then reassign the value of `a`.
+
 =end
 
 
@@ -411,7 +425,9 @@ of is being mutates as a result of `#map!`. Within the block the `upcase` method
 object can contain. And the `#map!` method evaluates the same way as `#map` in every regard except instead of transforming the new collection onto a new array into transforms
 them onto the same original object. Replacing the original collection.
 the `#map! `
+
 =end
+
 
 
 #17
@@ -445,6 +461,7 @@ an integer object of how many items are within the collection. that is `4`.  the
 
 This demonstrates local variable scoping. both  `counter` and `sum` are initalized in an outer scope and the reassigned within the scope of a block. This functions within the
 rules of block scoping which allows this.
+
 =end
 
 
@@ -465,14 +482,15 @@ On  line 1 local variable `arr` is initialized to an array object value that con
 On lines 3-5 a block is invoked. On line 3 local variable new_array is inialized to the return value of the `#select` method being invoked upon the object that `arr`
 references. Each item from the collection is passed in once and assigned to local block parameter `n`. `#select` evaluates the return value of the block based on truthy values.
 If at each iteration the return value is a truthy value that item will be added to a new collection within an object value that is the same as the original caller. In this case
-  an array. It does not have to be the same length as the original object value. If the block has a falsy value it will not be added to the new collection. On line 4
-  the `#+` method is invoked which adds the left hand element which is the object that `n` is in reference to and the right hand element `1`. The only non truthy values are
-  `false` and `nil`. every value shall be truthy in this case. The return value shall be `1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` which is an new array object value containing
-    a collection of all truthy values from the block.  On line 6 the `#p` method is invoked on `new_array` which will return `1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` as `#p` always
-    returns the calling object and output `1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` .
+an array. It does not have to be the same length as the original object value. If the block has a falsy value it will not be added to the new collection. On line 4
+the `#+` method is invoked which adds the left hand element which is the object that `n` is in reference to and the right hand element `1`. The only non truthy values are
+`false` and `nil`. every value shall be truthy in this case. The return value shall be `1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` which is an new array object value containing
+a collection of all truthy values from the block.  On line 6 the `#p` method is invoked on `new_array` which will return `1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` as `#p` always
+returns the calling object and output `1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` .
 
-    This demonstrates how `#select` functions. How select evaluates the return value of the block at each iteration for truthy values and will only add  truthy values
-    to a new collection in the new object that is the same type as the calling object.
+This demonstrates how `#select` functions. How select evaluates the return value of the block at each iteration for truthy values and will only add  truthy values
+to a new collection in the new object that is the same type as the calling object.
+
 =end
 
 
@@ -485,6 +503,7 @@ If at each iteration the return value is a truthy value that item will be added 
 end
 
 =begin
+
 On lines 1-3 a block is invoked. On line 1 the `#any?` method is invoked upon an array object containing a collection of integer object values `[1, 2, 3]`. Each item of the
 collection is passed into the block once and assigned to block parameter `num`. `#any?` evaluates the return value of the block at each iteration for truthy values. If any
 values is truthy then the block will cease iteration and `true` will be the return value. If there are no truthy values the return value of the block will be `false`.
@@ -493,8 +512,6 @@ integer object value `2. On the last iteration `3` which is the integer object v
 
 This demonstrates how the `#any?` method functions. How is evaluates the return value of the block for a truthy value at each iteration. And will cease iteration and return `true`
 once a truthy value has been returned. It will return `false` if there are no truthy values.
-
-
 
 =end
 
@@ -513,6 +530,7 @@ s = 'hello'
 t = fix(s)
 
 =begin
+
 On line 7 local variable `s` is initialized to the string object value `'hello'`. On line 8 local variable `t` is initialized to the return value of `#fix` being invoked
 and the object that `s` references being passed into the method as an argument and assigned to local block parameter `value`. On lines 1-5 method definiton `#fix` executes.
 On line 2 the  mutating method `upcase!` is invoked upon the object value that `value` is in reference to. This will modify the original object by changing all string values
@@ -526,6 +544,7 @@ This demonstrates Mutating Objects, variables as pointers, and local variable sc
 being passed into method as an argument. and then having the mutating method `#upcase!` invoked upon it. Variables as pointers is shown with the reassignment on line 4 which
 then has the local block parameter `value` no longer pointing towards the same object as `s`. And local variable scoping because  the object that `s` references is passed into
 the block as an argument. This gives the method access to the value in reference.
+
 =end
 
 
@@ -600,10 +619,11 @@ On line 5 local variable `names` is initalized to an array object value containi
 is invoked with the the object value that `names` references being passed in as an argument and assigned to method parmeter `arr` and the string object value `'jim'` being
 passed into the method as an argument and assigned to method parameter `name` .On lines 1-3 method definiton `#add_name` executes. On line 2  the object value that `arr`
 references is assigned to the return value of the `#+` method being invoked which adds the original object that `arr ` references and and a new array object containing
- only the object value that `name` is in reference to. this will return  `['bob', 'kim', 'jim']` as  this is the return value of the last line within the method. On line 7
- `#puts` method is invoked upon `names` which shall output `'bob'` and `'kim'`, and will return `nil` as `#puts always returns `nil`. the object that `names` points towards
- is unaffected because the method did not use any mutating methods to change the original object .
+only the object value that `name` is in reference to. this will return  `['bob', 'kim', 'jim']` as  this is the return value of the last line within the method. On line 7
+#puts` method is invoked upon `names` which shall output `'bob'` and `'kim'`, and will return `nil` as `#puts always returns `nil`. the object that `names` points towards
+is unaffected because the method did not use any mutating methods to change the original object .
 
- This demonstrates the concept of pass by value. Or creating a copy  so the original object reamins unaffected.
+This demonstrates the concept of pass by value. Or creating a copy  so the original object reamins unaffected.
+
 =end
 
