@@ -28,7 +28,7 @@ end
 p new_array
 ```
 
-On line 1 local variable `arr` is iniitalized  to an array object value containing a collection of integer object values  `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. On line 3 local variable new_array
+On line 1 local variable `arr` is iniitalized  to an array object value containing a collection of integer object values  `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. On line 3 local variable `new_array`
 is initialized to the return value of the `#map` method being invoked upon `arr`. This will pass each item from the object that `arr` references into the block one time. the
 `#map` method evaluates  the return value of the block and based on that return value will transform these values onto a new collection onto a new array object value. This
 collection will be of the same size as the original collection. On line 3-5 a block is invoked.  On line 3 `n` is compared to `1` using the `#>` method. This will return a boolean value of true every time
