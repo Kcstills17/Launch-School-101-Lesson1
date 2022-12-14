@@ -14,15 +14,15 @@ The following questions are taken from the shared RB109 Written Assessment: Prac
 #1
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-=begin
 
-=end
 
+
+```
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 arr.select { |n| n.odd? }
+```
 
-=begin
 On line 1 the local variable `arr` is initialized to the array object value containing a collection of integer object values `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. On line
 3 a block is invoked.
 On line 3 the `#select`  method is invoked upon `arr` and each item of `arr` is passed into the block and assigned to the local block parameter `n`. the `#select` method
@@ -32,22 +32,21 @@ case that evaluate to true or are odd numbers. The return value shall be  `[1, 3
 
 The concept demonstrated is how select functions and how it evaluates the return value of a block for all truthy values. Then takes any truthy values (or none if there are none)
 and adds them to a new data type of the same kind as the calling object.
-end
-=end
+
 
 
 #2
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 new_array = arr.map do |n|
   n > 1
 end
 p new_array
+```
 
-=begin
 On line 1 local variable `arr` is iniitalized  to an array object value containing a collection of integer object values  `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. On line 3 new_array
 is initialized to the return value of the `#map` method being invoked upon `arr`. This will pass each item from the object that `arr` references into the block one time. the
 `#map` method evaluates  the return value of the block and based on that return value will transform these values onto a new collection onto a new array object value. This
@@ -60,19 +59,19 @@ method will return the calling object and output the value of the object being c
 This demonstrates the concept of `#map` and how it evaluates the return value of the block, takes those values and creates a new transformed collection onto a new array
 of the same size as the original object.
 
-=end
+
 
 
 #3
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 { a: "ant", b: "bear", c: "cat" }.all? do |key, value|
   value.length >= 3
 end
+```
 
 
-=begin
 On line 1 a hash object value that contains three key- value pairs. The keys being 3 symbol object values `a:`. `b:`, `c:` and the values being 3 string object values
 `'ant'`, `'bear'`, `'cat'`. On lines 1-3 a block is invoked. On line 1 the `#all?` method is invoked upon the hash object value and each key symbol object value is
 passed into the block once and assigned to the local block parameter `key`. And each string object value value is passed into the block once and assigned to
@@ -84,17 +83,16 @@ element and will return `true` if so and `false` otherwise. `true` shall be retu
 The concept demonstrated is how the `#all?` method functions, how it evaluates the return value of the block and it will return true only if at each iteration, the value
 is truthy or evaluates to true.
 
-=end
+
 
 #4
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 { a: "ant", b: "bear", c: "cat" }.each_with_object({}) do |(key, value), hash|
   hash[value] = key
 end
-
-=begin
+```
 
 
 on line1 there is  a hash object value  of key-value pairs containing 3 symbol object values `a:`, `b:`, `c:` as keys and 3 string object values as `'ant'`, `'bear'`, `'cat'`
@@ -107,7 +105,7 @@ is no output in this code
 
 The concept demonstrated is how the `#each_with_object` method functions and returns the new object value instead of the original object like in `#each`
 
-=end
+
 
 #5
 
@@ -115,12 +113,12 @@ The concept demonstrated is how the `#each_with_object` method functions and ret
 
 #What are a, b, and c? What if the last line was c = a.uniq!?
 
-
+```
 a = [1, 2, 3, 3]
 b = a
 c = a.uniq
+```
 
-=begin
 On line 1 local variable `a` is initialized to an array object value that contains a collection of integer object values. `[1, 2, 3, 3,]`. On line 2 local variable `b` is
 initialized to the same object that `a` references. On line 3 `c` is initialzied to the return value of the `#uniq` method being invoked upon the object that `a` references.
 this is a non mutating method that will create a copy of the original object but with only unique values. `[1, 2, 3]`. that is what `c` points towards while `a` and `b` point
@@ -130,7 +128,7 @@ towards the same mutated object `[1, 2, 3,]`.
 This demonstrates variables as pointers and how while two variables are pointing to the same object. each can reflect the same result if there is a mutation, and reflect
 different values if there is none
 
-=end
+
 
 
 #6
@@ -138,7 +136,7 @@ different values if there is none
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
 
 #What values do s and t have? Why?
-
+```
 def fix(value)
  value[1] = 'x'
  value
@@ -146,8 +144,8 @@ end
 
 s = 'abc'
 t = fix(s)
+```
 
-=begin
 On line 6 local variable `s` is initialized to the string object value `'abc'`. On line 7 local variable `t` is initialized to the return value of the `#fix` method being
 invoked witht `s` being passed into the method as an argument and assigned to local block parameter `value`. On lines 1-4  the method definition `#fix` executes. On line 2 the `String#[]` method is invoked on
 local block parameter `value` and accessed the index of the object that value references at index `1`. This value at index `1` is assigned  to the string object value `'x`.
@@ -157,13 +155,13 @@ has been modified within the method.
 
 This demonstrates object mutating. The results of the `#String[[=` method mutated the original object value passed in. Which is reflect in both variables `s` and `t`.
 
-=end
+
 
 
 #7
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 def a_method(string)
   string << ' world'
 end
@@ -172,8 +170,8 @@ a = 'hello'
 a_method(a)
 
 p a
+```
 
-=begin
 
 On line 5 local variable `a` is initialized to the string object value `'hello'`. On line 6 method `#a_method` is invoked and the object value that `a` references
 is passed into the method as an argument and assigned to local block parameter `string`. ON line 1-3 method definition `#a_method`  executes. On line 2  the mutating method `<<` is invoked which will append the
@@ -184,7 +182,7 @@ the case because object that `a` is in reference to was modified within the meth
 This demonstrates object mutating. The passed in object value is modified due to the affects of the `#<<` method and this is reflectd with the output and return value of
 `p a `
 
-=end
+
 
 
 
@@ -193,7 +191,7 @@ This demonstrates object mutating. The passed in object value is modified due to
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
 
 #What values do s and t have? Why?
-
+```
 def fix(value)
   value = value.upcase!
   value.concat('!')
@@ -201,8 +199,8 @@ end
 
 s = 'hello'
 t = fix(s)
+```
 
-=begin
 
 On line 6 local variable `s` is initialized to the string object value `'hello'`. On line 7 local variable `t` is initialized to the return value of the `#fix` method
 being invoked with the object that `s` references being passed in to the method as an argument and assigned to local
@@ -213,22 +211,19 @@ are both `HELLO!`as both `#upcase!` and `#concat! modify the orignal object that
 
 What is demonstrates is object mutating. As the passed in object value is modified twice due to the two mutating methods `#upcase!` and `#concat`.
 
-=end
 
 
 
 #9
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 a = “Hello”
 b = a
 a = “Goodbye”
 puts a
 puts b
-
-
-=begin
+```
 
 On line 1 local variable `a` is initialized to  the string object value `'Hello'`. On line 2 local variable `b` is initialized to the same object that `a` references.
 On line 3 `a` is reassigned to the string object valeu `'Goodbye'`. On line 4 the `#puts` method is invoked upon `a` which will output `'Goodbye'` and will return `nil`
@@ -237,19 +232,17 @@ due to `#puts` always returnng `nil`. On line 5 `#puts` is invoked on `b` and wi
 This demonstrates variables as pointers and due to `a` and `b` both iniitally pointing towards the same object. However once `a` is reassigned they no longer point towards
 the same object and the output reflects this.
 
-=end
 
 
 #10
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 a = "hello"
 
 [1, 2, 3].map { |num| a }
+```
 
-
-=begin
 
 On line 1 local variable `a` is initialized to string object value `'hello'`. On line 3 a block is invoked. On line 3 the `#map` method is invoked upon  an array object  value containing a
 collection of integer object values [1, 2, 3]`. the `#map` method evaluates the return value of the block. based on that return value at every iteration it will add the value
@@ -260,18 +253,15 @@ new transformed array at every iteration as well. The return value is the new ar
 What is demonstrated is how the `#map` method functions. How it evaluates the return value of the block at each iteration. Takes each value and adds to a new
 transformed collection onto a new array object value. And it will have the same amount of items as the original calling object
 
-=end
-
 
 #11
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 [1, 2, 3].each do |num|
   puts num
 end
-
-=begin
+```
 
 On line  1-3 a block is invoked. On line 1 the `#each` method is invoked upon an array object value containing a collection of integer object values `[1, 2, 3]`. Each
 item of the collection is passed once into the block and assigned to local block parameter `num`.  On line 2  the `#puts` method is invoked upon `num`. this should
@@ -280,21 +270,19 @@ return `nil` as puts returns `nil` however, the `#each` method does not evaluate
 
 This demonstrates how the `#each` method functions. how it returns the original calling object and does not take into account the return value of the given block.
 
-=end
 
 #12
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 incremented = arr.map do |n|
               n + 1
             end
 p incremented
+```
 
-
-=begin
 
 On line 1 local variable `arr` is iniitalized to an array object value containing a collection of integer object values `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`.
 on line 3 local variable `incremented` is initialized to the return value of the `#map` method being invoked upon the object value that `arr` references. On lines 3-5
@@ -308,13 +296,13 @@ on  incremented which will output `[2, 3, 4, 5, 6, 7, 8, 9, 10, 11]` and return 
 What is demonstrated is how the `#map` method functions. How it evaluates the return value of the block at each iteration. Takes each value and adds to a new
 transformed collection onto a new array object value. And it will have the same amount of items as the original calling object
 
-=end
+
 
 
 #13
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 a = 4
 
 loop do
@@ -326,9 +314,9 @@ end
 
 puts a
 puts b
+```
 
 
-=begin
 
 On line 1 local variable `a` is initialized and assigned to integer object value `4`. On lines 3-8 a block is invoked. On line 3 the `#loop` method is invoked and a `do..end`
 block is passed into the block as an argument. On line 4 `a` is reassigned to the integer object value `5`. On line 5 local block parameter `b` is intialized to the integer
@@ -339,13 +327,11 @@ local variable. as `b`  cannot be accessed in this outer scope.
 This demonstrates local variable scoping. `b` is intizlied within a block but then the object that it references was attempted to be reached in an outer scope. Block scoping rules
 state that a block has access to variables initialized within an outerscope. But variables intialized in a block are not accessible in an outer scope.
 
-=end
-
 
 #14
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 a = 'Bob'
 
 5.times do |x|
@@ -353,8 +339,8 @@ a = 'Bob'
 end
 
 p a
+```
 
-=begin
 
 on line 1 local variable `a` is intialized and assigned to string object value `'Bob`. On lines 3-5 a block is invoked. On line 3 the `#times` method is invoked upon the
 integer object value `5`. An index based integer representing the iterations within the block is passed into the block and assigned to local block variable `x`. On line
@@ -365,14 +351,12 @@ references was reassigned within the scope of the block.
 This demonstrates local variable scoping. The reason when the object that `a` references  shows a different output is only because of the rules of block scoping here. `a` is
 intiialized in an outer scope which then gives the block access to reach it and then reassign the value of `a`.
 
-=end
-
 
 
 #15
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 def increment(x)
   x << 'b'
 end
@@ -381,8 +365,8 @@ y = 'a'
 increment(y)
 
 puts y
+```
 
-=begin
 On line 5 local variable `y` is initalized to the string object value `'a'`. On line 6 method `#increment` is invoked with the object that `y` references being passed into the
 argument and assigned to local block variable `x`. On lines 1-3 method definiton `#increment`executes. On line `2` the mutating method `#<<` is invoked which will append the
 string object value `b` to the left hand element object that `x` references. this is the last line of the method and will return `'ab`. On line 8 `#puts` is invoked upon
@@ -391,12 +375,11 @@ mutated within the method.
 
 This demonstrates object mutating. The value that `y` is in reference to has been modified within the method as a result of the `#<<` method. This is reflected with the output
 of `puts y`
-=end
 
 #16
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 arr1 = ["a", "b", "c"]
 arr2 = arr1.dup
 arr2.map! do |char|
@@ -405,9 +388,9 @@ end
 
 puts arr1
 puts arr2
+```
 
 
-=begin
 On line 1 local variable `arr1` is initialized to an array object value containing a collection of string object values `["a", "b", "c"]`. On line 2 `arr2` is is initialized
 to the return value of the `#dup` method being invoked upon the object value that `arr1` references. This will create a copy of the array object value that arr1 references
 but all collection item values will still be the same or shared in this case. On lines 3-5 a block is invoked. On line 3 the `#map!`method is invoked upon the object
@@ -426,14 +409,14 @@ object can contain. And the `#map!` method evaluates the same way as `#map` in e
 them onto the same original object. Replacing the original collection.
 the `#map! `
 
-=end
+
 
 
 
 #17
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+```
 arr = [1, 2, 3, 4]
 
 counter = 0
@@ -446,28 +429,28 @@ loop do
 end
 
 puts "Your total is #{sum}"
+```
 
 
-=begin
 on line 1. local variable `arr` is initalized to an array object value that contains a collection of integer object values `[1, 2, 3, 4]`. On line 3 local variable `counter`
 is initialized to the integer object value `0`. On line 4 local variable `sum` is initalized to the integer object value `0`.  on lines 6-10 a block is invoked. On line
 6 a `#loop` method is invoked and a `do..end` block is passed into the block as an argument. On line 7 `sum` is reassigned to the return value of the `#+` being invoked
 which will add the value that `sum` is in reference to together with the integer object value that `arr[counter]` accesses. On line 8 `counter` is reassigned to the return
 value of the `#+` being invoked  which will add together the object that `counter` is in reference to and the integer object value `1`. On line 9 the condition to
 terminate the loop is given `break if counter == arr.size`. this will return `nil` as it is the last line of the block and it holds no values.  On line 12 the `#puts` method
-is invoked on the string iterpolated statement `"your total is #{sum}` which will return `nil` due to `#puts` and will output "your total is 10`. This is because within
+is invoked on the string iterpolated statement `"your total is #{sum}` which will return `nil` due to `#puts` and will output "your total is 10"`. This is because within
 the loop `counter` will increment 4 times to reach the break condition `break if counter == arr.size`.  the `#size` method invoked on the object that arr references will return
 an integer object of how many items are within the collection. that is `4`.  the result of `sum` += arr[counter] will result in `10`
 
 This demonstrates local variable scoping. both  `counter` and `sum` are initalized in an outer scope and the reassigned within the scope of a block. This functions within the
 rules of block scoping which allows this.
 
-=end
 
 
 #18
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
+```
 
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -475,9 +458,10 @@ new_array = arr.select do |n|
   n + 1
 end
 p new_array
+```
 
 
-=begin
+
 On  line 1 local variable `arr` is initialized to an array object value that contains a collection of integer object values  ` [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`.
 On lines 3-5 a block is invoked. On line 3 local variable new_array is inialized to the return value of the `#select` method being invoked upon the object that `arr`
 references. Each item from the collection is passed in once and assigned to local block parameter `n`. `#select` evaluates the return value of the block based on truthy values.
@@ -491,18 +475,19 @@ returns the calling object and output `1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` .
 This demonstrates how `#select` functions. How select evaluates the return value of the block at each iteration for truthy values and will only add  truthy values
 to a new collection in the new object that is the same type as the calling object.
 
-=end
+
 
 
 #19
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
+```
 
 [1, 2, 3].any? do |num|
   num > 2
 end
+```
 
-=begin
 
 On lines 1-3 a block is invoked. On line 1 the `#any?` method is invoked upon an array object containing a collection of integer object values `[1, 2, 3]`. Each item of the
 collection is passed into the block once and assigned to block parameter `num`. `#any?` evaluates the return value of the block at each iteration for truthy values. If any
@@ -513,12 +498,12 @@ integer object value `2. On the last iteration `3` which is the integer object v
 This demonstrates how the `#any?` method functions. How is evaluates the return value of the block for a truthy value at each iteration. And will cease iteration and return `true`
 once a truthy value has been returned. It will return `false` if there are no truthy values.
 
-=end
 
 
 #20
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
+```
 
 def fix(value)
   value.upcase!
@@ -528,8 +513,8 @@ end
 
 s = 'hello'
 t = fix(s)
+```
 
-=begin
 
 On line 7 local variable `s` is initialized to the string object value `'hello'`. On line 8 local variable `t` is initialized to the return value of `#fix` being invoked
 and the object that `s` references being passed into the method as an argument and assigned to local block parameter `value`. On lines 1-5 method definiton `#fix` executes.
@@ -545,7 +530,6 @@ being passed into method as an argument. and then having the mutating method `#u
 then has the local block parameter `value` no longer pointing towards the same object as `s`. And local variable scoping because  the object that `s` references is passed into
 the block as an argument. This gives the method access to the value in reference.
 
-=end
 
 
 
@@ -555,6 +539,7 @@ the block as an argument. This gives the method access to the value in reference
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
 
 #What values do s and t have? Why?
+```
 
 a = 4
 b = 2
@@ -567,9 +552,9 @@ end
 
 puts a
 puts b
+```
 
 
-=begin
 on line 1 local variable `a` is intialized to the integer object value `4`. On line 2 local variable `b` is initalized to the integer object value `2`. On lines 4-8 a block
 is invoked. On line 4 a `#loop` method is invoked which passes in a `do..end` block into the block as an argument. On line 4  local block variable `c` is initializd to
 the integer object value `3`. on line 5 `a` is reassigned to the same object value that `c` references.  on line 6 the condtion to terminate the loop is given `break`. this
@@ -581,29 +566,32 @@ This demonstrates local variable scoping as the reassignment of `a` was able to 
 accessed within a block's scope.
 
 
-=end
+
 
 
 #22
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
+```
 
 a = %w(a b c)
 a[1] = '-'
 p a
+```
 
-=begin
+
 On line 1  local variable `a` is initzlied to an array object value which contains a collection of string object values `['a', 'b', 'c']`. On line 2 the `String#[]=` is invoked
 which will return a new reassigned substring with the original array object value.  here `a[1]`  which will return `b` as the second value of the index is reassigned
  to the string object value  `-`. On line 3 the `#p` method is invoked on the object that `a` references which will output `['a, '-', 'c']` as the array object has been
   modified as result of the string  index reassignment. It will return ['a, '-', 'c']` as `#p` always returns the calling object.
 
   This demonstrates Object Mutating. the `String#[]=` changes one of the items of the collection and in tune modifies the original array object.
-=end
+
 
 #23
 
 #What does the following code return? What does it output? Why? What concept does it demonstrate?
+```
 
 def add_name(arr, name)
   arr = arr + [name]
@@ -612,9 +600,10 @@ end
 names = ['bob', 'kim']
 add_name(names, 'jim')
 puts names
+```
 
 
-=begin
+
 On line 5 local variable `names` is initalized to an array object value containing a collecton of string object values `'bob', 'kim']`. On line 6 the `#add_name` method
 is invoked with the the object value that `names` references being passed in as an argument and assigned to method parmeter `arr` and the string object value `'jim'` being
 passed into the method as an argument and assigned to method parameter `name` .On lines 1-3 method definiton `#add_name` executes. On line 2  the object value that `arr`
@@ -625,5 +614,8 @@ is unaffected because the method did not use any mutating methods to change the 
 
 This demonstrates the concept of pass by value. Or creating a copy  so the original object reamins unaffected.
 
-=end
+
+
+
+
 

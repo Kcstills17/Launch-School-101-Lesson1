@@ -28,7 +28,7 @@ end
 p new_array
 ```
 
-On line 1 local variable `arr` is iniitalized  to an array object value containing a collection of integer object values  `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. On line 3 new_array
+On line 1 local variable `arr` is iniitalized  to an array object value containing a collection of integer object values  `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. On line 3 local variable new_array
 is initialized to the return value of the `#map` method being invoked upon `arr`. This will pass each item from the object that `arr` references into the block one time. the
 `#map` method evaluates  the return value of the block and based on that return value will transform these values onto a new collection onto a new array object value. This
 collection will be of the same size as the original collection. On line 3-5 a block is invoked.  On line 3 `n` is compared to `1` using the `#>` method. This will return a boolean value of true every time
@@ -75,13 +75,12 @@ is truthy or evaluates to true.
 end
 ```
 
-
 on line1 there is  a hash object value  of key-value pairs containing 3 symbol object values `a:`, `b:`, `c:` as keys and 3 string object values as `'ant'`, `'bear'`, `'cat'`
 as values. The `#each_with_object` method is invoked upon the hash object value.  A new object is created through `({})` which creates a new empty hash object value.
 and each key of the hash is passed into the block as local block parameter `key`. Each value of the hash is passed in the block once as local block param `value`. The new
 empty hash object value is passed into the block as `hash`. the `#each_with_object` method does not take into account the return value of the block and will instead
 return the new object object value. On line 2 the new hash object value is created keys and values through the setter method `#hash[value] = key` this will cause us to return
-`{ a: "ant", b: "bear", c: "cat" }` . a different hash object value than the original hash object that was called but that looks the same due to the setter method. There
+`{ "ant" : a, "bear": b, "cat": c }` . This as a result of the setter method which allowed us to set a key and value for each iteration. 
 is no output in this code
 
 The concept demonstrated is how the `#each_with_object` method functions and returns the new object value instead of the original object like in `#each`
@@ -134,7 +133,7 @@ On line 3 `value` is the last line. This shall be the return value as it is impl
 are no other return values. the object value that both `s` and `t` are in reference to is the string object value `axc `. They point to the same object and this object
 has been modified within the method.
 
-This demonstrates object mutating. The results of the `#String[[=` method mutated the original object value passed in. Which is reflect in both variables `s` and `t`.
+This demonstrates object mutating. The results of the `#String[]=` method mutated the original object value passed in. Which is reflect in both variables `s` and `t`.
 
 
 
@@ -321,9 +320,7 @@ p a
 
 on line 1 local variable `a` is initialized and assigned to string object value `'Bob`. On lines 3-5 a block is invoked. On line 3 the `#times` method is invoked upon the
 integer object value `5`. An index based integer representing the iterations within the block is passed into the block and assigned to local block variable `x`. On line
-4 `a` is reassigned to the string object value `'Bill`. the block returns `5` as the `#times` method will always return the calling object. On line 7 the `#p` method is invoked
-upon  the object that  `a` references. this will output `'Bill'` and return `'Bill'`.  This because the `#p` method always returns the calling object and the object that `a`
-references was reassigned within the scope of the block.
+4 `a` is reassigned to the string object value `'Bill`.  The return value is  `5` as the `#times` method will always return the calling object. On line 7 the `#p` method is invoked upon  the object that  `a` references. this will output `'Bill'` and return `'Bill'`.  This because the `#p` method always returns the calling object and the object that `a`references was reassigned within the scope of the block.
 
 This demonstrates local variable scoping. The reason when the object that `a` references  shows a different output is only because of the rules of block scoping here. `a` is
 initialized in an outer scope which then gives the block access to reach it and then reassign the value of `a`.
@@ -346,9 +343,7 @@ puts y
 
 On line 5 local variable `y` is initialized to the string object value `'a'`. On line 6 method `#increment` is invoked with the object that `y` references being passed into the
 argument and assigned to local block variable `x`. On lines 1-3 method definition `#increment`executes. On line `2` the mutating method `#<<` is invoked which will append the
-string object value `b` to the left hand element object that `x` references. this is the last line of the method and will return `'ab`. On line 8 `#puts` is invoked upon
-the object that `y` references and will return `nil` due to  `#puts`always returning `nil` and will output `'ab'`. This is because the object value that `y` references was
-mutated within the method.
+string object value `b` to the left hand element object that `x` references. this is the last line of the method and will return `'ab`. On line 8 `#puts` is invoked upon the object that `y` references and will return `nil` due to  `#puts`always returning `nil` and will output `'ab'`. This is because the object value that `y` references was mutated within the method.
 
 This demonstrates object mutating. The value that `y` is in reference to has been modified within the method as a result of the `#<<` method. This is reflected with the output
 of `puts y`
@@ -554,7 +549,7 @@ p a
 On line 1  local variable `a` is initialized to an array object value which contains a collection of string object values `['a', 'b', 'c']`. On line 2 the `String#[]=` is invoked
 which will return a new reassigned substring with the original array object value.  here `a[1]`  which will return `b` as the second value of the index is reassigned
  to the string object value  `-`. On line 3 the `#p` method is invoked on the object that `a` references which will output `['a, '-', 'c']` as the array object has been
-  modified as result of the string  index reassignment. It will return ['a, '-', 'c']` as `#p` always returns the calling object.
+  modified as result of the string  index reassignment. It will return `['a, '-', 'c']` as `#p` always returns the calling object.
 
   This demonstrates Object Mutating. the `String#[]=` changes one of the items of the collection and in tune modifies the original array object.
 
@@ -575,7 +570,7 @@ puts names
 
 
 
-On line 5 local variable `names` is initialized to an array object value containing a collection of string object values `'bob', 'kim']`. On line 6 the `#add_name` method
+On line 5 local variable `names` is initialized to an array object value containing a collection of string object values `['bob', 'kim']`. On line 6 the `#add_name` method
 is invoked with the the object value that `names` references being passed in as an argument and assigned to method parmeter `arr` and the string object value `'jim'` being
 passed into the method as an argument and assigned to method parameter `name` .On lines 1-3 method definition `#add_name` executes. On line 2  the object value that `arr`
 references is assigned to the return value of the `#+` method being invoked which adds the original object that `arr ` references and and a new array object containing

@@ -146,10 +146,15 @@ b = a
 c = a.uniq!
 
 
-def fix(value)
-  value[1] = 'x'
-  value
- end
+def f_to_c(degree)
 
- s = 'abc'
- p t = fix(s)
+p ((degree - 32) * (5.to_f/9)).round(5)
+end
+
+fahrenheit = 55
+f_to_c(fahrenheit)
+
+
+arr = [1,3,4,2]
+p arr.object_id
+p arr.map!  {|num| p num }.object_id
