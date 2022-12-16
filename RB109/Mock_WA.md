@@ -5,7 +5,7 @@ arr.select { |n| n.odd? }
 ```
 
 On line 1 the local variable `arr` is initialized to the array object value containing a collection of integer object values `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. On line
-On line 3 a block is invoked and a `{}` block as passed into the block as an argument. 
+On line 3 a block is invoked and a block is passed as an argument, denoted by `{}`. 
 On line 3 the `#select`  method is invoked upon `arr` and each item of `arr` is passed into the block and assigned to the local block parameter `n`. the `#select` method evaluates all truthy values based on the result of the block. And each item from that evaluation that is truthy will be appended to a new collection on a new data type that is the same type as the original calling object. In this case it is an array. Within the block the `#odd?` method is invoked upon `#n` and will  choose all values in this case that evaluate to true or are odd numbers. The return value shall be  `[1, 3, 5, 7, 9]` . There is no output.
 
 The concept demonstrated is how select functions and how it evaluates the return value of a block for all truthy values. Then takes any truthy values (or none if there are none)

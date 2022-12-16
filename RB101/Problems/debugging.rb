@@ -1,3 +1,6 @@
+
+require "pry"
+require "pry-byebug"
 =begin
 1. Countdown
 
@@ -698,5 +701,13 @@ end
  a = b
  b += 1.1
 
- p a
- p b
+  a
+  b
+
+
+
+  pets = { cat: 'fluffy', dog: ['sparky', 'fido'], fish: 'oscar' }
+
+  pets[:dog] << 'bowser'
+
+  p pets #=> {:cat=>"fluffy", :dog=>"bowser", :fish=>"oscar"}
