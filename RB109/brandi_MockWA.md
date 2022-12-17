@@ -445,7 +445,7 @@ puts 'Your character stats:'
 puts player
 ```
 
-our error here is this `no implicit conversion of nil into Hash (TypeError)` . This usually implies that we are not accessing the values of one of the hashes here incorrectly. And in fact, that is the case.  On the line where `player.merge(character_classes[input])` is we are not actually accessing the value of any hash. The input will be given will be a string. And in the case of our hash there are no keys that are string object values. To resolve this we can convert our input into a symbol by typing this code in place of the previous `player.merge(character_classes[input.to_sym])` and now we will be able to access the 	`character_classes`  's ' hash values. 
+our error here is this `no implicit conversion of nil into Hash (TypeError)` . This usually implies that we are not accessing the values of one of the hashes here incorrectly. And in fact, that is the case.  On the line where `player.merge(character_classes[input])` is we are not actually accessing the value of any hash. The input will be given will be a string. And in the case of our hash there are no keys that are string object values. To resolve this we can convert our input into a symbol by typing this code in place of the previous `player.merge(character_classes[input.to_sym])` and now we will be able to access the 	`character_classes`  's ' hash values.  Then we can assign player to this new code `player = player.merge(character_classes[input.to_sym])` which when `player` is invoked by `puts`  the newly updated hash will be displayed. 
 
 
 
@@ -466,7 +466,7 @@ character_classes = {
 puts 'Please type your class (warrior, thief, scout, mage):'
 input = gets.chomp.downcase
 
-player.merge(character_classes[input.to_sym])
+player = player.merge(character_classes[input.to_sym])
 
 puts 'Your character stats:'
 puts player
