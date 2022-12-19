@@ -705,24 +705,22 @@ end
   b
 
 
+  colors = ['red', 'yellow', 'purple', 'green', 'dark blue', 'turquoise', 'silver', 'black']
+  things = ['pen', 'mouse pad', 'coffee mug', 'sofa', 'surf board', 'training mat', 'notebook']
 
-  # Each player starts with the same basic stats.
+  colors.shuffle!
+  things.shuffle!
 
-player = { strength: 10, dexterity: 10, charisma: 10, stamina: 10 }
+  i = 0
+  loop do
+    break if i >= things.length
 
-# Then the player picks a character class and gets an upgrade accordingly.
+    if i == 0
+      puts 'I have a ' + colors[i] + ' ' + things[i] + '.'
+    else
+      puts 'And a ' + colors[i] + ' ' + things[i] + '.'
+    end
 
-character_classes = {
-  warrior: { strength:  20 },
-  thief:   { dexterity: 20 },
-  scout:   { stamina:   20 },
-  mage:    { charisma:  20 }
-}
+    i += 1
 
-puts 'Please type your class (warrior, thief, scout, mage):'
-input = gets.chomp.downcase
-
-player = player.merge(character_classes[input.to_sym])
-
-puts 'Your character stats:'
-puts player
+  end

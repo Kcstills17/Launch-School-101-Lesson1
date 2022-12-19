@@ -135,7 +135,7 @@ loop do
 end
 ```
 
-The issue here lies with that  the collection of `things` is one less in length than the collection of `things`. To make this work without error you can modify the break condition to be  `break if i >= colors.length` . That way after each  item from `things` has been output the loop can cease 
+The issue here lies with that  the collection of `things` is one less in length than the collection of `colors`. To make this work without error you can modify the break condition to be  `break if i >= things.length` . That way after each  item from `things` has been output the loop can cease 
 
 ```
 colors = ['red', 'yellow', 'purple', 'green', 'dark blue', 'turquoise', 'silver', 'black']
