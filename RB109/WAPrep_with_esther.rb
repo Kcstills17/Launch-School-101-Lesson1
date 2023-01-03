@@ -164,75 +164,19 @@ array << pair.last
 end
 
 =begin
-on line 162 the `#each_with_object` method is invoked upon a hash object `{a: 'ant', b: 'bear', c: 'cat'}` Which contains three key: value pairs. Each key is a symbol object value  and each value is a string object value.  A new object is created within the block and is an **empty** array object `[]`. Each key-value pair is passed into the block once and assigned the block parameter value   `pair`. The new array object is passed into  the block as `array`. `Each_with_object` will not take into account the result of the block and return the object that has been created within the block. Which is `array`. Within the block `array` is appended the return value of `#last` being invoked upon `pair`. This will take the last value based on its index in a collection and return that value on each iteration of the block. In this case that will be our value section of the pair. Which will be the string objects within our original hash object.
+on line 162 the `#each_with_object` method is invoked upon a hash object `{a: 'ant', b: 'bear', c: 'cat'}` Which contains three key -value pairs.
+Each key is a symbol object value  and each value is a string object value.  A new object is created within the block and is an **empty** array
+object `[]`. Each key-value pair is passed into the block once and assigned the block parameter value   `pair`. The new array object is passed
+into  the block as `array`. `Each_with_object` will not take into account the result of the block and return the object that has been created
+within the block. Which is `array`. Within the block `array` is appended the return value of `#last` being invoked upon `pair`. This will take
+the last value based on its index in a collection and return that value on each iteration of the block. In this case that will be our value section
+of the pair. Which will be the string objects within our original hash object.
 
-The return value shall be the object `array` is in reference to `['ant', 'bear', 'cat']`. There shall be no output. The concept that is demonstrated is how   #each_with_object functions. How it creates a new specified object that is passed in as an argument. And then will return that new object instead of the original caller similar to how `#each` will function.
-
-=end
-
-=begin
-https://www.codewars.com/kata/55703a2a52dd10501c000131/train/ruby
-
-You are a lonely hobbit, and you've been given a manifest of all the residents in this side of the country. The manifest is an array of hashes,
-that have the form: {name: 'string', race: 'string', home: 'string'}
-
-You want to find all of the other hobbits! Your task is to return an array from a given manifest that contains all of the potential
-halflings in the list. From your experience you know that hobbits don't always follow the rules, and some may have entered their race
-under their home and vice versa. You also know that some hobbits will refer to themselves as halflings, and that popular homes for hobbits
-include the shire, south farthing, and hobbiton.
-
-TLDR; For a given array of hashes of the form {name: 'string', race: 'string', home: 'string'}, return an array of all the objects that have
-the words halfling,hobbit,shire,farthing, or hobbiton anywhere within the race or home field.
-
-Goal: intake an array of hashes and return an array of all objects that have the words halfling,hobbit,shire,farthing, or hobbiton anywhere within
- the race or home field
-
-
-
- P. Understand the Problem
-  Explicit Requirements:
-  -
-
-  Implicit Requirements:
-  -
-
-  Clarifications/ Questions:
-  -
-
-E: Examples/ Edge Cases
-
-
-D: Data Structures
-  - input:
-  - output:
-  - possible intermediary structure:
-
-
-A: Algorithm
-
-
-C: Code with intent
-
-
-
+The return value shall be the object `array` is in reference to `['ant', 'bear', 'cat']`. There shall be no output.
+The concept that is demonstrated is how   #each_with_object functions. How it creates a new specified object that is passed in as an argument.
+And then will return that new object instead of the original caller similar to how `#each` will function.
 
 =end
 
-def find_hobbits_in(arr)
-selected_hash = arr.select do |hash|
-   hash.any? do |k, v|
+=
 
-    p v[0][0][0]
-   end
-end
-
-end
-
-
-manifest = [
-  { name: 'Aragorn', race: 'Human', home: 'Kingdom of Men' },
-  { name: 'Bilbo', race: 'Hobbit', home: 'The Shire' },
-  { name: 'Tom Bombadil', race: nil, home: 'The Forest' }
-]
-
-p find_hobbits_in(manifest) #== { name: 'Bilbo', race: 'Hobbit', home: 'The Shire' }

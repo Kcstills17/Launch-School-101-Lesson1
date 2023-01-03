@@ -1,1 +1,1 @@
-break if attempts > max_attempts
+result = Math.log(number_of_documents.to_f / number_of_documents_with_term)

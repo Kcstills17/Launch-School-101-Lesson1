@@ -146,15 +146,100 @@ b = a
 c = a.uniq!
 
 
-def f_to_c(degree)
+=begin
+  25. Pete, the baker
+  (https://www.codewars.com/kata/525c65e51bf619685c000059/train/ruby)
+  5 kyu
+  Pete likes to bake some cakes. He has some recipes and ingredients. Unfortunately he is not good in maths. Can you help him to find out, how many cakes he could bake considering his recipes?
 
-p ((degree - 32) * (5.to_f/9)).round(5)
-end
+  Write a function cakes(), which takes the recipe (object) and the available ingredients (also an object) and returns the maximum number of cakes Pete can bake (integer). For simplicity there are no units for the amounts (e.g. 1 lb of flour or 200 g of sugar are simply 1 or 200). Ingredients that are not present in the objects, can be considered as 0.
 
-fahrenheit = 55
-f_to_c(fahrenheit)
+  Examples:
+
+  # must return 2
+  cakes({flour: 500, sugar: 200, eggs: 1}, {flour: 1200, sugar: 1200, eggs: 5, milk: 200});
+  // must return 0
+  cakes({apples: 3, flour: 300, sugar: 150, milk: 100, oil: 100}, {sugar: 500, flour: 2000, milk: 2000});
+  =end
+
+  def cakes(recipe, ingredients)
+    amount_of_cakes = recipe.dup
+
+    amount_of_cakes.each do |ingredient, _|
+      if ingredients.has_key?(ingredient)
+        amount_of_cakes[ingredient] = ingredients[ingredient]/amount_of_cakes[ingredient]
+      else
+        amount_of_cakes[ingredient] = 0
+      end
+    end
+    amount_of_cakes.values.min
+  end
+
+  Hash.new(0)
+
+  p cakes({"flour"=>500, "sugar"=>200, "eggs"=>1},{"flour"=>1200, "sugar"=>1200, "eggs"=>5, "milk"=>200}) == 2
+  p cakes({"cream"=>200, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>1700, "flour"=>20000, "milk"=>20000, "oil"=>30000, "cream"=>5000}) == 11
+  p cakes({"apples"=>3, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>500, "flour"=>2000, "milk"=>2000}) == 0
+  p cakes({"apples"=>3, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>500, "flour"=>2000, "milk"=>2000, "apples"=>15, "oil"=>20}) == 0
+  p cakes({"eggs"=>4, "flour"=>400},{}) == 0
+  p cakes({"cream"=>1, "flour"=>3, "sugar"=>1, "milk"=>1, "oil"=>1, "eggs"=>1},{"sugar"=>1, "eggs"=>1, "flour"=>3, "cream"=>1, "oil"=>1, "milk"=>1}) == 1
 
 
-arr = [1,3,4,2]
-p arr.object_id
-p arr.map!  {|num| p num }.object_id
+  P. Understand the Problem
+    Explicit Requirements:
+    - input is the recipe and the available ingredients
+    - output is the integer value that represents the maximum amount of cakes that can be baked based on the recipe and available ingredients.
+    - if ingredients are not included you can set them as 0.
+
+    Implicit Requirements:
+    -
+
+    Clarifications/ Questions:
+    -
+
+  E: Examples/ Edge Cases
+
+
+  D: Data Structures
+    - input: Two hashes that contain  an inordinate amount of key - value pairs
+    - output: an integer
+    - possible intermediary structure: Possible array storing the amount of times the ingredient values can be divided by the recipe values.
+
+
+  A: Algorithm
+    def cakes(recipe, ingredients)
+
+      - if the size of the recipe key size is less than or equal to the key size of the ingredients key size then
+        - initialize divided_ingredients and set to  the result of iterating through recipe and create a new empty hash object
+        - set block parameter `ingredient` to point towards each item at iteration.
+            -  set the empty hash object that hash references to first index of ingredient  as its key. And the value to be
+              the value of that key stored in the ingredients hash divided by the value of that key stored in the recipe hash.
+            - end block
+      - else
+          return 0
+      -end if statement
+         - Iterate through hash and choose the smallest value of each values and return that value
+    end
+=end
+  #C: Code with intent
+  def cakes(recipe, ingredients)
+    if  recipe.keys.size <= ingredients.keys.size
+      divided_ingredients = recipe.each_with_object (Hash.new) do |ingredient, hash|
+         hash[ingredient[0]] = ingredients[ingredient[0]] /  recipe[ingredient[0]]
+      end
+
+    else
+      return  0
+    end
+
+    divided_ingredients.values.min
+  end
+
+
+
+  p cakes({"flour"=>500, "sugar"=>200, "eggs"=>1},{"flour"=>1200, "sugar"=>1200, "eggs"=>5, "milk"=>200}) == 2
+  p cakes({"cream"=>200, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>1700, "flour"=>20000, "milk"=>20000, "oil"=>30000, "cream"=>5000}) == 11
+  p cakes({"apples"=>3, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>500, "flour"=>2000, "milk"=>2000}) #== 0
+  p cakes({"apples"=>3, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>500, "flour"=>2000, "milk"=>2000, "apples"=>15, "oil"=>20}) == 0
+  p cakes({"eggs"=>4, "flour"=>400},{}) == 0
+  p cakes({"cream"=>1, "flour"=>3, "sugar"=>1, "milk"=>1, "oil"=>1, "eggs"=>1},{"sugar"=>1, "eggs"=>1, "flour"=>3, "cream"=>1, "oil"=>1, "milk"=>1}) == 1
