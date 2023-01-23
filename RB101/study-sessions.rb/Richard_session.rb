@@ -91,7 +91,7 @@ def list_substring(str)
       substring << str[element..inner_elem]
     end
   end
-  substring
+  p substring
 end
 
   list_substring("codewars")

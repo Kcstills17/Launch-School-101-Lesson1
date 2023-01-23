@@ -934,13 +934,7 @@ def fast_fibo(num)
   - initialize fibo_sequence to get_repeating_intermediate_result(num)
   - initialize index to 0
   - initialize narrowed_fibo_values to num % 60
-
-  - from 2 to 60 iterate through narrowed_fibo_values
-      - at each iteration have the the integer value of fibo_sequence[index]
-      - increment index
-  - end block
-    - initialize fibo_last_digit to the result of fibo_sequence[index]
-
+  - initialize fibo_last_digit  to  fibo_sequence[narrowed_fibo_values - 1 ]
 
 end
 
@@ -948,18 +942,17 @@ end
  def get_repeating_intermediate_result(num)
   - initialize last_two to an array containing 1 and 1
   - initialize last_digit_sequence to an empty array
-  - initialize narrowed_fibo_values to num % 60
   - from 1 to 60 iterate through fibo_values
     - set last_two to  an array containing the last digit of last_two and the result of adding the first and last digit of last_two % 10
     - append to last_digit_sequence the last_two at each iteration
     - end block
-    - return last_digit_sequence
+
  end
 
 =end
 
 
-def get_repeating_intermediate_result(num)
+def get_repeating_intermediate_result
   last_two = [1,0]
   last_digit_sequence = []
 
@@ -973,16 +966,15 @@ end
 
 
 def fast_fibo(num)
-    fibo_sequence = get_repeating_intermediate_result(num)
+    fibo_sequence = get_repeating_intermediate_result
    index = 0
    narrowed_fibo_values = num % 60
 
-   2.upto(narrowed_fibo_values) do |_|
-     fibo_sequence[index]
-     index += 1
-   end
-    fibo_last_digit =  fibo_sequence[index]
+   fibo_last_digit = fibo_sequence[narrowed_fibo_values - 1]
+
 end
 
 
-   p fast_fibo(123456789987745)
+   p fast_fibo(123456789)
+
+

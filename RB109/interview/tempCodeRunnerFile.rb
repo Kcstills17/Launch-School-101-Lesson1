@@ -1,1 +1,1 @@
- check_for_integer(str).include?(element)
+ letter_arr = ('a'..'z')
