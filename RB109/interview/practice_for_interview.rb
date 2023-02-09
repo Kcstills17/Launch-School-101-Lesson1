@@ -501,7 +501,7 @@ wave("hello") => ["Hello", "hEllo", "heLlo", "helLo", "hellO"]
 =end
 
 def wave(str)
-  (0..str.length-1).map{|i|  str[0...i] + str[i].upcase + str[i+1..-1] if str[i] != " "}.compact
+ (0..str.length-1).map{|i|  str[0...i] + str[i].upcase + str[i+1..-1] if str[i] != " "}.compact
 end
 
 

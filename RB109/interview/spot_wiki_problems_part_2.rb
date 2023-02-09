@@ -1014,7 +1014,9 @@ C: Code with intent
 Pete likes to bake some cakes. He has some recipes and ingredients. Unfortunately he is not good in maths. Can you help him to find out, how many cakes he could
  bake considering his recipes?
 
-Write a function cakes(), which takes the recipe (object) and the available ingredients (also an object) and returns the maximum number of cakes Pete can bake (integer). For simplicity there are no units for the amounts (e.g. 1 lb of flour or 200 g of sugar are simply 1 or 200). Ingredients that are not present in the objects, can be considered as 0.
+Write a function cakes(), which takes the recipe (object) and the available ingredients (also an object) and returns the maximum number of cakes Pete can
+bake (integer). For simplicity there are no units for the amounts (e.g. 1 lb of flour or 200 g of sugar are simply 1 or 200). Ingredients that are not present
+in the objects, can be considered as 0.
 
 Examples:
 
@@ -1022,19 +1024,59 @@ Examples:
 cakes({flour: 500, sugar: 200, eggs: 1}, {flour: 1200, sugar: 1200, eggs: 5, milk: 200});
 // must return 0
 cakes({apples: 3, flour: 300, sugar: 150, milk: 100, oil: 100}, {sugar: 500, flour: 2000, milk: 2000});
+
+
+P. Understand the Problem
+  Explicit Requirements:
+  - input is two hashes.
+   the key from the first hash is the ingredients from a recipe and the values are the amount of ingredients necessary to make 1 cake
+   the key from the second hash is the available ingredients and the values are the amount of ingredients that we currently have.
+  - output is an integer that represents the number of cakes that can be made using hsh1 and based off of hsh 2
+  -
+
+  Implicit Requirements:
+  - if hsh 2 is empty we cant make any cakes so return 0
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+
+
+D: Data Structures
+  - input: two hashes
+  - output: boolean
+  - possible intermediary structure: arrays to  check the keys if each hash to see if hsh2 contains all of the keys of hash 1
+
+
+A: Algorithm
+- return 0 if hsh2 is empty
+- initialize two variables that are set to the sorted values of both hsh1 and hsh2 and converted back to a hash
+- check the keys of the sorted hsh1 and then return false if not all keys are included in hsh2
+- if that is not the case select all keys from hsh2 that appears in hsh1 and ignore any that do not appear
+- combine the values of both hsh1 and hsh2 and then iterate through this new combined arr
+- divide the first index of the array by the second index of the array at each iteration.
+- take this final array result value and return the lowest integer value in the array .
+
+C: Code with intent
+
+
+
+
 =end
 
 def cakes(hsh1, hsh2)
   return 0 if hsh2.empty?
     sorted_hsh1 =  hsh1.sort.to_h
     sorted_hsh2 = hsh2.sort.to_h
-   return 0  if sorted_hsh1.keys.all? {|ingredients| hsh2.keys.include?(ingredients)}  == false
+   return 0  if sorted_hsh1.keys.all? {|ingredients| hsh2.keys.include?(ingredients)} == false
    sorted_hsh2.select! {|k|  sorted_hsh1.include?(k) }
-    sorted_hsh2.values.zip(sorted_hsh1.values).map {|array|  array[0] / array[1]}.min
+  sorted_hsh2.values.zip(sorted_hsh1.values).map {|array|  array[0] / array[1]}.min
 end
 
 
- cakes({"flour"=>500, "sugar"=>200, "eggs"=>1},{"flour"=>1200, "sugar"=>1200, "eggs"=>5, "milk"=>200}) == 2
+ p cakes({"flour"=>500, "sugar"=>200, "eggs"=>1},{"flour"=>1200, "sugar"=>1200, "eggs"=>5, "milk"=>200}) == 2
  cakes({"cream"=>200, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>1700, "flour"=>20000, "milk"=>20000, "oil"=>30000, "cream"=>5000}) == 11
  cakes({"apples"=>3, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>500, "flour"=>2000, "milk"=>2000}) == 0
  cakes({"apples"=>3, "flour"=>300, "sugar"=>150, "milk"=>100, "oil"=>100},{"sugar"=>500, "flour"=>2000, "milk"=>2000, "apples"=>15, "oil"=>20}) == 0
@@ -1045,7 +1087,15 @@ end
 
 
 
+
+
+
+
+
+
+
 =begin
+26. Mean Square Error
 https://www.codewars.com/kata/51edd51599a189fe7f000015/train/ruby
 
 Complete the function that
@@ -1096,7 +1146,7 @@ C: Code with intent
 
 
 =end
-
+=begin
 def solution(arr1, arr2)
   combined_arr = arr1.zip(arr2)
   sorted_arr = combined_arr.map {|arr| arr.sort {|a, b| b <=> a}}
@@ -1109,6 +1159,7 @@ end
  solution([10, 20, 10, 2], [10, 25, 5, -2]) == 16.5
  solution([-1, 0], [0, -1])  == 1
 
+=end
 
 
 
