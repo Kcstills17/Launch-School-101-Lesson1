@@ -1,1 +1,1 @@
-3
+  reversed_arr = reverse_words(str)
