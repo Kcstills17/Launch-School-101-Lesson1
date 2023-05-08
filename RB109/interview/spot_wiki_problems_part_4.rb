@@ -607,7 +607,7 @@ C: Code with intent
   def decipher_this(str)
     converted_letters = str.split.map {|word| word.scan(/[^a-z]/).join.to_i.chr}
     only_letters = str.split.map {|word|  word.scan(/[a-z]/).join}
-    scrambled_letters = only_letters.map.with_index {|char, i|  only_letters[i].insert(0, converted_letters[i])}
+   p scrambled_letters = only_letters.map.with_index {|char, i|  only_letters[i].insert(0, converted_letters[i])}
     scrambled_letters.map do |word|
       word.size < 2 ? word : (word[1], word[-1] = word[-1], word[1])
       word
@@ -616,10 +616,10 @@ C: Code with intent
 
 
      decipher_this("65 119esi 111dl 111lw 108dvei 105n 97n 111ka") == "A wise old owl lived in an oak"
-     decipher_this("84eh 109ero 104e 115wa 116eh 108sse 104e 115eokp") == "The more he saw the less he spoke"
-     decipher_this("84eh 108sse 104e 115eokp 116eh 109ero 104e 104dare") == "The less he spoke the more he heard"
-     decipher_this("87yh 99na 119e 110to 97ll 98e 108eki 116tah 119esi 111dl 98dri") == "Why can we not all be like that wise old bird"
-     decipher_this("84kanh 121uo 80roti 102ro 97ll 121ruo 104ple") == "Thank you Piotr for all your help"
+     #decipher_this("84eh 109ero 104e 115wa 116eh 108sse 104e 115eokp") == "The more he saw the less he spoke"
+     #decipher_this("84eh 108sse 104e 115eokp 116eh 109ero 104e 104dare") == "The less he spoke the more he heard"
+     #decipher_this("87yh 99na 119e 110to 97ll 98e 108eki 116tah 119esi 111dl 98dri") == "Why can we not all be like that wise old bird"
+     #decipher_this("84kanh 121uo 80roti 102ro 97ll 121ruo 104ple") == "Thank you Piotr for all your help"
 
 
 
@@ -1228,7 +1228,7 @@ Beware: r must be without duplicates.
 Don't mutate the inputs.
 
 
-P. Understand the Problem
+P. Understand the foblem
   Explicit Requirements:
   - we have two arrays. We are to check all substring of a2 to see if any words from a1 are included.
   - if they are included we are to add those words to a new array as our input is to remain unmodified
@@ -1435,3 +1435,40 @@ end
  find_missing_letter(["b","d"]) ==  "c"
  find_missing_letter(["a","b","d"])  == "c"
  find_missing_letter(["b","d","e"])  =="c"
+require 'prime'
+
+p 4.prime?
+
+
+
+# def pairs(arr)
+#   pairs = []
+#   counter = arr.size - 1
+
+#   (0..((arr.size - 1) / 2)).each do |i|
+#     pairs << [arr[i], arr[counter]]
+#     counter -= 1
+#   end
+
+#   pairs
+# end
+
+def sum_pairs(arr, sum)
+  pairs = []
+
+  (0...arr.size).each do |i|
+    (i+1...arr.size).each do |ii|
+      if arr[i] + arr[ii] == sum
+        pairs << [arr[i], arr[ii], ii]
+      end
+    end
+  end
+
+  return nil if pairs.empty?
+  pairs.sort_by! { |subarr| subarr[-1] }
+  pairs[0].pop
+  pairs[0]
+end
+
+
+p sum_pairs([1, 2, 4, 5, 2, 6],  25)

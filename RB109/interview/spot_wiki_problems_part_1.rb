@@ -966,44 +966,7 @@ C: Code with intent
 
 =end
 
-def word_include_letters?(str)
-   str.split.any? {|char|  char.size > 1 ? char.each_char.any? {|l| l.downcase.match(/[a-z]/)} : char.downcase.match(/[a-z]/) }
-end
 
-def has_letters_and_smaller_or_equal_to_three(str)
-  top_words = []
-  str_size = str.split.size
-  top_words = []
-  words = []
-   str.each_char {|char| words << char if char.downcase.match(/[a-z'\s]/)}
-   words = words.join.split
-   word_count = words.map {|word|  words.count(word)}
-  word_count = word_count.reverse
-  words.size.times {|n|  words.each {|char| top_words << char.downcase if word_count[n] == words.count(char) } }
-  top_words.uniq
-end
-
-def has_letters_and_greater_than_three(str)
-  top_words = []
-  filtered_chars = str.chars.map {|l|  l if l.downcase.match(/[a-z\s]/) }.join.split
-  top_3_words = []
-  top_3_word_count = []
-   word_count = filtered_chars.map {|word|  str.split.count(word)  }
-   word_count =  word_count.sort.uniq.reverse
-   3.times {|n|    top_3_word_count << word_count[n] && filtered_chars.each {|char| top_3_words << char.downcase if top_3_word_count[n] == filtered_chars.count(char) }}
-  top_3_words.uniq.slice(0..2)
-end
-
-def top_3_words(str)
-  top_words = []
- if  !word_include_letters?(str) && str.split.size <= 3
-   return top_words
- elsif str.split.size <= 3 && word_include_letters?(str)
- has_letters_and_smaller_or_equal_to_three(str)
- else
-  has_letters_and_greater_than_three(str)
- end
-end
 
 top_3_words("a a a  b  c c  d d d d  e e e e e") == ["e", "d", "a"]
 top_3_words("e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e") == ["e", "ddd", "aa"]

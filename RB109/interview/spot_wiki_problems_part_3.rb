@@ -677,19 +677,15 @@ C: Code with intent
 =end
 
 def wave(str)
-  mexican_wave = []
-  str.chars.each_with_index do |char, i|
-    current_wave = str[0...i] + char.upcase + str[i+1..-1] if char != ' '
-    mexican_wave << current_wave
-  end
-   mexican_wave.compact
+  mexican_wave = str.chars.map.with_index { |char, i|  current_wave = str[0...i] + char.upcase + str[i + 1..-1] if char != ' '}
+  mexican_wave.compact
 end
 
- wave("hello") == ["Hello", "hEllo", "heLlo", "helLo", "hellO"]
-  wave("codewars") == ["Codewars", "cOdewars", "coDewars", "codEwars", "codeWars", "codewArs", "codewaRs", "codewarS"]
-  wave("") == []
-  wave("two words") == ["Two words", "tWo words", "twO words", "two Words", "two wOrds", "two woRds", "two worDs", "two wordS"]
-  wave(" gap ") == [" Gap ", " gAp ", " gaP "]
+ #wave("hello") == ["Hello", "hEllo", "heLlo", "helLo", "hellO"]
+  p wave("codewars") == ["Codewars", "cOdewars", "coDewars", "codEwars", "codeWars", "codewArs", "codewaRs", "codewarS"]
+  p wave("") == []
+  p wave("two words") == ["Two words", "tWo words", "twO words", "two Words", "two wOrds", "two woRds", "two worDs", "two wordS"]
+  p  wave(" gap ") == [" Gap ", " gAp ", " gaP "]
 
 
 
@@ -1245,7 +1241,7 @@ C: Code with intent
 =end
 
 def check_if_prime_number(int)
- (2..100000).map {|num|  int % num}.count(0) == 1
+  (2..100000).map {|num|   int % num}.count(0) == 1
 end
 
 def minimum_number(arr)
@@ -1262,11 +1258,11 @@ def minimum_number(arr)
 end
 
 
-minimum_number([3,1,2]) #== 1
-minimum_number([5,2]) == 0
-minimum_number([1,1,1]) == 0
-minimum_number([2,12,8,4,6]) == 5
-minimum_number([50,39,49,6,17,28]) == 2
+ minimum_number([3,1,2]) #== 1
+#minimum_number([5,2]) == 0
+#minimum_number([1,1,1]) == 0
+#minimum_number([2,12,8,4,6]) == 5
+#minimum_number([50,39,49,6,17,28]) == 2
 
 
 
@@ -1280,3 +1276,20 @@ minimum_number([50,39,49,6,17,28]) == 2
 
 
 
+
+def find_even_index(arr)
+   arr.map.with_index do |num, i|
+   left_of_num = arr[0...i]
+   right_of_num = arr[i + 1 .. -1]
+    return i if  left_of_num.sum - right_of_num.sum == 0
+  end.compact
+  -1
+end
+
+p find_even_index([1,100,50,-51,1,1]) ==1
+p find_even_index([1,2,3,4,5,6]) ==-1
+p find_even_index([20,10,30,10,10,15,35]) ==3
+
+
+p find_even_index([0,0,0,0,0]) == 0
+p find_even_index([-1,-2,-3,-4,-3,-2,-1]) ==3

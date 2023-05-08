@@ -299,38 +299,36 @@ C: Code with intent
 
 =end
 
-def light_hash(rounds)
-  lights = Hash.new
-  1.upto(rounds) { |number| lights[number] = "off" }
-   lights
+# Initialize the lights hash with all lights set to :on
+def initialize_lights_hsh(int)
+  hash = {}
+  (1..int).each { |round| hash[round] = :on }
+  hash
 end
 
-def lights_that_are_on(lights)
-   lights.select {|number, state|  state == 'on'}.keys
-
+# Toggle the lights based on divisibility by round
+def toggle_lights(hsh, round)
+  hsh.each do |k, v|
+    hsh[k] = (k % round).zero? ? (v == :on ? :off : :on) : v
+  end
 end
 
-def lights_that_are_off(lights)
-  lights.select {|number, state| state == 'off'}.keys
+# Get the keys of the lights that are still :on
+def get_on_lights(hsh)
+  hsh.keys.select { |k| hsh[k] == :on }
 end
 
-def switch_value(lights, chosen_number )
-    lights.each do |position, state|
-       if position % chosen_number == 0
-        lights[position] = (state == 'off') ?  "on" : 'off'
-       end
-    end
+# Main method to implement the lights toggling algorithm
+def lights(int)
+  hsh = initialize_lights_hsh(int)
+  2.upto(int) { |round| toggle_lights(hsh, round) }
+  get_on_lights(hsh)
 end
 
-def toggle_lights(number_of_lights)
-  lights = light_hash(number_of_lights)
-  1.upto(lights.size) {|determinate| switch_value(lights, determinate)}
-  lights_that_are_on(lights)
 
-end
-
-  toggle_lights(5)
-
+p lights(5) == [1, 4]
+p lights(10) == [1, 4, 9]
+p lights(1000)
 
 
 =begin
