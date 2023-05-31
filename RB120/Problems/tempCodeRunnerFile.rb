@@ -1,12 +1,14 @@
-class Cat
-    attr_accessor :name
+class Noble
+  attr_reader :name, :title
+  include Walkable
 
-    def initialize(name)
-      @name = name
-    end
-
-    def greet
-       "Hello! My name is #{@name}!"
-    end
-
+  def initialize(name, title)
+    @name = name
+    @title = title
   end
+
+  private
+  def gait
+    "struts"
+  end
+end
