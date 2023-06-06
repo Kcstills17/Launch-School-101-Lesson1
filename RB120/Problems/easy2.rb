@@ -404,7 +404,6 @@ end
 module Walkable
   def walk
     @title == nil ?  "#{self.name} #{gait} forwards" :  "#{@title} #{self.name} #{gait} forwards"
-
   end
 end
 
@@ -484,3 +483,66 @@ p flash.walk
 byron = Noble.new("Byron", "Lord")
 p byron.walk
 # Output: "Byron strolls forwards"
+
+
+
+
+=begin
+  Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
+P. Understand the Problem
+  Explicit Requirements:
+  - we are given an array and an integer
+  - our goal is to find 2 indexes from our input array that add up to be the input integer
+
+  Implicit Requirements:
+  -
+
+  Clarifications/ Questions:
+  -
+
+E: Examples/ Edge Cases
+
+
+D: Data Structures
+  - input: array and int
+  - output: array
+  - possible intermediary structure: array
+
+
+A: Algorithm
+- we need to get each pair of indexes that represent two integers that match our given input
+- initialize an empty arr
+- we can iterate through the input array and get an array from 0 to the size of the input arr non inclusive.  name that param elem
+- then iterate from elem + 1 to the size of the arr non inclusive
+- append to the new array a arr that is [arr[elem], arr[inner_elem]]
+
+- now pass through that new array into the main method
+  - iterate through the arr and get each first element and second element.
+  - seelct the arr that when the input arr[first_element] + input_arr[second_element] is == to the input integer
+  - return that arr or series of arrays
+
+C: Code with intent
+
+
+
+=end
+
+
+
+
+

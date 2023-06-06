@@ -221,7 +221,6 @@ class Person3
 
   def name
     "#{@first_name} #{@last_name}"
-
   end
 end
 
