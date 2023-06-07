@@ -15,39 +15,68 @@
 # scissors > paper, lizard
 # lizard > paper, spock
 # spock > scissors, rock
+
+# 3. Add a class for each individual move.
+# after implementing all moves as individ. classes
+# here are some thoughts
+# using each move as a class I think allows for more
+# natural inheritance and because of that, more natural
+# polymorphism is at play.
+# in the case here inheritance Is useful because there is still
+# key features that all move classes should have and to avoid
+# redundancy and overcoding. Also
+# display_win_description, >, and < method's are all implemented
+# differently within each subclass.
+
+# was this change good? What are some cons?
+# I think the use of individual classes makes the code more readable in terms of
+# quickly identifying where differences in the output of each move class.
+# However compared to the previous implementation where each move
+# was grouped in a hash with the current value as the key
+# and the moves it wins against as the values it is a much longer
+# version. This could simply be due to my poor implementation.
+# Overall I would say for a more in depth RPS game that each move
+# having a class is a better idea so you can add more
+# specificity using inheritance and polymorphism.
+# In a bare bones RPS games that is not needed
+# to overall have short and succint code.
+
+# 4. Keep track of a history of moves. Will you create a class?
+# I decided not to create a class as the score history is a feature of both
+# Human and Computer so I decided to add an instance of score_history in
+# player and pass it down through inheritance. I decided to use an
+# array to then append each move from whatever the current move class
+# is the current one for both players. I then created 3 methods
+# one that appends to the history array, one that prints out
+# the results of both the player and computer, and one that
+# resets the total after a game is finished.
 class Move
   VALUES = ['rock', 'paper', 'scissors', 'lizard', 'spock']
-  # due to the operator complexity it was best to
-  # replace the methods for each move and long
-  # >/< methods with using a hash here
-  WINNING_COMBINATIONS = {
-    'rock' => ['scissors', 'lizard'],
-    'paper' => ['rock', 'spock'],
-    'scissors' => ['paper', 'lizard'],
-    'lizard' => ['paper', 'spock'],
-    'spock' => ['rock', 'scissors']
-  }
 
   attr_reader :value
 
   def initialize(value)
     @value = value
-    # now we only need to initialize value and not set it manually
-    # to moves
   end
 
-  def >(other_move)
-    WINNING_COMBINATIONS[value].include?(other_move.value)
-    # we have our value of the hash (the human move)
-    # we then see if the computer move is included
-    # if so > is true and can be used as a greater
-    # operator
+  def rock?
+    @value == 'rock'
   end
 
-  def <(other_move)
-    WINNING_COMBINATIONS[other_move.value].include?(value)
-    # same situation but now it is true and can be
-    # used as a less than operator
+  def paper?
+    @value == 'paper'
+  end
+
+  def scissors?
+    @value == "scissors"
+  end
+
+  def lizard?
+    @value == 'lizard'
+  end
+
+  def spock?
+    @value == 'spock'
   end
 
   def to_s
@@ -55,12 +84,108 @@ class Move
   end
 end
 
+class Rock < Move
+  def >(other_move)
+    other_move.scissors? || other_move.lizard?
+  end
+
+  def <(other_move)
+    other_move.paper? || other_move.spock?
+  end
+
+  def display_win_description(other_move)
+    case other_move
+    when Scissors
+      "Rock crushes Scissors"
+    when Lizard
+      "Rock flattens Lizard"
+    end
+  end
+end
+
+class Paper < Move
+  def >(other_move)
+    other_move.rock? || other_move.spock?
+  end
+
+  def <(other_move)
+    other_move.scissors? || other_move.lizard?
+  end
+
+  def display_win_description(other_move)
+    case other_move
+    when Rock
+      "Paper covers Rock"
+    when Spock
+      "Paper disproves Spock"
+    end
+  end
+end
+
+class Scissors < Move
+  def >(other_move)
+    other_move.paper? || other_move.lizard?
+  end
+
+  def <(other_move)
+    other_move.rock? || other_move.spock?
+  end
+
+  def display_win_description(other_move)
+    case other_move
+    when Paper
+      "Scissors cuts Paper"
+    when Lizard
+      "Scissors decapitates Lizard"
+    end
+  end
+end
+
+class Lizard < Move
+  def >(other_move)
+    other_move.paper? || other_move.spock?
+  end
+
+  def <(other_move)
+    other_move.rock? || other_move.scissors?
+  end
+
+  def display_win_description(other_move)
+    case other_move
+    when Paper
+      "Lizard eats Paper"
+    when Spock
+      "Lizard poisons Spock"
+    end
+  end
+end
+
+class Spock < Move
+  def >(other_move)
+    other_move.rock? || other_move.scissors?
+  end
+
+  def <(other_move)
+    other_move.lizard? || other_move.paper?
+  end
+
+  def display_win_description(other_move)
+    case other_move
+    when Rock
+      "Spock vaporizes Rock"
+    when Scissors
+      "Spock smashes Scissors"
+    end
+  end
+end
+
 class Player
-  attr_accessor :move, :name, :score
+  attr_accessor :move, :name, :score, :history
 
   def initialize
     set_name
     @score = 0
+    @history = []
   end
 
   def increment_score
@@ -73,6 +198,29 @@ class Player
 
   def >(other_score)
     self.score > other_score
+  end
+
+  def score_history
+    history << move
+  end
+
+  def restore_score_history
+    self.history = []
+  end
+
+  def choose_move_class(choice)
+    case choice
+    when 'rock'
+      self.move = Rock.new(choice)
+    when 'paper'
+      self.move =   Paper.new(choice)
+    when 'scissors'
+      self.move =   Scissors.new(choice)
+    when 'lizard'
+      self.move =   Lizard.new(choice)
+    when 'spock'
+      self.move =   Spock.new(choice)
+    end
   end
 end
 
@@ -88,14 +236,14 @@ class Human < Player
   end
 
   def choose
-    choice = nil?
+    choice = nil
     loop do
       puts "please choose rock, paper scissors, lizard, or spock"
       choice = gets.chomp
       break if  Move::VALUES.include?(choice)
       puts 'not a valid choice'
     end
-    self.move = Move.new(choice)
+    self.move = choose_move_class(choice)
   end
 end
 
@@ -105,32 +253,10 @@ class Computer < Player
   end
 
   def choose
-    self.move = Move.new(Move::VALUES.sample)
+    choice = Move::VALUES.sample
+    self.move = choose_move_class(choice)
   end
 end
-
-=begin
-class Move
-  def initialize
-    # we can choose out of our three options RPS.
-    # keep track of turns possibly?
-  end
-
-end
-
-class Rules
-def initialize
-  # decide how many times we want to play to win
-  #other  states undetermined
-
-end
-end
-=end
-
-# def compare - unsure how  to use compare as of now
-
-# now we need an orchestration method to actually play the game.
-# Something like RPSGame
 
 class RPSGame
   attr_accessor :human, :computer
@@ -162,6 +288,22 @@ class RPSGame
     end
   end
 
+  def add_score_to_player_history
+    human.score_history
+    computer.score_history
+  end
+
+  def display_score_history
+    puts "_______________________________________________________"
+    puts "#{human.name}'s move history: #{human.history.join(', ')}"
+    puts "#{computer.name}'s move history: #{computer.history.join(', ')}"
+  end
+
+  def restore_score_history
+    human.restore_score_history
+    computer.restore_score_history
+  end
+
   def display_goodbye_message
     puts "Thanks for playing Rock, Paper, Scissors. Goodbye"
   end
@@ -171,6 +313,15 @@ class RPSGame
     puts "#{human.name} chose #{human.move}"
     puts "#{computer.name} chose #{computer.move}"
     puts "__________________________________"
+  end
+
+  def display_victory_description
+    return unless human.move && computer.move
+
+    winner_move = human.move > computer.move ? human.move : computer.move
+    loser_move = human.move < computer.move ? human.move : computer.move
+
+    puts winner_move.display_win_description(loser_move)
   end
 
   def display_winner
@@ -212,6 +363,7 @@ class RPSGame
     if human.score >= 2 || computer.score >= 2
       display_overall_winner
       reset_score
+      restore_score_history
       return true if !play_again?
     end
     false
@@ -226,8 +378,11 @@ class RPSGame
       display_score
       human.choose
       computer.choose
+      add_score_to_player_history
+      display_score_history
       increment_scores
       display_moves
+      display_victory_description
       display_winner
       break if finish_game?
     end

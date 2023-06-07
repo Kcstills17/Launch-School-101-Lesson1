@@ -386,7 +386,120 @@ spike = Dog.new
  spike.swim
 bud = Bulldog.new
  bud.swim
-p Bulldog.ancestors
-p Dog.ancestors
-p Cat.ancestors
-p Pet.ancestors
+ Bulldog.ancestors
+ Dog.ancestors
+ Cat.ancestors
+ Pet.ancestors
+
+
+
+
+
+ class Rock
+  attr_accessor :action
+
+  def initialize
+    @action = 'rock'
+  end
+
+  def paper?
+    "paper"
+  end
+
+  def >(other_move)
+    if other_move.paper?
+      puts 'true '
+    end
+  end
+
+end
+
+
+class Paper
+attr_accessor :action
+
+  def initialize
+    @action = 'paper'
+  end
+
+end
+
+
+class Scissors
+  attr_accessor :action
+
+  def initialize
+    @action = 'scissors'
+  end
+
+end
+
+
+class Lizard
+attr_accessor :action
+
+  def initialize
+    @action = 'lizard'
+  end
+
+end
+
+
+class Spock
+  attr_accessor :action
+
+  def initialize
+    @action = 'spock'
+  end
+
+end
+
+class Move
+  VALUES = ['rock', 'paper', 'scissors', 'lizard', 'spock']
+  # due to the operator complexity it was best to
+  # replace the methods for each move and long
+  # >/< methods with using a hash here
+
+
+  attr_accessor :r, :p, :s, :l, :sp
+
+  def initialize
+    @r = Rock.new
+    @p = Paper.new
+    @s = Scissors.new
+    @l = Lizard.new
+    @sp = Spock.new
+    # now we only need to initialize value and not set it manually
+    # to moves
+  end
+
+  #WINNING_COMBINATIONS = {
+  #  r.action => [s.action, l.action],
+  #  p.action => [r.action, sp.action],
+  #  s.action => [p.action, l.action],
+  #  l.action => [p.action, sp.action],
+  #  sp.action => [r.action, s.action]
+  #}
+
+  def >(other_move)
+    WINNING_COMBINATIONS[value].include?(other_move.value)
+    # we have our value of the hash (the human move)
+    # we then see if the computer move is included
+    # if so > is true and can be used as a greater
+    # operator
+  end
+
+  def <(other_move)
+    WINNING_COMBINATIONS[other_move.value].include?(value)
+    # same situation but now it is true and can be
+    # used as a less than operator
+  end
+
+  def to_s
+    value.to_s
+  end
+end
+
+
+rock_move = Rock.new
+puts  rock_move > 'paper'
