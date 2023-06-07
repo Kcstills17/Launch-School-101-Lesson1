@@ -50,6 +50,24 @@
 # one that appends to the history array, one that prints out
 # the results of both the player and computer, and one that
 # resets the total after a game is finished.
+
+# 4. designate specific move pattern for each computer player
+# Initial idea to create behavior class that will have
+# a corresponding instance method# for each player.
+# Then pass that it to the Computer player when choosing a name
+# post implementation :
+
+# initially i had some trouble setting up the Behavior class. But I quickly was
+# able to figure out I wanted to pass in a name (the randomly selected argument)
+# and then choose the logic of the moves based on what that name was.
+# then i ran into my main issue with this which was getting the
+# set_name and choose# implementation to work in tandem and
+# not be two separate samples.# eventually I decided to use super
+# to pass in the name attribute from player.# From there
+# I could use the logic from set_name to be passed in
+# as an argument# And because of this all other
+# functionality elsewhere remains intact
+
 class Move
   VALUES = ['rock', 'paper', 'scissors', 'lizard', 'spock']
 
@@ -81,6 +99,21 @@ class Move
 
   def to_s
     value.to_s
+  end
+end
+
+class Behavior
+  def logic(player_name)
+    case player_name
+    when 'Naruto'.downcase
+      then ['paper', 'scissors'].sample
+    when 'Goku'.downcase
+      then 'rock'
+    when 'Luffy'.downcase
+      then ['spock', 'lizard'].sample
+    when 'Ren'.downcase
+      then ['rock', 'paper', 'scissors', 'lizard', 'spock'].sample
+    end
   end
 end
 
@@ -213,13 +246,13 @@ class Player
     when 'rock'
       self.move = Rock.new(choice)
     when 'paper'
-      self.move =   Paper.new(choice)
+      self.move = Paper.new(choice)
     when 'scissors'
-      self.move =   Scissors.new(choice)
+      self.move = Scissors.new(choice)
     when 'lizard'
-      self.move =   Lizard.new(choice)
+      self.move = Lizard.new(choice)
     when 'spock'
-      self.move =   Spock.new(choice)
+      self.move = Spock.new(choice)
     end
   end
 end
@@ -248,12 +281,19 @@ class Human < Player
 end
 
 class Computer < Player
+  attr_accessor :character
+
+  def initialize
+    @character = Behavior.new
+    super
+  end
+
   def set_name
-    self.name = ['Naruto', 'Luffy', "Light", 'Yusuke', 'Ren', 'Gohan'].sample
+    self.name = ['Naruto', 'Luffy', 'Goku', 'Ren'].sample
   end
 
   def choose
-    choice = Move::VALUES.sample
+    choice = character.logic(name.downcase)
     self.move = choose_move_class(choice)
   end
 end
@@ -360,7 +400,7 @@ class RPSGame
   end
 
   def finish_game?
-    if human.score >= 2 || computer.score >= 2
+    if human.score >= 10 || computer.score >= 10
       display_overall_winner
       reset_score
       restore_score_history
@@ -374,6 +414,7 @@ class RPSGame
 
   def play
     display_welcome_message
+
     loop do
       display_score
       human.choose
@@ -384,8 +425,10 @@ class RPSGame
       display_moves
       display_victory_description
       display_winner
+
       break if finish_game?
     end
+
     display_goodbye_message
   end
 end
