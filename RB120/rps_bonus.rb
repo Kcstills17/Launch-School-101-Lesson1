@@ -200,11 +200,11 @@ class Player
     self.score > other_score
   end
 
-  def score_history
+  def move_history
     history << move
   end
 
-  def restore_score_history
+  def restore_history
     self.history = []
   end
 
@@ -289,8 +289,8 @@ class RPSGame
   end
 
   def add_score_to_player_history
-    human.score_history
-    computer.score_history
+    human.move_history
+    computer.move_history
   end
 
   def display_score_history
@@ -300,8 +300,8 @@ class RPSGame
   end
 
   def restore_score_history
-    human.restore_score_history
-    computer.restore_score_history
+    human.restore_history
+    computer.restore_history
   end
 
   def display_goodbye_message
