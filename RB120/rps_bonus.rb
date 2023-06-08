@@ -390,6 +390,14 @@ class RPSGame
     computer.restore_history
   end
 
+  def display_rps_and_increment_score
+    Display.score_history(human, computer)
+    increment_scores
+    Display.moves(human, computer)
+    Display.victory_description(human.move, computer.move)
+    Display.winner(human, computer)
+  end
+
   def finish_game?
     if human.score >= 10 || computer.score >= 10
       Display.overall_winner(human, computer)
@@ -408,12 +416,7 @@ class RPSGame
       human.choose
       computer.choose
       add_score_to_player_history
-      Display.score_history(human, computer)
-      increment_scores
-      Display.moves(human, computer)
-      Display.victory_description(human.move, computer.move)
-      Display.winner(human, computer)
-
+      display_rps_and_increment_score
       break if finish_game?
     end
 
