@@ -68,6 +68,112 @@
 # as an argument# And because of this all other
 # functionality elsewhere remains intact
 
+module Clear
+  def self.clear_system
+    sleep 1
+    system "clear"
+  end
+end
+
+module Display
+  include Clear
+
+  def self.welcome_message
+    puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
+    Clear.clear_system
+  end
+
+  def self.explain_game
+    puts "To win the game of RPSLS it is quite Simple"
+    sleep 2
+    puts "each move has an advantage over 2 other moves. For example"
+    puts  "Rock beats Scissors and Lizard. "
+    sleep 2
+    puts "each move also has 2 weaknesses as well however. To win the game"
+    puts "You  must beat your opponent 10 times"
+    sleep 2
+    Clear.clear_system
+  end
+
+  def self.introduce_opponent(human, computer)
+    puts "Now #{human.name}, you will be playing against #{computer.name}."
+    sleep 1.2
+    puts "#{computer.name}: It is a pleasure to meet you."
+    puts "I hope we have a Great match!"
+    sleep 1.2
+    puts "Now Let's begin the game!"
+    sleep 1.2
+    Clear.clear_system
+  end
+
+  def self.score(human, computer)
+    puts "#{human.name}'s score is #{human.score}"
+    puts "#{computer.name}'s score is #{computer.score}"
+  end
+
+  def self.format_history(history)
+    history.map { |move, count| "#{move.capitalize}:#{count}" }.join(' ')
+  end
+
+  def self.score_history(human, computer)
+    puts "_______________________________________________________"
+    puts "#{human.name}'s move history: #{format_history(human.history)}"
+    puts "#{computer.name}'s move history: #{format_history(computer.history)}"
+  end
+
+  def self.goodbye_message
+    puts "Thanks for playing Rock, Paper, Scissors. Goodbye"
+  end
+
+  def self.moves(human, computer)
+    puts "_________________________________"
+    puts "#{human.name} chose #{human.move}"
+    puts "#{computer.name} chose #{computer.move}"
+    puts "__________________________________"
+  end
+
+  def self.victory_description(winner_move, loser_move)
+    return unless winner_move && loser_move
+
+    puts winner_move.display_win_description(loser_move)
+  end
+
+  def self.winner(human, computer)
+    if human.move > computer.move
+      puts "#{human.name} wins!"
+    elsif human.move < computer.move
+      puts "#{computer.name} wins!"
+    else
+      puts "Tie game!"
+    end
+  end
+
+  def self.overall_winner(winner, loser)
+    if winner.score > loser.score
+      puts "#{winner.name} wins #{winner.score} to #{loser.score}!"
+    elsif winner_score < loser_score
+      puts "#{loser.name} wins #{loser.score} to #{winner.score}!"
+    else
+      puts "It's a tie game! #{winner.score} to #{loser.score}!"
+    end
+
+    Clear.clear_system
+  end
+
+  def self.play_again?
+    answer = nil
+    loop do
+      puts "Would you like to play again? Y/N ?"
+      answer = gets.chomp
+      Clear.clear_system
+      break if ['y', 'n'].include?(answer.downcase)
+      puts "sorry please choose Y or N"
+    end
+    return true if answer.downcase == 'y'
+    false
+  end
+end
+
 class Move
   VALUES = ['rock', 'paper', 'scissors', 'lizard', 'spock']
 
@@ -218,7 +324,8 @@ class Player
   def initialize
     set_name
     @score = 0
-    @history = []
+    @history = { "rock" => 0, "paper" => 0, "scissors" => 0, "lizard" => 0,
+                 'spock' => 0 }
   end
 
   def increment_score
@@ -234,11 +341,12 @@ class Player
   end
 
   def move_history
-    history << move
+    history[move.to_s] += 1
   end
 
   def restore_history
-    self.history = []
+    self.history = { "rock" => 0, "paper" => 0, "scissors" => 0, "lizard" => 0,
+                     'spock' => 0 }
   end
 
   def choose_move_class(choice)
@@ -265,13 +373,13 @@ class Human < Player
 
   def choose
     choice = nil
+    puts "please choose rock, paper scissors, lizard, or spock"
     loop do
-      puts "please choose rock, paper scissors, lizard, or spock"
       choice = gets.chomp
-      break if  Move::VALUES.include?(choice)
+      break if  Move::VALUES.include?(choice.downcase)
       puts 'not a valid choice'
     end
-    self.move = choose_move_class(choice)
+    self.move = choose_move_class(choice.downcase)
   end
 end
 
@@ -293,78 +401,17 @@ class Computer < Player
   end
 end
 
-module Display
-  def self.welcome_message
-    puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
-  end
-
-  def self.score(human, computer)
-    puts "#{human.name}'s score is #{human.score}"
-    puts "#{computer.name}'s score is #{computer.score}"
-  end
-
-  def self.score_history(human, computer)
-    puts "_______________________________________________________"
-    puts "#{human.name}'s move history: #{human.history.join(', ')}"
-    puts "#{computer.name}'s move history: #{computer.history.join(', ')}"
-  end
-
-  def self.goodbye_message
-    puts "Thanks for playing Rock, Paper, Scissors. Goodbye"
-  end
-
-  def self.moves(human, computer)
-    puts "_________________________________"
-    puts "#{human.name} chose #{human.move}"
-    puts "#{computer.name} chose #{computer.move}"
-    puts "__________________________________"
-  end
-
-  def self.victory_description(winner_move, loser_move)
-    return unless winner_move && loser_move
-
-    puts winner_move.display_win_description(loser_move)
-  end
-
-  def self.winner(human, computer)
-    if human.move > computer.move
-      puts "#{human.name} wins!"
-    elsif human.move < computer.move
-      puts "#{computer.name} wins!"
-    else
-      puts "Tie game!"
-    end
-  end
-
-  def self.overall_winner(winner, loser)
-    winner_name = winner.name
-    winner_score = winner.score
-    loser_score = loser.score
-
-    puts "#{winner_name} is the winner by
-     the score of #{winner_score} to #{loser_score}!"
-  end
-
-  def self.play_again?
-    answer = nil
-    loop do
-      puts "Would you like to play again? Y/N ?"
-      answer = gets.chomp
-      break if ['y', 'n'].include?(answer.downcase)
-      puts "sorry please choose Y or N"
-      puts '____________________________'
-    end
-    return true if answer.downcase == 'y'
-    false
-  end
-end
-
 class RPSGame
   attr_accessor :human, :computer
 
   def initialize
     @human = Human.new
     @computer = Computer.new
+  end
+
+  def score_and_score_history
+    Display.score(human, computer)
+    Display.score_history(human, computer)
   end
 
   def reset_score
@@ -390,12 +437,18 @@ class RPSGame
     computer.restore_history
   end
 
-  def display_rps_and_increment_score
-    Display.score_history(human, computer)
+  def rps_and_increment_score
     increment_scores
     Display.moves(human, computer)
     Display.victory_description(human.move, computer.move)
     Display.winner(human, computer)
+    Clear.clear_system
+  end
+
+  def set_game_up
+    Display.welcome_message
+    Display.explain_game
+    Display.introduce_opponent(human, computer)
   end
 
   def finish_game?
@@ -409,14 +462,13 @@ class RPSGame
   end
 
   def play
-    Display.welcome_message
-
+    set_game_up
     loop do
-      Display.score(human, computer)
+      score_and_score_history
       human.choose
       computer.choose
       add_score_to_player_history
-      display_rps_and_increment_score
+      rps_and_increment_score
       break if finish_game?
     end
 
