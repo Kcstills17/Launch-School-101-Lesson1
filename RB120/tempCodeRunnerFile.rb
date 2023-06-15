@@ -1,9 +1,2 @@
-  if  other_move.paper?
-      puts "Paper drives Spock mad"
-      return true
-    elsif other_move.lizard?
-      puts "Lizard frightens Spock to death"
-      return true
-    end
-  end
-  false
+ elsif count_computer_marker(@squares.values_at(*line)) == 3 #
+        return TTTGame::COMPUTER_MARKER

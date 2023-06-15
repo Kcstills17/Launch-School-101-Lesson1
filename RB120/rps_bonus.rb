@@ -116,6 +116,7 @@ module Display
   end
 
   def self.score_history(human, computer)
+
     puts "_______________________________________________________"
     puts "#{human.name}'s move history: #{format_history(human.history)}"
     puts "#{computer.name}'s move history: #{format_history(computer.history)}"
