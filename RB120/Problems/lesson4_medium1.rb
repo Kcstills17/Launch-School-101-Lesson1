@@ -54,7 +54,7 @@ my_invoice = InvoiceEntry.new('toys', 30)
 
 #the mistake here is in the instance method update_quantity the object that quantity refers to is
 # not the same as the object that the instance variable refers to. this will assume quantity is a local variable.
-#While object is set in the method  when you access the instance variable quantity of my_invoice it will remain unchanged.
+#While object is set in the method  when you access the instance variable @quantity of my_invoice it will remain unchanged.
 
 #two possible fixes are to use the @ to directly access the instance variable @quantity. Or  change quantity to be apart of an
 # attr_accessor and then refer to self in the instance method update_quantity.
@@ -196,7 +196,7 @@ class Computer2
   attr_accessor :template
 
   def create_template
-    @template = 5
+    @template = "template 14231"
   end
 
   def show_template
@@ -205,7 +205,31 @@ class Computer2
 end
 
 your_computer = Computer2.new
-p your_computer.show_template
-p your_computer.template
+ your_computer.show_template
+ your_computer.template
 
 #What is the difference in the way the code works?
+
+# both accomplish the same thing. However here self is not neccesary because attr_accessor creates a setter and getter method for @template that returns the
+# same value as the object @template references. Therefore we can just return template in show_template. It is better not to use self when not necessary
+
+
+
+#7. How could you change the method name below so that the method name is more clear and less repetitive?
+
+class Light
+  attr_accessor :brightness, :color
+
+  def initialize(brightness, color)
+    @brightness = brightness
+    @color = color
+  end
+
+  def light_status
+    "I have a brightness level of #{brightness} and a color of #{color}"
+  end
+
+end
+
+#since we already know the class references a light. The local variable that refers to the Light instance will proabbly relfect that in name. So a better way
+# to make the behavior name less redundant is to change light_status to just status.

@@ -393,24 +393,6 @@ bud = Bulldog.new
 
 
 
- class Behavior
-
-
-
- def logic(choice)
-  case choice
-  when 'Naruto'.downcase
-    then ['paper', 'scissors'].sample
-  when 'Goku'.downcase
-    then 'rock'
-  when 'Luffy'.downcase
-    then ['spock', 'lizard'].sample
-  when 'Ren'
-    then ['rock', 'paper', 'scissors', 'lizard', 'spock'].sample
-  end
- end
-end
-
 
 test = Behavior.new
 puts  test.logic(['naruto', 'goku', 'luffy'].sample)
