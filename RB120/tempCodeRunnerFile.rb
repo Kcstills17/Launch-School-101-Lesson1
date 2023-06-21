@@ -1,1 +1,1 @@
- (1..9).each { |key| @squares[key] = Square.new }
+board.standard_action(INITIAL_MARKER)
