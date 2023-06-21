@@ -4,8 +4,8 @@
 # Verbs: mark, play
 
 require "pry"
-class Board
 
+class Board
   attr_reader :squares
 
   WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
@@ -16,13 +16,8 @@ class Board
     @squares = {}
     (1..9).each { |key| @squares[key] = Square.new }
     reset
-    # what data structure should we use?
-    # - array/hash of Square objects?
-    # - array/hash of strings or integers?
   end
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   def draw
     puts ""
     puts "     |     |"
@@ -39,71 +34,57 @@ class Board
     puts ""
   end
 
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
-
   def []=(num, marker)
     @squares[num].marker = marker
   end
 
   def unmarked_keys
     @squares.select { |_, sq| sq.unmarked? }.keys
-
   end
 
   def full?
     unmarked_keys.empty?
   end
 
-
   def three_identical_markers?(squares)
     markers = squares.select(&:marked?).collect(&:marker)
     return false if markers.size != 3
     markers.min == markers.max
-    # min will return string closer to A and max will return string closer to Z.
-    # so if they are not the same the method will be false
   end
-
 
   def someone_won?
     !!winning_marker
   end
 
-def group_marker_count(marker)
- result =  WINNING_LINES.select do |line|
-    line.select {|num|  @squares[num].marker == marker}.count == 2 &&
-    line.select {|num|@squares[num].marker == ' ' }.count == 1
+  def group_marker_count(marker)
+    WINNING_LINES.select do |line|
+      line.select { |num| @squares[num].marker == marker }.count == 2 &&
+      line.select { |num| @squares[num].marker == ' ' }.count == 1
+    end
   end
-  result
-end
 
-def need_defense?(marker)
-group_marker_count(marker).any?
-end
+  def need_action?(marker)
+    group_marker_count(marker).any?
+  end
 
-def need_offense?(marker)
-group_marker_count(marker).any?
-end
+  def make_move(marker)
+    moves = group_marker_count(marker)
+    moves.map { |arr| p arr.select { |num| @squares[num].marker == ' ' } }.flatten.sample
+  end
 
-def make_move(marker)
-moves = group_marker_count(marker)
-moves.map {|arr| p arr.select {|num|  @squares[num].marker == ' '}}.flatten.sample
-
-end
+  def standard_action(marker)
+    squares[5].marker == marker ? 5 : unmarked_keys.sample
+  end
 
   def winning_marker
     WINNING_LINES.each do |line|
       squares = @squares.values_at(*line)
-      if three_identical_markers?(squares) # => we wish this method existed
-        return squares.first.marker # => return the marker, whatever it is
-
+      if three_identical_markers?(squares)
+        return squares.first.marker
       end
     end
     nil
   end
-
-
-
 
   def reset
     (1..9).each { |key| @squares[key] = Square.new }
@@ -120,7 +101,6 @@ class Square
 
   def initialize(marker = INITIAL_MARKER)
     @marker = marker
-    # maybe a "status" to keep track of this square's mark?
   end
 
   def to_s
@@ -134,9 +114,6 @@ class Square
   def unmarked?
     marker == INITIAL_MARKER
   end
-
-
-
 end
 
 class Player
@@ -144,7 +121,6 @@ class Player
 
   def initialize(marker)
     @marker = marker
-    # maybe a "marker" to keep track of this player's symbol (ie, 'X' or 'O')
   end
 end
 
@@ -174,7 +150,7 @@ end
 
 class TTTGame
   attr_reader :board, :human, :computer, :score, :human_score, :computer_score
-
+  INITIAL_MARKER = ' '
   HUMAN_MARKER = 'X'
   COMPUTER_MARKER = 'O'
 
@@ -182,14 +158,16 @@ class TTTGame
     @board = Board.new
     @human = Player.new(HUMAN_MARKER)
     @computer = Player.new(COMPUTER_MARKER)
-    @current_marker = HUMAN_MARKER
+    @current_marker = nil
     @human_score = Score.new
     @computer_score = Score.new
   end
 
   def play
     clear_screen_and_display_board
+    decide_first_player
     display_welcome_message
+
     main_game
     display_goodbye_message
   end
@@ -260,6 +238,29 @@ class TTTGame
     computer_score.reset
   end
 
+  def introduction
+    puts "Hello! and welcome to Tic-Tac-Toe. "
+    puts ''
+    puts "The rules are simple. You play against an opponent and you each have a mark."
+    puts "Your goal is to have 3 consecutive marks in a row unimpeded."
+    puts "each time you do this, you win the round. Win 5 rounds and you are the Winner!"
+    puts "Now prepare for the match to begin!"
+    sleep 5
+  end
+
+  def decide_first_player
+    puts "Do you want to go first? Or defer to the computer? (F/S) F for first, S for second"
+    answer = nil
+
+    loop do
+      answer = gets.chomp.downcase
+      break if ['f', 's'].include?(answer)
+      puts "Please provide a valid choice"
+    end
+
+    @current_marker = (answer == 'f') ? HUMAN_MARKER : COMPUTER_MARKER
+  end
+
   def human_move
     display_current_scores
     puts "It's your turn to choose a move."
@@ -276,12 +277,12 @@ class TTTGame
   end
 
   def computer_move
-    if board.need_defense?(HUMAN_MARKER)
-      board[board.make_move(HUMAN_MARKER)] = computer.marker
-    elsif board.need_offense?(COMPUTER_MARKER)
-      board[board.make_move(COMPUTER_MARKER)] = COMPUTER_MARKER
+    if board.need_action?(COMPUTER_MARKER)
+      board[board.make_move(COMPUTER_MARKER)] = computer.marker
+    elsif board.need_action?(HUMAN_MARKER)
+      board[board.make_move(HUMAN_MARKER)] = COMPUTER_MARKER
     else
-      board[board.unmarked_keys.sample] = computer.marker
+      board[board.standard_action(INITIAL_MARKER)] = COMPUTER_MARKER
     end
   end
 
@@ -321,7 +322,6 @@ class TTTGame
   def human_turn?
     @current_marker == HUMAN_MARKER
   end
-
 
   def display_current_scores
     puts "Score: You #{human_score}, Opponent #{computer_score}"

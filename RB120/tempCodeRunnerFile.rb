@@ -1,6 +1,1 @@
-
-end
-
-# we'll kick off the game like this
-game = TTTGame.new
-game.play
+ (1..9).each { |key| @squares[key] = Square.new }
