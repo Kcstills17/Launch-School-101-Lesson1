@@ -24,6 +24,7 @@ class Board
   def initialize
     @squares = {}
     (1..9).each { |key| @squares[key] = Square.new }
+
     reset
   end
 
@@ -69,30 +70,6 @@ class Board
 
   def someone_won?
     !!winning_marker
-  end
-
-  def group_marker_count(marker)
-    WINNING_LINES.select do |line|
-      line.select { |num| @squares[num].marker == marker }.count == 2 &&
-        line.select { |num| @squares[num].marker == ' ' }.count == 1
-    end
-  end
-
-  def need_action?(marker)
-    group_marker_count(marker).any?
-  end
-
-  def make_move(marker)
-    moves = group_marker_count(marker)
-    moves.map do |arr|
-      arr.select do |num|
-        @squares[num].marker == ' '
-      end
-    end.flatten.sample
-  end
-
-  def standard_action(marker)
-    squares[5].marker == marker ? 5 : unmarked_keys.sample
   end
 
   def winning_marker
@@ -172,12 +149,15 @@ class Human < Player
 end
 
 class Computer < Player
+  attr_reader :board
+
+  WINNING_LINES = Board::WINNING_LINES
   NAMES = ['Naruto', 'Luffy', 'Yusuke', 'Guts', 'Thorfinn']
 
-  def initialize
-    # @marker = (marker == 'X' ? "O" : 'X')
+  def initialize(board)
     @name = NAMES.sample
-    super
+    @board = board
+    super()
   end
 
   def marker(other_marker)
@@ -186,6 +166,31 @@ class Computer < Player
 
   def to_s
     name
+  end
+
+  def group_marker_count(marked, unmarked)
+    WINNING_LINES.select do |line|
+      # binding.pry
+      line.select { |num| board.squares[num].marker == marked }.count == 2 &&
+        line.select { |num| board.squares[num].marker == unmarked }.count == 1
+    end
+  end
+
+  def need_action?(marked, unmarked)
+    group_marker_count(marked, unmarked).any?
+  end
+
+  def make_move(marker, initial_marker)
+    moves = group_marker_count(marker, initial_marker)
+    moves.map do |arr|
+      arr.select do |num|
+        board.squares[num].marker == initial_marker
+      end
+    end.flatten.sample
+  end
+
+  def standard_action(marker)
+    board.squares[5].marker == marker ? 5 : board.unmarked_keys.sample
   end
 end
 
@@ -222,14 +227,13 @@ class TTTGame
   def initialize
     @board = Board.new
     @human = Human.new
-    @computer = Computer.new
+    @computer = Computer.new(@board)
     @current_marker = nil
     @human_score = Score.new
     @computer_score = Score.new
   end
 
   def play
-    # setup_markers
     introduction
     clear_screen_and_display_board
     display_welcome_message
@@ -285,16 +289,15 @@ class TTTGame
   end
 
   def setup_markers
-    # clear_screen_and_display_board
     human.assign_marker
     computer_marker
   end
 
   def win_game?
-    if human_score.score == 2
+    if human_score.score == 5
       puts "#{human} has won the game! #{human_score} to #{computer_score}"
       return true
-    elsif computer_score.score == 2
+    elsif computer_score.score == 5
       puts "#{computer} has won the game! #{computer_score} to #{human_score}"
       return true
     end
@@ -349,13 +352,33 @@ class TTTGame
   end
 
   def computer_move
-    if board.need_action?(computer_marker)
-      board[board.make_move(computer_marker)] = computer_marker
-    elsif board.need_action?(human_marker)
-      board[board.make_move(human_marker)] = computer_marker
+    if need_offense?
+      perform_offense
+    elsif need_defense?
+      perform_defense
     else
-      board[board.standard_action(INITIAL_MARKER)] = computer_marker
+      perform_standard_move
     end
+  end
+
+  def need_offense?
+    computer.need_action?(computer_marker, INITIAL_MARKER)
+  end
+
+  def perform_offense
+    board[computer.make_move(computer_marker, INITIAL_MARKER)] = computer_marker
+  end
+
+  def need_defense?
+    computer.need_action?(human_marker, INITIAL_MARKER)
+  end
+
+  def perform_defense
+    board[computer.make_move(human_marker, INITIAL_MARKER)] = computer_marker
+  end
+
+  def perform_standard_move
+    board[computer.standard_action(INITIAL_MARKER)] = computer_marker
   end
 
   def display_result
