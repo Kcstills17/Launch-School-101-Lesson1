@@ -5,6 +5,13 @@
 
 require "pry"
 
+module Clear
+  def clear_game
+    sleep 1
+    system 'clear'
+  end
+end
+
 class Board
   attr_reader :squares
 
@@ -101,10 +108,6 @@ class Board
   def reset
     (1..9).each { |key| @squares[key] = Square.new }
   end
-
-  def clear
-    system("clear") || system("cls")
-  end
 end
 
 class Square
@@ -133,9 +136,11 @@ class Player
 end
 
 class Human < Player
+  attr_accessor :marker
+
   def initialize
     @name = name?
-    @marker = marker?
+    @marker = nil
     super
   end
 
@@ -150,8 +155,8 @@ class Human < Player
     @name = answer.capitalize
   end
 
-  def marker?
-    puts "Which marker do you wish to choose? (X/O)"
+  def assign_marker
+    puts "Which marker do you wish to choose? (X/0)"
     answer = nil
     loop do
       answer = gets.chomp.upcase
@@ -169,10 +174,14 @@ end
 class Computer < Player
   NAMES = ['Naruto', 'Luffy', 'Yusuke', 'Guts', 'Thorfinn']
 
-  def initialize(marker)
-    @marker = (marker == 'X' ? "O" : 'X')
+  def initialize
+    # @marker = (marker == 'X' ? "O" : 'X')
     @name = NAMES.sample
-    super()
+    super
+  end
+
+  def marker(other_marker)
+    (other_marker == 'X' ? "O" : 'X')
   end
 
   def to_s
@@ -205,6 +214,7 @@ class Score
 end
 
 class TTTGame
+  include Clear
   attr_reader :board, :human, :computer, :score, :human_score, :computer_score
 
   INITIAL_MARKER = ' '
@@ -212,17 +222,17 @@ class TTTGame
   def initialize
     @board = Board.new
     @human = Human.new
-    @computer = Computer.new(human.marker)
+    @computer = Computer.new
     @current_marker = nil
     @human_score = Score.new
     @computer_score = Score.new
   end
 
   def play
+    # setup_markers
     introduction
     clear_screen_and_display_board
     display_welcome_message
-
     main_game
     display_goodbye_message
   end
@@ -230,14 +240,20 @@ class TTTGame
   private
 
   def display_board
-    puts "#{human} is #{human.marker}. #{computer} is #{computer.marker}."
+    human_marker = human.marker
+    computer_marker = human_marker.nil? ? 'TBD' : computer.marker(human_marker)
+
+    puts "#{human}'s mark: #{human_marker || 'TBD'}."
+    puts "#{computer}'s mark: #{computer_marker}."
+
+    puts ""
     puts ""
     board.draw
     puts ""
   end
 
   def clear_screen_and_display_board
-    board.clear
+    system "clear"
     display_board
   end
 
@@ -247,7 +263,7 @@ class TTTGame
   end
 
   def display_goodbye_message
-    system "clear"
+    clear_game
     puts "Thank you, #{human}, for playing Tic Tac Toe. Goodbye!"
   end
 
@@ -260,23 +276,18 @@ class TTTGame
     end
   end
 
-  def main_game
-    loop do
-      round
-      break unless play_again?
-      reset
-      display_play_again_message
-    end
+  def computer_marker
+    computer.marker(human.marker)
   end
 
-  def round
-    loop do
-      decide_first_player
-      player_move
-      display_result
-      break if win_game?
-      reset
-    end
+  def human_marker
+    human.marker
+  end
+
+  def setup_markers
+    # clear_screen_and_display_board
+    human.assign_marker
+    computer_marker
   end
 
   def win_game?
@@ -319,7 +330,7 @@ class TTTGame
       puts "Please provide a valid choice"
     end
 
-    @current_marker = answer == 'f' ? human.marker : computer.marker
+    @current_marker = answer == 'f' ? human_marker : computer_marker
   end
 
   def human_move
@@ -334,26 +345,28 @@ class TTTGame
       puts "Invalid choice. Please choose an available square."
     end
 
-    board[square] = human.marker
+    board[square] = human_marker
   end
 
   def computer_move
-    if board.need_action?(computer.marker)
-      board[board.make_move(computer.marker)] = computer.marker
-    elsif board.need_action?(human.marker)
-      board[board.make_move(human.marker)] = computer.marker
+    if board.need_action?(computer_marker)
+      board[board.make_move(computer_marker)] = computer_marker
+    elsif board.need_action?(human_marker)
+      board[board.make_move(human_marker)] = computer_marker
     else
-      board[board.standard_action(INITIAL_MARKER)] = computer.marker
+      board[board.standard_action(INITIAL_MARKER)] = computer_marker
     end
   end
 
   def display_result
     clear_screen_and_display_board
-    case board.winning_marker
-    when human.marker
-      puts "#{human} has won the round!" && human_score.increment
-    when computer.marker
-      puts "#{computer} has won the round!" && computer_score.increment
+
+    if board.winning_marker == human_marker
+      human_score.increment
+      puts "#{human} has won the round!"
+    elsif board.winning_marker == computer_marker
+      computer_score.increment
+      puts "#{computer} has won the round!"
     else
       puts "The board is full. It's a tie!"
     end
@@ -362,10 +375,10 @@ class TTTGame
   def current_player_move
     if human_turn?
       human_move
-      @current_marker = computer.marker
+      @current_marker = computer_marker
     else
       computer_move
-      @current_marker = human.marker
+      @current_marker = human_marker
     end
   end
 
@@ -378,7 +391,7 @@ class TTTGame
   end
 
   def human_turn?
-    @current_marker == human.marker
+    @current_marker == human_marker
   end
 
   def display_current_scores
@@ -393,6 +406,28 @@ class TTTGame
   def display_play_again_message
     puts "Let's play again!"
     puts ""
+  end
+
+  def main_game
+    loop do
+      round
+      break unless play_again?
+      reset
+      display_play_again_message
+      clear_game
+    end
+  end
+
+  def round
+    loop do
+      setup_markers
+      decide_first_player
+      player_move
+      display_result
+      break if win_game?
+      clear_game
+      reset
+    end
   end
 
   def play_again?

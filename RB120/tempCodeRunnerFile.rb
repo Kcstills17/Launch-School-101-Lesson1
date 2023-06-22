@@ -1,1 +1,1 @@
-board.standard_action(INITIAL_MARKER)
+
