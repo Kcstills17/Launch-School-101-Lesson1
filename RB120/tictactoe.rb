@@ -227,7 +227,7 @@ class TTTGame
   def initialize
     @board = Board.new
     @human = Human.new
-    @computer = Computer.new(@board)
+    @computer = Computer.new(board)
     @current_marker = nil
     @human_score = Score.new
     @computer_score = Score.new
