@@ -1,10 +1,3 @@
-# come up with Spike an create nouns and verbs for states and behaviors
-
-# nouns: Players, Grid, Square
-# Verbs: mark, play
-
-require "pry"
-
 module Clear
   def clear_game
     sleep 1
@@ -170,7 +163,6 @@ class Computer < Player
 
   def group_marker_count(marked, unmarked)
     WINNING_LINES.select do |line|
-      # binding.pry
       line.select { |num| board.squares[num].marker == marked }.count == 2 &&
         line.select { |num| board.squares[num].marker == unmarked }.count == 1
     end
