@@ -1,2 +1,6 @@
-  puts "Square 5 marker: #{board.squares[5].marker}"
-    puts "INITIAL_MARKER: #{marker}"
+ def show_flop
+    puts "---- #{name}'s Hand ----"
+    puts "#{cards.first}"
+    puts " ?? "
+    puts ""
+  end
