@@ -180,7 +180,7 @@ end
 #What would happen if I called the methods like shown below?
 
 tv = Television.new
-# local variable tv is created from Television constructor
+# locali variable tv is created from Television constructor
 begin
   tv.manufacturer
 rescue => exception
@@ -251,3 +251,5 @@ p fluorescent_light
 
 # the return statement in the class method information. The last line is automatically returned
 
+
+str =

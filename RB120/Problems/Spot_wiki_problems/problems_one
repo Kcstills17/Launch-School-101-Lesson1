@@ -1,0 +1,673 @@
+require "pry"
+
+# 1.
+class Person
+  attr_reader :name
+
+  def set_name
+    @name = 'Bob'
+  end
+end
+
+
+bob = Person.new
+p bob.name
+p bob
+
+# What is output and why? What does this demonstrate about instance variables that differentiates them from local variables?
+# On lines 4-10 a `Person` class is defined. On line 5 an `attr_reader` is invoked which passes in `:name` as an argument. This creates a getter method
+# for the instance variable `@name`. On line 7-10 there is a method definition `set_name`. The contents of this method initializes the instance var.
+# @name to the str `'Bob'`.
+# On line 13 a new Person object is instantiated and assigned to the local variable `bob`. On the following line we invoke the getter method of `name` on `bob` and
+# return nil. This is because `set_name` has never been invoked and therefore our instance variable `@name` is never initialized.
+# This provides the difference between local and instance variables. If you access an unitialized instance variable, `nil` will be returned. If you access an unitialized
+# local variable, an error will be raised.
+
+#2.
+ module Swimmable
+  def enable_swimming
+    @can_swim = true
+  end
+end
+
+class Dog
+  include Swimmable
+
+  def swim
+    "swimming!" if @can_swim
+  end
+end
+
+teddy = Dog.new
+p teddy.swim
+
+# What is output and why? What does this demonstrate about instance variables?
+
+#3. On lines 33-39 a `Dog` class is defined. On line 34 the `Swimmable` module is mixed in through the use of the keyword `include`.  This module is
+#defined on lines 27-31. on lines 28-30 the method definition of `enable_swimming` is defined. on lines 29 the method returns the result of initializing the instance var
+# @can_swim to true`. Back in our Dog Class in lines 36 through 38 the method definition of `swim` is defined. On line 37 the  method returns `"swimming"` if the
+# instance variable `@can_swim` evaluates to true
+# on line 41 a new Dog object is instantiated and set to local variable `teddy`
+# on the following line  the `swim` method is invoked on `teddy` and will return `nil`. This is because `enable_swimming` is never invoked and therefore the instance variable
+# `@can_swim ` is never initialized.
+# This demonstrates that  undefined instance variables will return nil when they have not been initialized yet.
+
+module Describable
+  def describe_shape
+    "I am a #{self.class} and have #{SIDES} sides."
+  end
+end
+
+class Shape
+  include Describable
+
+  def self.sides
+    self::SIDES
+  end
+
+  def sides
+    self.class::SIDES
+  end
+end
+
+class Quadrilateral < Shape
+  SIDES = 4
+end
+
+class Square < Quadrilateral; end
+
+p Square.sides
+p Square.new.sides
+#p Square.new.describe_shape
+
+# What is output and why? What does this demonstrate about constant scope? What does `self` refer to in each of the 3 methods above?
+
+=begin
+  p Square.sides # => 4
+  we look for a class method sides in Square. It does not exist so we go up the inheritance chain until we find one which we do in Shape.
+  The method then finds SIDES in Quadrilateral and prints 4. This is an example of the namespace/constant resolution operator
+
+  p Square.new.sides # => 4 This follows nearly the same logic however we are looking for an instance method of sides. This too exists
+  in Shape. The method accomplishes the same thing for calling the  namespace/constant resolution operator  on self.class and SIDES. 4 is also returned
+
+  p Square.new.describe_shape # error thrown Here we have our first error. an instance of Square has the Module method from Describable invoked upon it.
+  However the module Describable is not included in any of the inheritance chain Classes. Therefore Lexical scoping will be attempted.
+  After escaping the surrounding container, then superclass containers, and will check the main scope. It will not find SIDES and result in an error
+
+=end
+
+#4.
+
+class AnimalClass
+  attr_accessor :name, :animals
+
+  def initialize(name)
+    @name = name
+    @animals = []
+  end
+
+  def <<(animal)
+    animals << animal
+  end
+
+  def +(other_class)
+    animals.map(&:name) + other_class.animals.map(&:name)
+  end
+end
+
+class Animal
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+  end
+
+
+end
+
+mammals = AnimalClass.new('Mammals')
+mammals << Animal.new('Human')
+mammals << Animal.new('Dog')
+mammals << Animal.new('Cat')
+
+birds = AnimalClass.new('Birds')
+birds << Animal.new('Eagle')
+birds << Animal.new('Blue Jay')
+birds << Animal.new('Penguin')
+
+some_animal_classes = mammals + birds
+
+p  some_animal_classes
+
+
+# What is output? Is this what we would expect when using `AnimalClass#+`? If not, how could we adjust the implementation of `AnimalClass#+`
+# to be more in line with what we'd expect the method to return?
+
+=begin
+our result is an array that consist for each instance the Class, hexadecimal id for the object, and it's states and values
+Naturally we do not want all of these details. We just want the names. So perhaps we can modify our current +(other_class) method
+I made it where the instance being invoked is iterated through and then transformed into the result of the instance variable @name.
+
+ def +(other_class)
+    animals.map(&:name) + other_class.animals.map(&:name)
+  end
+
+Perform the same action on the other_class and both will add the string values that @name represents for each specific instance.
+=end
+
+
+#5.
+class GoodDog
+  attr_accessor :name, :height, :weight
+
+  def initialize(n, h, w)
+    @name = n
+    @height = h
+    @weight = w
+  end
+
+  def change_info(n, h, w)
+    self.name = n
+    self.height = h
+    self.weight = w
+  end
+
+  def info
+    "#{name} weighs #{weight} and is #{height} tall."
+  end
+end
+
+
+sparky = GoodDog.new('Spartacus', '12 inches', '10 lbs')
+sparky.change_info('Spartacus', '24 inches', '45 lbs')
+puts sparky.info
+# => Spartacus weighs 10 lbs and is 12 inches tall.
+
+# We expect the code above to output `”Spartacus weighs 45 lbs and is 24 inches tall.”` Why does our `change_info` method not work as expected?
+# in change_info each variable is a local variable and holds no value over our instance variables. A way to correct this would be to access the instance variables @ or
+# refer to self for each instance.
+
+
+
+#6.
+
+class Person
+  attr_accessor :name
+
+  def initialize(name)
+    @name = name
+  end
+
+  def change_name
+    self.name = name.upcase
+  end
+end
+
+bob = Person.new('Bob')
+p bob.name
+bob.change_name
+p bob.name
+
+# In the code above, we hope to output `'BOB'` on `line 16`. Instead, we raise an error. Why? How could we adjust this code to output `'BOB'`?
+  # in change_name, name is a local variable that has not been assigned any value. upcase is then invoked on  a nil value which will return a NoMethodError.
+  # to fix this we would want name to refer to the instance of the current object with self or @
+
+
+
+#7.
+
+  class Vehicle
+    @@wheels = 4
+
+    def self.wheels
+      @@wheels
+    end
+  end
+
+  #p Vehicle.wheels
+
+  class Motorcycle < Vehicle
+    @@wheels = 2
+  end
+
+  #p Motorcycle.wheels
+  #p Vehicle.wheels
+
+  class Car < Vehicle; end
+
+  #p Vehicle.wheels
+  #p Motorcycle.wheels
+  #p Car.wheels
+
+
+
+
+# What does the code above output, and why? What does this demonstrate about class variables, and why we should avoid using class variables when working with inheritance?
+# this outputs the result of Wheels on each class at different points of the code's execution. However at the end we can see all 3 classes when invoked by wheel return
+# the same value. This shows that class variables share 1 copy  in itself and all subclasses. So it is generally advised to avoid using class variables with inheritance.
+
+#8.
+class Animals
+  attr_accessor :name
+
+  def initialize(name)
+    @name = name
+  end
+end
+
+class GD < Animals
+  def initialize(color)
+    super
+    @color = color
+  end
+end
+
+bruno = GD.new("brown")
+p bruno
+
+
+
+# What is output and why? What does this demonstrate about `super`?
+# the class of the instance bruno points to, followed by it's hexadecimal object id, followed by it's states and values
+# this includes the instance variable @name which was initialized in the superclass  Animals
+# This demonstrates super can be used to inherit instance variables from superclasses.
+
+
+#9.
+class A
+  def initialize
+  end
+end
+
+class Bear < A
+  def initialize(color)
+    super
+    @color = color
+  end
+end
+
+#bear = Bear.new("black")
+
+# What is output and why? What does this demonstrate about `super`?
+# an ArgumentError stating that there has been given 1 argument when 0 is expected.
+# This shows if you use super with no () it is going to retrieve the parameters (or none) of the superclass that is being inherited from.
+# When the Bear instance is created it is still using the argument of the Bear initialize method which is not being used in this case.
+
+
+
+#10.
+
+module Walkable
+  def walk
+    "I'm walking."
+  end
+end
+
+module Swimmable
+  def swim
+    "I'm swimming."
+  end
+end
+
+module Climbable
+  def climb
+    "I'm climbing."
+  end
+end
+
+module Danceable
+  def dance
+    "I'm dancing."
+  end
+end
+
+class Animalss
+  include Walkable
+
+  def speak
+    "I'm an animal, and I speak!"
+  end
+end
+
+module GoodAnimals
+  include Climbable
+
+  class GoodDogs < Animalss
+    include Swimmable
+    include Danceable
+  end
+
+  class GoodCats < Animalss; end
+end
+
+good_dog = GoodAnimals::GoodDogs.new
+p good_dog
+
+# What is the method lookup path used when invoking `#walk` on `good_dog`?
+# GoodDogs, Danceable, Swimmable, Animalss, Walkable
+
+
+#11.
+class An
+  def eat
+    puts "I eat."
+  end
+end
+
+class Fish < An
+  def eat
+    puts "I eat plankton."
+  end
+end
+
+class Dogz < An
+  def eat
+    puts "I eat kibble."
+  end
+end
+
+def feed_animal(animal)
+  animal.eat
+end
+
+array_of_animals = [An.new, Fish.new, Dogz.new]
+
+array_of_animals.each do |animal|
+  feed_animal(animal)
+end
+
+# What is output and why? How does this code demonstrate polymorphism?
+#I eat.
+#I eat plankton.
+#I eat kibble.
+# This demonstrates Polymorphism through inheritance We have a base class An and two subclasses Dogz and Fish. These 2 classes inherit from An. However
+# in this case each method is overran. And their own version of the eat method is invoked. Later on when feed_animal(animal) is invoked from the array of
+# each class object. This will call eat on each object. This shows polymorphism since we have different types of objects interacting with the same interface.
+
+#12.
+
+class Human
+  attr_accessor :name, :pets
+
+  def initialize(name)
+    @name = name
+    @pets = []
+  end
+end
+
+class Pet
+  def jump
+    puts "I'm jumping!"
+  end
+end
+
+class Cat < Pet; end
+
+class Bulldog < Pet; end
+
+bob = Human.new("Robert")
+
+kitty = Cat.new
+bud = Bulldog.new
+
+bob.pets << kitty
+bob.pets << bud
+bob.pets
+
+# We raise an error in the code above. Why? What do `kitty` and `bud` represent in relation to our `Human` object?
+#The error occurs because we are invoking jump on bob.pets which is an array object and therefore will raise a NoMethodError.
+# kitty and bud represent pets. which is something that a Human has. Here the Pet object is appended within the Human object's state
+# This 'has-a' relationship is true for collaborator objects.
+
+
+class A
+  def initialize(name)
+    @name = name
+  end
+end
+
+class D < A
+  def initialize(name); end
+
+  def dog_name
+    "bark! bark! #{@name} bark! bark!"
+  end
+end
+
+teddy = D.new("Teddy")
+puts teddy.dog_name
+
+
+
+
+# What is output and why?
+# bark! bark!  bark! bark!
+# This is because while we have an inheritance chain within our initialize method for D we never use super. Therefore
+# we are passing in a name, but  a @name instance variable is never being initialized.  So henceforth when #{@name} is interpolated there
+# is nothing to access.
+
+
+
+
+#14.
+
+class P
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+  end
+
+  def ==(other)
+    self.name == other.name
+  end
+
+  def name_id
+   p  self.name.object_id
+  end
+end
+
+al = P.new('Alexander')
+alex = P.new('Alexander')
+al.name_id
+alex.name_id
+al == alex # => true
+
+
+# In the code above, we want to compare whether the two objects have the same name.
+#`Line 11` currently returns `false`. How could we return `true` on `line 11`?
+
+# answer : We can define a == method for the Class and within the method compare the value of each object's @name value.
+
+# Further, since `al.name == alex.name` returns `true`, does this mean the `String`
+# objects referenced by `al` and `alex`'s `@name` instance variables are the same object?
+# How could we prove our case?
+
+# they are not the same object. The == method is merely showing that their values are the same. If we were to check the object_id of both we would see they are
+# pointing to different str objects.
+
+# method that checks the id of the @name value
+#  def name_id
+ #   p  self.name.object_id
+#  end
+
+
+#al.name_id => 60
+#alex.name_id => 80
+
+
+
+#15.
+
+class Persons
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+  end
+
+  def to_s
+
+    "My name is #{name.upcase!}."
+  end
+end
+
+bob = Persons.new('Bob')
+puts bob.name
+puts bob
+puts bob.name
+
+# What is output on `lines 14, 15, and 16` and why?
+# => Bob
+# => My name is BOB.
+# => BOB
+# we have a new to_s method defined in our Persons class.
+# our Persons object is instantiated and assigned to the local variable `bob`.
+# on the second line `puts bob.name` we return '`Bob`. No changes. Why? This is because puts is being invoked on a string object because our @name instance variable
+# is set to a passed in string argument. Therefore our class specific `to_s` method is not being called and just the standard ruby one is being called.
+# on the third line `puts bob` is puts being invoked on a `Persons` object. Now our specific `to_s` method will come into play. This will mutate the object that
+# our instance variable `@name` points to and will return the line "My name is BOB"
+# The  final line  is `puts bob.name` while we are once again using the standard ruby `to_s` method.  The object that @name is pointing to has been mutated and therefore
+# will print "BOB"
+
+
+#16.
+# Why is it generally safer to invoke a setter method (if available) vs. referencing the instance variable directly
+# when trying to set an instance variable within the class? Give an example.
+
+
+#It is generally safer to invoke a setter method because this is a form of data protection. It allows us to prevent unwarranted manipulation or change.
+# This should only occur when it is intended. This use of encapsulation  allows us to hide this functionality, store it away, and only change it when intended.
+# here is an example
+class Test
+
+  def initialize(name)
+    @name = name
+  end
+
+  def name=(new_name)
+    @name = new_name
+  end
+end
+
+chase = Test.new("Chase")
+p chase = 'Carter'
+
+
+# in the `Test` class we have an `initialize` method definition defined on lines 544-546. The parameter `name` is passed in and the instance variable
+# `@name` is initialized to the result of the passed in parameter.
+# on lines 548-550  the name=(new_name) setter method is defined. This method returns the result of setting the instance var. `@name` to the result of the passed
+# in argument. Now the only way `@name` can be reassigned is through the direct intention of our setter method. This is will be done with intentionlaity only
+# and will allow for the code to be clear when `@name` is being set.
+
+
+# 17. Give an example of when it would make sense to manually write a custom getter method vs. using `attr_reader`.
+
+class Name
+    attr_reader :first_name, :last_name
+
+  def initialize(first_name, last_name)
+    @first_name = first_name
+    @last_name = last_name
+
+  end
+
+  def full_name
+    puts "#{first_name} #{last_name}"
+  end
+end
+
+
+john_wayne = Name.new('John', "Wayne")
+john_wayne.full_name
+
+
+# We define a `Name` class on lines 566-578. on line 567 we use attr_reader and pass in `:first_name` and `:last_name`. this creates a getter method which will return
+# the result of the instance variable that both symbols refer to.
+# On line 569-573  method `initialize` is defined. within this method we initialize 2 instance variables `@first_name` and `@last_name`
+# to the result of the passed in parameters `first_name` and `second_name`.  Now on lines 575-577 our custom getter method `full_name` is defined.
+# we return the result of  interpolating. `@first_name` and `@last_name`. This shows when a custom getter method comes in handy. When you wish to do any extra calculations
+# or like in this case return the result of 2 different instance variables you can do so.  In general a custom getter will allow for more customization and specificity
+# with your code.
+
+
+#18.
+class Shape
+  @@sides = nil
+  def self.sides
+    @@sides
+  end
+
+  def sides
+    @@sides
+  end
+
+end
+
+class Triangle < Shape
+  def initialize
+    @@sides = 3
+  end
+end
+
+class Quadrilateral < Shape
+  def initialize
+    @@sides = 4
+  end
+end
+
+
+tri =  Triangle.new
+p tri.sides
+# What can executing `Triangle.sides` return? What can executing `Triangle.new.sides` return? What does this demonstrate about class variables?
+
+# On lines 595-606 the `Shape` class is defined. On line 596 class variable `@@sides` is initialized and set to `nil` On lines 598-600
+# class method `self.sides` is defined. it returns the result of `@@sides`. On line 602-604 `sides` is defined. It returns the result of `@@sides`.
+# on Lines 608-612  the `Triangle` class inherits from `Shape` and is defined. On lines 609-611 the `initialize` method is defined. The result
+# initalizes`@@sides` to the int `3`. On lines 614-618 the `Quadrilateral` class inherits from `Shape` and is defined.
+# on lines 615-617` the `initialize` method is defined. The result initialize. `@@sides` to the int `4`.
+
+# when executing `Triangle.sides` `nil` is returned.
+# When the class method  `sides` is invoked on `Triangle` the current container `Triangle` will be searched first. no `sides` class method will be found so the
+# inheritance chain will move up into the superclass `Shape`. Within this class `@@sides` is initialized to `nil`. so  `@@sides` no longer returns `3`. the code will find
+# the `self.sides` class method and then will return `@@sides` which is now `nil`.
+
+# When executing `Triangle.new.sides` a similar path will occur. The code will search for a instance method, however, this time. It will not be found in `Triangle.` The
+# code will move up into `Shape` and will find the instance method `sides`. Here we never  search the class itself and find that `@@sides` has been initialized to `nil` since
+# we are looking for an instance method. Therefore when the method returns `@@sides` `3` will be returned.
+
+# This demonstrates that class variables share one copy amongst it's inheritance chain. And when inheritance is involved it is generally advised not to use class variables
+# due to the chances of bugs and unwanted results.
+
+
+
+#19.  What is the `attr_accessor` method, and why wouldn't we want to just add `attr_accessor` methods for every instance variable in our class? Give an example.
+
+# an attr_accessor will be passed in a symbol argument and then create a template getter and setter method for the instance variable that matches the symbol
+# example to why this is not always a good idea
+
+
+class Citizen
+attr_accessor :ssn
+def initialize
+  @name = 'Tom'
+  @ssn = "221-28-4358"
+end
+
+end
+
+tom  = Citizen.new
+p tom.ssn = '234-38-3489'
+p tom
+
+#in this example a `Citizen` class has been created which contains sensitive data such as a social security number. A persons social security number does not change and
+# we would not want to allow for that be changed. And we would likely only want to allow very selective users to be privy to even have access to the getter method. This
+# shows that the attr_accessor method should be thought about carefully before deciding if the particular instance should have a setter and getter method.
+
+
+
+ #20.  What is the difference between states and behaviors
+
+ # In ruby we consider state to be the encapsulated values of an instance variable. The encapsulated data or methods within a class are what we
+ # consider behaviors.
+ # An easy to way to distinguish them is a state refers to the internal value of an object whereas the behaviors refers to what actions the objects can take.
