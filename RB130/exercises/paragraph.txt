@@ -1,0 +1,312 @@
+def call_this
+  yield(2)
+end
+
+# How to get the following return values with modifying the method invocation nor the method definition
+call_this(&to_s) # => returns 2
+call_this(&to_i) # => returns "2"
+
+# Solution
+to_s = Proc.new { |num| num.to_i } # Define these before the method
+to_i = Proc.new { |num| num.to_s }
+
+# Alternate
+to_s = to_i.to_proc # Define these before the method
+to_i = to_s.to_proc
+
+
+
+
+Examples of blocks & procs
+
+# EX1 - IMPLEMENTATION, IMPLICIT BLOCK ARGUMENT WITH YIELD
+def a_method
+  yield
+end
+
+p a_method {"I'm a block" }
+# =========================================================
+
+# EX2 - IMPLEMENTATION, BLOCK PARAMETER, EXPLICIT BLOCK
+def a_method(&expecting_a_block)
+  expecting_a_block.call    #can call the proc
+  yield                     #can yield to the block
+end
+
+p a_method {"I'm a block" }
+
+# =========================================================
+
+# EX3 - IMPLEMENTATION, BLOCK PARAMETER, EXPLICIT BLOCK, HOW TO PASS IN A PROC OBJECT WHEN EXPECTING A BLOCK
+def b_method(&expecting_a_block)
+  expecting_a_block.call
+end
+
+b_proc = proc {"I'm a proc that turned into a block and then back into a proc" }
+p b_method(&b_proc)
+
+# =========================================================
+
+
+# EX4 - IMPLEMENTATION, expecting_a_proc as a PARAMETER, PROC ARGUMENT, INVOKING Proc#call on ARGUMENT c_proc IN METHOD BODY
+def c_method(expecting_a_proc)
+  expecting_a_proc.call
+  yield
+end
+
+c_proc = proc {"I'm a proc" }
+p c_method(c_proc)
+
+
+
+
+UNARY & / EXPLICIT BLOCKS / CLOSURES
+
+# what does & do in a method parameter?
+def method(&var); end
+
+
+# what does & do in a method invocation argument?
+method(&var)
+
+
+
+# what is &:to_s doing in the code below?
+arr = [1, 2, 3, 4, 5]
+
+p arr.map(&:to_s)
+
+
+# why does this code raise an error? What are some ways you can fix it?
+def a_method(pro)
+  pro.call
+end
+
+a = 'friend'
+a_method(&a)
+
+
+# why does this code raise an error?
+def some_method(block)
+  block_given?
+end
+
+bl = { puts "hi" }
+
+p some_method(bl)
+
+
+# why does this code output false? What is ‘block_given?’ doing?
+def some_method(block)
+  block_given?
+end
+
+bloc = proc { puts "hi" } # without altering this line, how can we get
+                          # an output of ‘true’?
+p some_method(bloc)
+
+
+# what error do we get from this code and why? What are 2 ways to fix it?
+def some(block)
+  yield
+end
+
+bloc = proc { p "hi" } # do not alter
+
+some(bloc)
+
+
+
+
+
+DIFFERENT USES OF BLOCKS
+
+# what concept is being demonstrated?
+def time_it
+  time_before = Time.now
+  yield
+  time_after= Time.now
+  puts "It took #{time_after - time_before} seconds."
+end
+
+
+
+
+ARITY
+
+# what is output and why doesn’t it raise an error?
+def block_method(animal)
+  yield(animal)
+end
+
+block_method('turtle') do |turtle, seal|
+  puts "This is a #{turtle} and a #{seal}."
+end
+
+# what if we run this instead?
+block_method('turtle') { puts "This is a #{animal}."}
+
+
+
+
+BINDING
+
+# what will ‘call_me’ output and why?
+def call_me(some_code)
+  some_code.call
+end
+
+name = "Robert"
+chunk_of_code = Proc.new {puts "hi #{name}"}
+name = "Griffin"
+
+call_me(chunk_of_code)
+
+
+# what if we run this instead?
+def call_me(some_code)
+  some_code.call
+end
+
+chunk_of_code = Proc.new {puts "hi #{name}"}
+name = "Griffin"
+
+call_me(chunk_of_code)
+
+
+#what if we run this instead?
+def call_me(some_code)
+  some_code.call
+end
+
+name = "Robert"
+
+def name
+  "Joe"
+end
+
+chunk_of_code = Proc.new {puts "hi #{name}"}
+
+call_me(chunk_of_code)
+
+
+
+
+
+# what will this code output and why? What does it demonstrate?
+def retained_array
+  arr = []
+  Proc.new do |el|
+    arr << el
+    arr
+  end
+end
+
+arr = retained_array
+arr.call('one')
+arr.call('two')
+p arr.call('three')
+
+
+Both array and results are within the closure’s binding
+#results is in binding
+def for_each_in(arr)
+  arr.each { |el| yield el }
+end
+
+array = %w(a b c d e)
+results = ['']
+
+for_each_in(array) do |ltr|
+  total = results[-1] + ltr
+  results.push(total)
+end
+
+p results
+
+#array is also in binding
+
+def for_each_in(arr)
+  arr.each { |el| yield el }
+end
+
+array = %w(a b c d e)
+results = ['']
+
+for_each_in(array) do |ltr|
+  total = array[-1] + ltr
+  array.push(total)
+  break if array.size >= 10
+end
+
+p array
+
+
+#what is the method returning?
+
+def alphabet
+  counter = -1
+  letters = ('a'..'z').to_a
+
+  Proc.new do
+    counter += 1
+    letters[counter]
+  end
+end
+
+#what artifacts are in the closure's binding?
+
+#what will alpha1 return and why?
+alpha1 = alphabet
+p alpha1
+
+#How can we execute the Proc?
+p alpha1.call
+p alpha1.call
+p alpha1.call
+
+
+#what will alpha2 return?
+alpha2 = alphabet
+p alpha2
+
+#at this point, what will each Proc return when we call it?
+p alpha1.call
+p alpha2.call
+
+
+
+
+
+
+
+PROCS V LAMBDAS
+
+# what does this tell us about lambdas?
+bloc = lambda { p "hi" }
+
+bloc.class # => Proc
+bloc.lambda? # => true
+
+new_lam = Lambda.new { p "hi, lambda!" } # => NameError: uninitialized constant Lambda
+
+
+# what does this tell us about explicitly returning from procs and lambdas?
+def lambda_return
+  puts "Before lambda call."
+  lambda {return}.call
+  puts "After lambda call. Execution continues."
+end
+
+def proc_return
+  puts "Before proc call."
+  proc {return}.call
+  puts "After proc call. Execution continues."
+end
+
+lambda_return #=> "Before lambda call."
+              #=> "After lambda call. Execution continues."
+
+proc_return #=> "Before proc call."
+
+

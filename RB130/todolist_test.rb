@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'minitest/autorun'
 require "minitest/reporters"
 Minitest::Reporters.use!
@@ -85,27 +88,31 @@ class TodoListTest < Minitest::Test
   end
 
   def test_mark_undone_at
-    assert_raises(IndexError) { @list.mark_done_at(100) }
-    @list.mark_undone_at(2)
-    assert_equal(false, @todo1.done?)
+    assert_raises(IndexError) { @list.mark_undone_at(100) }
+    @todo1.done!
+    @todo2.done!
+    @todo3.done!
+
+    @list.mark_undone_at(1)
+
+    assert_equal(true, @todo1.done?)
     assert_equal(false, @todo2.done?)
-    assert_equal(false, @todo3.done?)
+    assert_equal(true, @todo3.done?)
   end
 
-  def done!
+  def test_done!
     @list.done!
-    #assert_equal(true, @todo1.done?)
-    #assert_equal(true, @todo2.done?)
-    #assert_equal(true, @todo3.done?)
+    assert_equal(true, @todo1.done?)
+    assert_equal(true, @todo2.done?)
+    assert_equal(true, @todo3.done?)
     assert_equal(true, @list.done?)
   end
 
+
   def test_remove_at
-    assert_raises(IndexError) {@list.item_at(100)}
-    @list.remove_at(0)
-    assert_equal(@todo2, @list.first)
-    assert_equal(@todo3, @list.last)
-    assert_equal(2, @list.size)
+    assert_raises(IndexError) { @list.remove_at(100) }
+    @list.remove_at(1)
+    assert_equal([@todo1, @todo3], @list.to_a)
   end
 
   def test_to_s
@@ -133,11 +140,14 @@ class TodoListTest < Minitest::Test
   end
 
   def test_select
-   new_arr =  @list.to_a.select {|item| item.title == 'Buy milk'}
-   refute_equal(@list.to_a, new_arr)
-   assert_equal([@todo1], new_arr)
-   # assert_equal([@todo1], new_arr)
+    @todo1.done!
+    list = TodoList.new(@list.title)
+    list.add(@todo1)
+
+    assert_equal(list.title, @list.title)
+    assert_equal(list.to_s, @list.select{ |todo| todo.done? }.to_s)
   end
+
 
 
 end
