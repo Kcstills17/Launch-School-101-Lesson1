@@ -8,6 +8,7 @@ GEM
       ast (~> 2.4.1)
       racc
     racc (1.6.2)
+    rack (3.0.0)
     rainbow (3.1.1)
     regexp_parser (2.8.1)
     rexml (3.2.5)
@@ -25,12 +26,15 @@ GEM
       parser (>= 3.2.1.0)
     ruby-progressbar (1.13.0)
     unicode-display_width (2.4.2)
+    webrick (1.8.1)
 
 PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  rack (= 3.0.0)
   rubocop (= 1.51.0)
+  webrick
 
 BUNDLED WITH
    2.4.19

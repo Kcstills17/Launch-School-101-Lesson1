@@ -7,6 +7,7 @@ client = server.accept
 
 request_line = client.gets
 puts request_line
+next unless request_line
 
 def parse_request(request_line)
   http_method, path_and_params, http = request_line.split(" ")
