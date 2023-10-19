@@ -1,0 +1,26 @@
+<h2 class="content-subhead">Search</h2>
+
+<form action="/search" method="get">
+  <input name="query" value="<%= params[:query] %>">
+  <button type="submit">Search</button>
+</form>
+
+<h2 class="content-subhead">Results for <%= "'#{params[:query]}'" %> </h2>
+
+<ul class="search_results">
+  <% search_value_hash(@contents, @chapters_content, @query).each do |k, v| %>
+    <li class="search_source">
+      <a href="/chapters/<%= @contents.index(k)+ 1 %>" class="source_link"><%= k %></a>
+      <% v.each do |paragraph| %> <!-- Assuming v is an array of matching paragraphs -->
+     <p><%= "\"#{ bold_search_result(paragraph, @query)}\"." %></p>
+
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<% no_matches = @contents.each_with_index.all? { |chapter, index| no_matches?(@chapters_content[index], @query) } %>
+<% if no_matches %>
+  Sorry, no matches were found
+<% end %>
+

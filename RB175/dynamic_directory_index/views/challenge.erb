@@ -1,0 +1,24 @@
+<h1><%= @page %></h1>
+
+<div class="all-txt">
+  <ul class="txt-list">
+
+      <% @files.each do |file| %>
+        <li class="txt">
+          <a href="/<%= file %>" class="txt-links"><%= file %></a>
+        </li>
+      <% end %>
+
+
+  </ul>
+</div>
+<body>
+
+<% if params[:order] == 'reverse' %>
+<h2> Reverse order </h2>
+<% elsif params.key?('order') %>
+<h2 > alphabetical Order <h2>
+<% else %>
+<h2> Standard order </h2>
+<% end %>
+</body>
