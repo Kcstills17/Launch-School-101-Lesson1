@@ -1,6 +1,6 @@
 require "tilt/erubis"
 require "sinatra"
-require "sinatra/reloader"
+require "sinatra/reloader" if development?
 
 before do
   @contents = File.readlines('data/toc.txt') #since this data is always needed. It is great to use in a before filter that will always load this data.

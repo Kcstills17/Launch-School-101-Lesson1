@@ -1,0 +1,14 @@
+<h1> Here are all of our user's names. Please check out their email info and their interests ! </h1>
+ <% @names.each do |name| %>
+ <ul>
+ <li>
+ <h2>
+  <a href="/<%= name %>" class="name links"><%= name %></a>
+  </ul >
+  </li>
+  </h2>
+  <% end %>
+
+    <h1> Here is some data on the amount of users and their total interests </h1>
+  <h2> <%= count_users_and_interests(@data) %> </h2>
+

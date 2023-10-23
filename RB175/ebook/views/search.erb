@@ -5,6 +5,8 @@
   <button type="submit">Search</button>
 </form>
 
+<% if params[:query] %>
+
 <h2 class="content-subhead">Results for <%= "'#{params[:query]}'" %> </h2>
 
 <ul class="search_results">
@@ -18,6 +20,7 @@
     </li>
   <% end %>
 </ul>
+<% end %>
 
 <% no_matches = @contents.each_with_index.all? { |chapter, index| no_matches?(@chapters_content[index], @query) } %>
 <% if no_matches %>

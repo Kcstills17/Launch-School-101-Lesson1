@@ -1,0 +1,25 @@
+<h1> <%= "This is #{params[:name]}'s email and interests "%> </h1>
+
+
+<h2>
+<ul>
+<li> email: <%= @name_data[:email] %></li>
+<li> interests: <%= join_and_add_commas(@name_data[:interests]) %> </li>
+</ul>
+</h2>
+
+<h1> Here are the other User's names ! </h1>
+ <% @names.each do |name| %>
+ <% if name != params[:name] %>
+ <ul>
+ <li>
+ <h2>
+  <a href="/<%= name %>" class="name links"><%= name %></a>
+  </ul >
+  </li>
+  </h2>
+  <% end %>
+  <% end %>
+
+  <h1> Here is some data on the amount of users and their total interests </h1>
+  <h2> <%= count_users_and_interests(@data) %> </h2>
