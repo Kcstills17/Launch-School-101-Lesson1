@@ -1,15 +1,21 @@
 
+<ul id = "lists">
+  <%sort_lists(@lists) do |list, i| %>
+    <% if  list_complete?(list) %>
+    <li class = "complete" id = "todos">
+      <% else %>
+      <li class = "incomplete"  id = "todos">
+        <% end %>
+      <a href="/lists/<%= i %> " class="Single List">
+        <h2><%= list[:name] %></h2>
 
-<ul id = "lists" >
-  <% @lists.each_with_index do |list, i|  %>
-  <li>
- <a href="/lists/<%= i %> " class = "Single List" >
-   <h2> <%=list[:name] %></h2>
-   <p><%= list[:todos].size %> </p>
-    </a></li>
-  <% end  %>
- <ul>
+        <p><%= "#{completed_todos(list)}/#{todos_size(list)}"%> </p>
+      </a>
+    </li>
+  <% end %>
+</ul>
   <% content_for :header_links do %>
   <a href = "/lists/new" class ="add"> New Lists </a>
   <% end %>
+
 

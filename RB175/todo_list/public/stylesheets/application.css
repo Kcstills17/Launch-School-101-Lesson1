@@ -416,3 +416,19 @@ form fieldset.actions a:hover {
 .flash_failure {
   color: red
 }
+.todo-name {
+  display: inline-block;
+  width: 70%; /* Adjust as needed to make space for the buttons */
+  vertical-align: middle;
+}
+
+.todo-actions {
+  display: inline-block;
+  width: 28%; /* Remaining space minus a little for padding */
+  text-align: right;
+  vertical-align: middle;
+}
+
+.todo-actions .edit, .todo-actions .delete {
+  margin-left: 10px;
+}
