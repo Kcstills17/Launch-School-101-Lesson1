@@ -18,7 +18,7 @@ end
 
 helpers do
   def list_complete?(list)
-    list[:todos].all? { |todo| todo[:completed] == true } && !todos_empty?(list)
+    !todos_empty?(list) && list[:todos].all? { |todo| todo[:completed] == true }
   end
 
   def todos_empty?(list)
@@ -66,6 +66,12 @@ def error_for_todo(todo)
   end
 end
 
+def list_does_not_exist(list)
+  list[:number] == nil
+end
+
+
+
 get "/" do
   redirect "/lists"
 end
@@ -89,7 +95,11 @@ end
 get "/lists/:number" do
   @list_id = params[:number].to_i
   @list = session[:lists][@list_id]
-
+  p 'hello world'
+if @list.nil?
+  session[:error] = "The specified list could not be found"
+  redirect "/lists"
+end
   erb :single_list, layout: :layout
 end
 
@@ -98,6 +108,9 @@ end
 get "/lists/:number/edit" do
   id = params[:number].to_i
   @list = session[:lists][id]
+  if @list.nil?
+    redirect "/lists/#{id}"
+  end
   erb :edit_list, layout: :layout
 end
 
@@ -119,11 +132,13 @@ end
 post "/lists/:number" do
   list_name = params[:list_name].strip
   id = params[:number].to_i
-  @list = session[:lists][id]
+  @list = session[:lists][:number]
 
   if (error = error_for_list_name(list_name))
     session[:error] = error
     erb :edit_list, layout: :layout
+
+
 
   else
     @list[:name] = list_name
