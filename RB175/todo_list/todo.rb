@@ -1,5 +1,5 @@
 require "sinatra"
-require "sinatra/reloader"
+require "sinatra/reloader" if development?
 require "tilt/erubis"
 require "sinatra/content_for"
 
@@ -7,6 +7,11 @@ configure do
   enable :sessions
   set :session_secret, 'secret'
 end
+
+ configure do
+   set :erb, :escape_html => true
+end
+
 
 before do
   session[:lists] ||= []
@@ -70,6 +75,15 @@ def list_does_not_exist(list)
   list[:number] == nil
 end
 
+def load_list(index)
+  list = session[:lists][index] if index && session[:lists][index]
+  return list if list
+
+  session[:error] = "The specified list was not found."
+  redirect "/lists"
+end
+
+
 
 
 get "/" do
@@ -94,12 +108,8 @@ end
 
 get "/lists/:number" do
   @list_id = params[:number].to_i
-  @list = session[:lists][@list_id]
-  p 'hello world'
-if @list.nil?
-  session[:error] = "The specified list could not be found"
-  redirect "/lists"
-end
+  @list = load_list(@list_id)
+
   erb :single_list, layout: :layout
 end
 
@@ -107,10 +117,8 @@ end
 
 get "/lists/:number/edit" do
   id = params[:number].to_i
-  @list = session[:lists][id]
-  if @list.nil?
-    redirect "/lists/#{id}"
-  end
+ @list = load_list(id)
+
   erb :edit_list, layout: :layout
 end
 
@@ -132,7 +140,7 @@ end
 post "/lists/:number" do
   list_name = params[:list_name].strip
   id = params[:number].to_i
-  @list = session[:lists][:number]
+  @list = load_list(id)
 
   if (error = error_for_list_name(list_name))
     session[:error] = error
@@ -159,7 +167,7 @@ end
 # create a todo
 post "/lists/:list_id/todos" do
   @list_id = params[:list_id].to_i
-  @list = session[:lists][@list_id]
+  @list = load_list(@list_id)
 
   text = params[:todo].strip
   error = error_for_todo(text)
@@ -176,7 +184,7 @@ end
 # delete todos from specific lists
 post "/lists/:list_id/todos/:id/delete" do
   @list_id = params[:list_id].to_i
-  @list = session[:lists][@list_id]
+  @list = load_list(@list)
   todo_id = params[:id].to_i
   @list[:todos].delete_at(todo_id)
 
@@ -187,7 +195,7 @@ end
 # determine if todo is complete or not. AKA update the status of todo
 post "/lists/:list_id/todos/:id" do
   @list_id = params[:list_id].to_i
-  @list = session[:lists][@list_id]
+  @list = load_list(@list_id)
   todo_id = params[:id].to_i
   is_completed = params[:completed] == "true"
   @list[:todos][todo_id][:completed] = is_completed
@@ -199,7 +207,7 @@ end
 # complete all todos in the list
 post "/lists/:list_id/complete_all_todos" do
   @list_id = params[:list_id].to_i
-  @list = session[:lists][@list_id]
+  @list = load_list(@list_id)
   @list[:todos].each { |todo| todo[:completed] = true }
   session[:success] = "All Todo tasks have been completed!"
 
