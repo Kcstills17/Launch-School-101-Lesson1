@@ -68,6 +68,8 @@ def match_str(content, search_item)
   content.match?(/#{Regexp.escape(search_item)}/i)
 end
 
+
+
 def no_matches?(ch_contents, search_item)
   !match_str(ch_contents, search_item)
 end

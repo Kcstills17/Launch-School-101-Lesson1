@@ -1,0 +1,36 @@
+body {
+  font-family: sans-serif;
+  padding: 1em;
+}
+
+.documents {
+    display: flex;
+    justify-content: space-between; /* This separates the file name and the edit button */
+    align-items: center; /* This centers them vertically */
+    padding: 0.5em 0; /* Adds some vertical space between list items */
+    color:aqua;
+}
+
+.edit-file {
+margin-right: 75%;
+color:green;
+
+}
+
+ul {
+  list-style-type: none; /* Removes the default list styling */
+  padding: 0; /* Removes default padding */
+
+}
+
+.flash {
+ padding: 10px;
+
+}
+
+  .flash.message {
+
+  background-color: #FFFF99;
+
+
+}

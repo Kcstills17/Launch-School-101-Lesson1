@@ -23,7 +23,7 @@ end
 
 helpers do
   def list_complete?(list)
-    !todos_empty?(list) && list[:todos].all? { |todo| todo[:completed] == true }
+    !todos_empty?(list) && list[:todos].all? { |todos| todo_complete?(todos) }
   end
 
   def todos_empty?(list)
@@ -82,6 +82,8 @@ def load_list(index)
   session[:error] = "The specified list was not found."
   redirect "/lists"
 end
+
+
 
 
 
@@ -146,22 +148,24 @@ post "/lists/:number" do
     session[:error] = error
     erb :edit_list, layout: :layout
 
-
-
   else
     @list[:name] = list_name
     session[:success] = "The list has been Updated"
     redirect "/lists/#{id}"
   end
 end
-
+# delete route  can only be accessed with a JS file.
 post "/lists/:number/delete" do
   puts "hello world"
   id = params[:number].to_i
   session[:lists].delete_at(id)
-
-  session[:success] = "The list has been Deleted"
-  redirect "/lists"
+  if env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest" # ajaxx
+    "/lists"
+    status 204
+  else
+    session[:success] = "The list has succesfully been deleted!"
+    redirect "/lists/#{@list_id}"
+  end
 end
 
 # create a todo
@@ -184,10 +188,16 @@ end
 # delete todos from specific lists
 post "/lists/:list_id/todos/:id/delete" do
   @list_id = params[:list_id].to_i
-  @list = load_list(@list)
+  @list = load_list(@list_id)
   todo_id = params[:id].to_i
   @list[:todos].delete_at(todo_id)
+  if env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest" # ajaxx
+    status 204
+  else
+    session[:success] = "The todo has succesfully been removed!"
+    redirect "/lists/#{@list_id}"
 
+  end
   session[:success] = "The todo has succesfully been removed!"
   redirect "/lists/#{@list_id}"
 end
@@ -219,7 +229,7 @@ set :session_secret, SecureRandom.hex(32)
 # sequence of all http method neccessary
 =begin
 GET /lists  -> view all lists
-GET /lists/new -> new list form
+GET /lists/new -> view new list form
 POST /lists -> create new list
 GET /lists/1 -> view a specific list
 GET /users -> view a list of all users

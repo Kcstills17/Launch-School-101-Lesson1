@@ -1,0 +1,17 @@
+<h2>Files</h2>
+<% if session[:message]%>
+
+<p class = "flash message" > <%= session.delete(:message)%> </p>
+<%end %>
+
+<ul>
+  <% @files.each do |file| %>
+    <li class = "documents">
+
+      <a href="/<%= file %>"><%= file %></a>
+        <span class = "file-name"> <%  file %> </span>
+      <a href  ="/<%= file %>/edit" class="edit-file">Edit</a>
+    </li>
+  <% end %>
+</ul>
+

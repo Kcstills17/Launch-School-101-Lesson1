@@ -1,0 +1,14 @@
+
+<form action="/<%= @filename %>/edit" method="post">
+  <label for="largeTextbox"><h3>Edit the contents of <%= @filename %></h3></label>
+  <textarea id="largeTextbox" name="largeTextbox" rows="10" cols="50" style="width: 75%; height: 300px;">
+    <%= File.read(@files) %>
+  </textarea>
+
+  <!-- Your other form fields and buttons here -->
+
+  <fieldset class="actions">
+    <input type="submit" value="Save Changes">
+    <a href="/">Cancel</a>
+  </fieldset>
+</form>

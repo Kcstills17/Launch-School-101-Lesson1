@@ -42,21 +42,3 @@ helpers do
   end
 end
 
-
-<html>
-  <head><title>My Application</title></head>
-  <body>
-    <p>Welcome <%= name %>!</p>
-    <p>Your address is: <% @address.join(", ") %>.</p>
-  </body>
-</html>
-
-
-
-<html>
-  <head><title>My Application</title></head>
-  <body>
-    <p>Welcome <%= @name %>!</p>
-    <p>Your address is: <% @address.join(", ") %>.</p>
-  </body>
-</html>

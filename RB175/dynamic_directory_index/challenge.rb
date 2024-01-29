@@ -7,12 +7,12 @@ get '/' do
   @public = Dir.glob('public/*')
   @txt_files = remove_root(@public)
 
-  if params[:order] == 'reverse'
+  if params.key?('reverse')
     @files = reverse_sort_by_first_char(@txt_files)
   elsif params.key?('order')
     @files = sort_by_first_char(@txt_files)
   else
-    @files = add_space(@txt_files)
+ @files = randomize(@txt_files)
   end
 
   erb :challenge
@@ -25,16 +25,22 @@ get '/txt1.txt' do
 end
 
 
-def remove_root(arr)
-  arr.map {|txt|  txt.split('/').last}
+  def remove_root(arr)
+    arr.map {|txt|  txt.split('/').last}
 
-end
+  end
 
 def sort_by_first_char(arr)
-  arr.sort {|a, b| File.read("public/#{a}") <=> File.read("public/#{b}")}
+  arr.sort
 end
 
 def reverse_sort_by_first_char(arr)
   sort_by_first_char(arr).reverse
 end
+
+def randomize(arr)
+  arr.shuffle
+end
+
+
 

@@ -14,11 +14,11 @@
 </div>
 <body>
 
-<% if params[:order] == 'reverse' %>
+<% if params.key?('reverse') %>
 <h2> Reverse order </h2>
 <% elsif params.key?('order') %>
 <h2 > alphabetical Order <h2>
 <% else %>
-<h2> Standard order </h2>
+<h2> Random Order </h2>
 <% end %>
 </body>
