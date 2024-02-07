@@ -20,13 +20,13 @@ end
 
 
 
-  def data_path
-    if ENV["RACK_ENV"] == "test"
-      File.expand_path("../test/data", __FILE__)
-    else
-      File.expand_path("../data", __FILE__)
+    def data_path
+      if ENV["RACK_ENV"] == "test"
+        File.expand_path("../test/data", __FILE__)
+      else
+        File.expand_path("../data", __FILE__)
+      end
     end
-  end
 
 
 
@@ -37,6 +37,13 @@ end
 
 #create get method for route
 
+def sign_in
+  session[:signed_in] = true
+end
+
+def sign_out
+  session[:signed_in] = false
+end
 helpers do
   def file_exist?(file)
     File.exist?(file)
@@ -59,6 +66,12 @@ helpers do
   end
 end
 
+get "/users/signin" do
+   "hello world"
+
+  erb :sign_in, layout: :layout
+end
+
 get "/" do
   pattern = File.join(data_path,"*")
   root = File.expand_path("..", __FILE__)
@@ -71,6 +84,11 @@ get "/" do
     erb :index, layout: :layout
   # list all txt files in a ul format
 end
+
+get "/new" do
+  erb :new
+end
+
 
 
 get "/:filename" do
@@ -97,6 +115,52 @@ get "/:filename/edit" do
 end
 
 
+post "/users/signin" do
+  sign_out
+
+  username = params[:username].to_s.downcase
+  password = params[:password].to_s.downcase
+
+ if username == "admin"  && password == "secret"
+  sign_in
+  session[:username] = username
+  session[:message] = "Welcome!"
+  redirect "/"
+ else
+  session[:message] =  "Invalid credentials"
+  status 422
+ end
+
+
+  erb :sign_in, layout: :layout
+end
+
+
+post "/users/signout" do
+  sign_out
+  session[:message] = 'You have been signed out'
+  redirect "/"
+
+erb :index, layout: :layout
+end
+
+
+post "/create" do
+  filename = params[:filename].to_s
+
+  if filename.strip.empty?
+    status 422
+    session[:message] = "A name is required."
+    erb :new
+  else
+    file_path = File.join(data_path, filename)
+
+    File.write(file_path, "")
+    session[:message] = "#{params[:filename]} has been created."
+
+    redirect "/"
+  end
+end
 
 
 post "/:filename/edit" do
@@ -115,6 +179,19 @@ post "/:filename/edit" do
   session[:message] = "#{@filename} has been updated!"
   redirect "/"
 end
+
+post "/:filename/delete" do
+
+   filename = params[:filename]
+   file_path = File.join(data_path,filename)
+
+  File.delete(file_path)
+  session[:message] = "The file  #{filename} has been deleted. "
+ redirect "/"
+
+  erb :index, layout: :layout
+end
+
 
 
 set :session_secret, SecureRandom.hex(32)

@@ -1,3 +1,26 @@
+<%if !session[:signed_in] %>
+<h3>
+<a href = "/users/signin" class = "sign-in">Sign In </a>
+</h3>
+
+<% end %>
+
+<%if session[:signed_in] %>
+<h3 class ="user-status">
+<%="Signed in as #{session[:username]}"%>
+
+<form action="/users/signout" method="post">
+ <input type="hidden" name="sign-out" >
+ <button type="submit">Sign Out </button>
+</form>
+</h3>
+<% end %>
+
+
+
+
+
+
 <h2>Files</h2>
 <% if session[:message]%>
 
@@ -8,6 +31,10 @@
   <% @files.each do |file| %>
     <li class = "documents">
 
+<form action="/<%= file %>/delete" method="post">
+ <input type="hidden" name="document" value="<%= file %>">
+ <button type="submit">Delete File</button>
+</form>
       <a href="/<%= file %>"><%= file %></a>
         <span class = "file-name"> <%  file %> </span>
       <a href  ="/<%= file %>/edit" class="edit-file">Edit</a>
@@ -15,3 +42,6 @@
   <% end %>
 </ul>
 
+<p class = new-document>
+<a href = "/new">Create New File</a>
+</p>

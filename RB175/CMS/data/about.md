@@ -1,4 +1,4 @@
-<h1>Ruby is super abstract in easy to take in as an english speaker. Awesome!</h1>
+                        <h1>Ruby is super abstract in easy to take in as an english speakr. Awesome.</h1>
 
 
 
@@ -34,5 +34,11 @@
 
 
 
+  
+  
+  
+  
+  
+  
   
   
