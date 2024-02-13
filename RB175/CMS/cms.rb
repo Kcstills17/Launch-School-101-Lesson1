@@ -7,7 +7,9 @@ require "tilt/erubis"
 require "redcarpet"
 
 require "sinatra/reloader"
+require "yaml"
 
+require "bcrypt"
 # setup sessions so we can have some form of state that can be used
 
 
@@ -19,18 +21,23 @@ end
 
 
 
-
-    def data_path
-      if ENV["RACK_ENV"] == "test"
-        File.expand_path("../test/data", __FILE__)
-      else
-        File.expand_path("../data", __FILE__)
-      end
-    end
-
+def data_path
+  if ENV["RACK_ENV"] == "test"
+    File.expand_path("../test/data", __FILE__)
+  else
+    File.expand_path("../data", __FILE__)
+  end
+end
 
 
-
+def load_user_credentials
+  credentials_path = if ENV["RACK_ENV"] == "test"
+    File.expand_path("../test/users.yml", __FILE__)
+  else
+    File.expand_path("../users.yml", __FILE__)
+  end
+  YAML.load_file(credentials_path)
+end
 
 
 
@@ -38,12 +45,43 @@ end
 #create get method for route
 
 def sign_in
-  session[:signed_in] = true
+    session[:signed_in] = true
+  end
+
+  def signed_in?
+    session[:signed_in] == true
+  end
+
+  def sign_out
+    session[:signed_in] = false
+  end
+
+  def require_sign_in
+    unless signed_in?
+      return user_not_signed_in
+    end
+  end
+
+
+
+def user_not_signed_in
+    session[:message] = "You are not signed in. Sign in for full access."
+    redirect "/"
+
 end
 
-def sign_out
-  session[:signed_in] = false
+
+#bcrypt authentication
+
+def hash_password(password)
+  BCrypt::Password.create(password)
 end
+
+def check_password(password, hashed_password)
+  BCrypt::Password.new(hashed_password) == password
+end
+
+
 helpers do
   def file_exist?(file)
     File.exist?(file)
@@ -67,7 +105,6 @@ helpers do
 end
 
 get "/users/signin" do
-   "hello world"
 
   erb :sign_in, layout: :layout
 end
@@ -86,26 +123,27 @@ get "/" do
 end
 
 get "/new" do
+  require_sign_in
   erb :new
 end
 
 
 
 get "/:filename" do
-    #root = File.expand_path("../data", __FILE__)
-    file_path = File.join(data_path, params[:filename])
+  require_sign_in
 
-  if file_exist?(file_path)
-   load_file_content(file_path)
-  else
+  file_path = File.join(data_path, params[:filename])
+  unless file_exist?(file_path)
     session[:message] = "#{params[:filename]} does not exist."
-    redirect "/"
+    return redirect "/"
   end
-end
 
+  load_file_content(file_path)
+end
 
 get "/:filename/edit" do
       #root = File.expand_path("..", __FILE__)
+      require_sign_in
   @filename = params[:filename]
   file_path = File.join(data_path , @filename)
   @files = Dir.glob(file_path ).join
@@ -116,27 +154,27 @@ end
 
 
 post "/users/signin" do
-  sign_out
+  @username = params[:username].to_s
+  @password = params[:password].to_s
 
-  username = params[:username].to_s.downcase
-  password = params[:password].to_s.downcase
+  credentials = load_user_credentials
 
- if username == "admin"  && password == "secret"
-  sign_in
-  session[:username] = username
-  session[:message] = "Welcome!"
-  redirect "/"
+     if credentials.key?(@username) && check_password(@password, hash_password(@password))
+    sign_in
+    session[:username] = @username
+    session[:message] = "Welcome!"
+    redirect "/"
  else
-  session[:message] =  "Invalid credentials"
-  status 422
+    session[:message] =  "Invalid credentials"
+    status 422
  end
-
 
   erb :sign_in, layout: :layout
 end
 
 
 post "/users/signout" do
+  require_sign_in
   sign_out
   session[:message] = 'You have been signed out'
   redirect "/"
@@ -146,6 +184,7 @@ end
 
 
 post "/create" do
+  require_sign_in
   filename = params[:filename].to_s
 
   if filename.strip.empty?
@@ -164,6 +203,7 @@ end
 
 
 post "/:filename/edit" do
+  require_sign_in
   @filename = params[:filename]
   content = params[:largeTextbox] # Assuming 'largeTextbox' is the name attribute of the textarea
 
@@ -181,12 +221,12 @@ post "/:filename/edit" do
 end
 
 post "/:filename/delete" do
-
+require_sign_in
    filename = params[:filename]
    file_path = File.join(data_path,filename)
 
   File.delete(file_path)
-  session[:message] = "The file  #{filename} has been deleted. "
+  session[:message] = "The file #{filename} has been deleted."
  redirect "/"
 
   erb :index, layout: :layout
