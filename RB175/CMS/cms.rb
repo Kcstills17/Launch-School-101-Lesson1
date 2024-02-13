@@ -81,6 +81,29 @@ def check_password(password, hashed_password)
   BCrypt::Password.new(hashed_password) == password
 end
 
+#check for if a file has been duplicated
+
+def duplicated?(file)
+  file.include?("_duplicate")
+end
+
+#add-duplicate after text but before extension
+
+def insert_duplicate_path(filename)
+  extname = File.extname(filename)
+  basename = File.basename(filename, extname)
+  duplicate_filename = "#{basename}_duplicate#{extname}"
+  duplicate_path = File.join(data_path, duplicate_filename)
+
+end
+
+# read the contents of original file and then copy those contents over
+
+def copy_file_contents(original_file_path, duplicate_file_path)
+  original_content = File.read(original_file_path)
+  File.write(duplicate_file_path, original_content)
+end
+
 
 helpers do
   def file_exist?(file)
@@ -156,7 +179,6 @@ end
 post "/users/signin" do
   @username = params[:username].to_s
   @password = params[:password].to_s
-
   credentials = load_user_credentials
 
      if credentials.key?(@username) && check_password(@password, hash_password(@password))
@@ -194,7 +216,7 @@ post "/create" do
   else
     file_path = File.join(data_path, filename)
 
-    File.write(file_path, "")
+      File.write(file_path, "")
     session[:message] = "#{params[:filename]} has been created."
 
     redirect "/"
@@ -232,6 +254,21 @@ require_sign_in
   erb :index, layout: :layout
 end
 
+post "/:filename/duplicate" do
+  require_sign_in
+  filename = params[:filename]
+  original_path = File.join(data_path, filename)
+
+  if !duplicated?(filename)
+    duplicate_path = insert_duplicate_path(filename)
+    copy_file_contents(original_path, duplicate_path)
+    session[:message] = "A duplicate of #{filename} has been created!"
+
+  else
+    session[:message] = "This file has already been duplicated. Please duplicate another file."
+  end
+  redirect "/"
+end
 
 
 set :session_secret, SecureRandom.hex(32)

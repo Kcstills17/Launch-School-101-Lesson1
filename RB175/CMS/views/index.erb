@@ -31,7 +31,12 @@
   <% @files.each do |file| %>
     <li class = "documents">
 
-<form action="/<%= file %>/delete" method="post">
+  <form action="/<%= file %>/duplicate" class = "action-on-file" method="post">
+ <input type="hidden"  name="document" >
+ <button type="submit">Duplicate <%=file %> </button>
+</form>
+
+<form action="/<%= file %>/delete" class = "action-on-file"method="post">
  <input type="hidden" name="document" value="<%= file %>">
  <button type="submit">Delete File</button>
 </form>
