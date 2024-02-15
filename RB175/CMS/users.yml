@@ -1,4 +1,9 @@
- zane: "$2a$12$ZiYSuKBWKucbHQ4Ba99wgugRWZcXWYzZubNfE3yPsh/HcbX.Rd4X2"
- jim: $2a$12$db2z3Cuedk/zTqr0iLkcIOZkHeG0dQ.1n9nilQPndJE2djpoVdP9q"
- tom: "$2a$12$7uKt0IBnwzXL/wteqOBZU.TRO/srWH35SfRVR7VqDmysDmdA0x/Yu"
-
+---
+zane: "$2a$12$ZiYSuKBWKucbHQ4Ba99wgugRWZcXWYzZubNfE3yPsh/HcbX.Rd4X2"
+jim: $2a$12$db2z3Cuedk/zTqr0iLkcIOZkHeG0dQ.1n9nilQPndJE2djpoVdP9q"
+tom: "$2a$12$7uKt0IBnwzXL/wteqOBZU.TRO/srWH35SfRVR7VqDmysDmdA0x/Yu"
+naruto: "$2a$12$rU2sr6BPaN8kqQ3XTS.hZeSzq/wIJVdHur8kBZSAst81rWxRv8vLO"
+goku: "$2a$12$gtEvcD9fPJtYKH/mSmdteep3/N6YU6vfm.NAiS7dtTMWSZ/fsIZ0a"
+luffy: "$2a$12$KZe.VmtPO94BIIWd/ZlyMu7Ew/3MicBpvRH/I3p09Zfey5rlt/00O"
+jeff: "$2a$12$u7UJCO54xiEBwrbtPkhW9.dLHz9dNzmBJAYqRmfjZNe4qpdL9BPAa"
+barry: "$2a$12$4S0kK7D8I9Vc3frzvSFIhubi4NcrZFKfkfqQmF5kv2vNzIr7PyctW"

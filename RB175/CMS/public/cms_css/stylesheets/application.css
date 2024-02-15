@@ -1,6 +1,12 @@
 body {
   font-family: sans-serif;
-  padding: 1em;
+
+  display:flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: stretch; /* This will make the children stretch to the full width of the container */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  min-height: 100vh; /* Make the body at least the height of the viewport */
 }
 
 .documents {
@@ -32,11 +38,57 @@ ul {
 .flash {
  padding: 10px;
 
+
 }
 
   .flash.message {
 
-  background-color: #FFFF99;
-
+  background-color: cyan;
+  color: green;
+  width: 100%;
 
 }
+
+
+.sign-in {
+  color: royalblue;
+  padding-left: 1em;
+  justify-content: flex-start;
+}
+
+.sign-in:hover {
+  background-color: crimson;
+}
+
+.sign-up {
+  color:crimson;
+ justify-content: flex-end;
+}
+
+.sign-up:hover {
+background-color: royalblue;
+}
+
+button {
+  background-color:cyan;
+  color: navy
+
+}
+
+button:hover {
+  background-color: blueviolet;
+}
+
+a {
+  color: violet;
+}
+a:hover {
+  background-color: red;
+}
+
+input {
+  border-style:double;
+  border-color:aqua;
+}
+
+

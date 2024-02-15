@@ -2,24 +2,17 @@ puts $LOAD_PATH0
 
 require "sinatra"
 require "sinatra/contrib"
-
 require "tilt/erubis"
 require "redcarpet"
-
 require "sinatra/reloader"
 require "yaml"
-
 require "bcrypt"
+
 # setup sessions so we can have some form of state that can be used
-
-
-
 configure do
   enable :sessions
   set :session_secret, 'secret'
 end
-
-
 
 def data_path
   if ENV["RACK_ENV"] == "test"
@@ -29,81 +22,96 @@ def data_path
   end
 end
 
-
 def load_user_credentials
+  credentials_path = if ENV["RACK_ENV"] == "test"
+                       File.expand_path("../test/users.yml", __FILE__)
+                     else
+                       File.expand_path("../users.yml", __FILE__)
+                     end
+  YAML.load_file(credentials_path)
+end
+
+def load_user_credentials_path #for signing up yaml files this method will come in handy for accessing the path specifically
   credentials_path = if ENV["RACK_ENV"] == "test"
     File.expand_path("../test/users.yml", __FILE__)
   else
     File.expand_path("../users.yml", __FILE__)
   end
-  YAML.load_file(credentials_path)
 end
 
 
+# validate the ext name of a file
+def invalid_ext_name?(filename)
+  File.extname(filename) != ".md" && File.extname(filename) != ".txt"
+end
 
-
-#create get method for route
-
+# create get method for route
 def sign_in
-    session[:signed_in] = true
+  session[:signed_in] = true
+end
+
+def signed_in?
+  session[:signed_in]
+end
+
+def sign_out
+  session.delete(:signed_in)
+end
+
+def require_sign_in
+  unless signed_in?
+    user_not_signed_in
   end
-
-  def signed_in?
-    session[:signed_in] == true
-  end
-
-  def sign_out
-    session[:signed_in] = false
-  end
-
-  def require_sign_in
-    unless signed_in?
-      return user_not_signed_in
-    end
-  end
-
-
+end
 
 def user_not_signed_in
-    session[:message] = "You are not signed in. Sign in for full access."
-    redirect "/"
-
+  session[:message] = "You are not signed in. Sign in for full access."
+  redirect "/"
 end
 
-
-#bcrypt authentication
-
+# bcrypt authentication
 def hash_password(password)
-  BCrypt::Password.create(password)
+  BCrypt::Password.create(password).to_s
 end
 
 def check_password(password, hashed_password)
   BCrypt::Password.new(hashed_password) == password
 end
 
-#check for if a file has been duplicated
 
+# Method to add a new user with a hashed password to the YAML file
+def add_user_to_yaml(username, password)
+  credentials = if File.exist?(load_user_credentials_path)
+                  YAML.load_file(load_user_credentials_path) || {}
+                else
+                  {}
+                end
+
+  credentials[username] = hash_password(password)
+
+  File.open(load_user_credentials_path, 'w') do |file|
+    YAML.dump(credentials, file)
+  end
+end
+# check for if a file has been duplicated
 def duplicated?(file)
   file.include?("_duplicate")
 end
 
-#add-duplicate after text but before extension
-
+# add-duplicate after text but before extension
 def insert_duplicate_path(filename)
   extname = File.extname(filename)
   basename = File.basename(filename, extname)
   duplicate_filename = "#{basename}_duplicate#{extname}"
-  duplicate_path = File.join(data_path, duplicate_filename)
-
+  File.join(data_path, duplicate_filename) # Returns full path
 end
 
-# read the contents of original file and then copy those contents over
 
+# read the contents of original file and then copy those contents over
 def copy_file_contents(original_file_path, duplicate_file_path)
   original_content = File.read(original_file_path)
   File.write(duplicate_file_path, original_content)
 end
-
 
 helpers do
   def file_exist?(file)
@@ -122,7 +130,7 @@ helpers do
       headers["Content-Type"] = "text/plain"
       content
     when ".md"
-     erb render_markdown(content)
+      erb render_markdown(content)
     end
   end
 end
@@ -130,6 +138,11 @@ end
 get "/users/signin" do
 
   erb :sign_in, layout: :layout
+end
+
+get "/users/signup" do
+
+  erb :sign_up, layout: :layout
 end
 
 get "/" do
@@ -155,7 +168,7 @@ end
 get "/:filename" do
   require_sign_in
 
-  file_path = File.join(data_path, params[:filename])
+  file_path = File.join(data_path, File.basename(params[:filename]))
   unless file_exist?(file_path)
     session[:message] = "#{params[:filename]} does not exist."
     return redirect "/"
@@ -177,8 +190,8 @@ end
 
 
 post "/users/signin" do
-  @username = params[:username].to_s
-  @password = params[:password].to_s
+  @username = params[:username]
+  @password = params[:password]
   credentials = load_user_credentials
 
      if credentials.key?(@username) && check_password(@password, hash_password(@password))
@@ -204,6 +217,25 @@ post "/users/signout" do
 erb :index, layout: :layout
 end
 
+post "/users/signup" do
+ @username = params[:username]
+ @password = params[:password]
+
+ if  @username.strip.empty? || @password.empty?
+  session[:message] = "please enter a valid username and password"
+  erb :sign_up
+ else
+  add_user_to_yaml(@username, @password)
+  session[:message] = "You have successfully created your account #{@username}. You can now sign in. "
+  redirect "/"
+ end
+
+
+erb :sign_up, layout: :layout
+end
+
+
+
 
 post "/create" do
   require_sign_in
@@ -212,6 +244,9 @@ post "/create" do
   if filename.strip.empty?
     status 422
     session[:message] = "A name is required."
+    erb :new
+  elsif invalid_ext_name?(filename)
+    session[:message] = "please create a valid file ending with .txt or .md"
     erb :new
   else
     file_path = File.join(data_path, filename)

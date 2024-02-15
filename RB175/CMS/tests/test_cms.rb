@@ -25,6 +25,23 @@ class AppTest < Minitest::Test
 
   end
 
+  def user_exists?(user)
+    user_credentials = YAML.load_file(load_user_credentials_path)
+    user_credentials.key?(user)
+  end
+
+  def delete_test_yaml_account(key)
+    credentials_path = load_user_credentials_path
+    credentials = load_user_credentials
+
+    # Delete the key from the credentials hash
+    credentials.delete(key)
+
+    # Write the updated hash back to the YAML file
+    File.open(credentials_path, 'w') do |file|
+      YAML.dump(credentials, file)
+    end
+  end
 
   def create_document(name, content = "")
     File.open(File.join(data_path, name), "w") do |file|
@@ -156,12 +173,45 @@ class AppTest < Minitest::Test
     assert_includes last_response.body, "A name is required."
   end
 
+  def test_create_new_document_signed_in_with_invalid_ext_name
+    post "/create", {filename: "file.txtdd"}, admin_session
+
+    assert_equal 200, last_response.status
+    assert_includes last_response.body,  "please create a valid file ending with .txt or .md"
+
+
+  end
+
   def test_create_new_document_without_filename_signed_out
     post "/create"
 
     assert_equal 302, last_response.status
     assert_equal "You are not signed in. Sign in for full access.", session[:message]
   end
+
+  def test_duplicate_document_signed_in
+    create_document("history.txt")
+
+    post "/history.txt/duplicate", {filename: "history_duplicate.txt"}, admin_session
+
+    assert_equal 302, last_response.status
+
+
+    assert_equal "A duplicate of history.txt has been created!", session[:message]
+    assert File.exist?(File.join(data_path, "history_duplicate.txt"))
+
+  end
+
+  def test_duplicate_document_signed_out
+    create_document("history.txt")
+
+    post "/history.txt/duplicate"
+
+   assert_equal 302, last_response.status
+   assert_equal "You are not signed in. Sign in for full access.", session[:message]
+
+  end
+
 
 
   def test_deleting_document_signed_in
@@ -222,6 +272,29 @@ class AppTest < Minitest::Test
     assert_includes last_response.body, "You have been signed out"
     assert_includes last_response.body, "Sign In"
   end
+
+  def test_sign_up
+    post "users/signup", username: "nami", password: "burglar"
+
+    follow_redirect!
+    assert last_response.ok?
+    assert_includes last_response.body, 'You have successfully created your account nami. You can now sign in. '
+    assert user_exists?('nami') # You would need to define this helper method
+  end
+
+  def test_valid_bcrypting_of_password
+    post "users/signup", username: "nami", password: "burglar"
+
+    hashed_password = hash_password("burglar")
+    refute_equal 'burglar', hashed_password
+    assert check_password("burglar", hashed_password) # Use BCrypt to check the password was hashed
+
+    delete_test_yaml_account('nami')
+    refute YAML.load_file(load_user_credentials_path).include?('nami')
+  end
+
+
+
 
 end
 

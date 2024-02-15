@@ -1,0 +1,22 @@
+
+<% if session[:message]%>
+
+<p class = "flash message" > <%= session.delete(:message)%> </p>
+<%end %>
+
+<h2> Create account </h2>
+
+<form action="/users/signup" method="post">
+  <div>
+    <label for="usernameContent">Username:</label>
+  <input type="text" id="username" name="username" value="<%= @username %>">
+
+  </div>
+  <div>
+    <label for="passwordContent">Password:</label>
+    <input type="password" id="password" name="password"value="<%= @username %>">
+
+  </div>
+
+  <button type="submit">Sign Up</button>
+</form>
