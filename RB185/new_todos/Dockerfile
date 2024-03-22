@@ -1,40 +1,31 @@
+# Use a specific version of the Ruby image
 ARG RUBY_VERSION=3.2.2
 FROM ruby:$RUBY_VERSION-slim as base
 
-# Rack app lives here
+# Set the working directory
 WORKDIR /app
 
-# Update gems and bundler
+# Update system and install dependencies
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y libpq5 && \
+    apt-get install --no-install-recommends -y build-essential libpq-dev && \
     gem update --system --no-document && \
     gem install -N bundler
 
-# Throw-away build stage to reduce size of final image
-FROM base as build
-
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential libpq-dev
-
-# Install application gems
-COPY Gemfile* .
+# Copy the Gemfile and Gemfile.lock into the image and install gems
+COPY Gemfile* /app/
 RUN bundle install
 
-# Final stage for app image
-FROM base
+# Copy the rest of the application code
+COPY . /app/
 
-# Run and own the application files as a non-root user for security
+# Create a non-root user to run the app
 RUN useradd ruby --home /app --shell /bin/bash
 USER ruby:ruby
 
-# Copy built artifacts: gems, application
-COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build --chown=ruby:ruby /app /app
-
-# Copy application code
-COPY --chown=ruby:ruby . .
-
-# Start the server
+# Expose the port the app runs on
 EXPOSE 8080
+
+# Start the application
 CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "--port", "8080"]
+
+

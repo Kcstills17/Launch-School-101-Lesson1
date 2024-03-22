@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for new-todos on 2024-03-21T23:45:39-04:00
+# fly.toml app configuration file generated for new-todos on 2024-03-22T03:50:18-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'new-todos'
-primary_region = 'iad'
+primary_region = 'yyz'
 
 [build]
 
