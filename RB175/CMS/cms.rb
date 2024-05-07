@@ -58,6 +58,11 @@ def sign_out
   session.delete(:signed_in)
 end
 
+def user_not_signed_in
+  session[:message] = "You are not signed in. Sign in for full access."
+  redirect "/"
+end
+
 def require_sign_in
   unless signed_in?
     user_not_signed_in

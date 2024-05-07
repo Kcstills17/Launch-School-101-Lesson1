@@ -1,0 +1,583 @@
+
+let count = [0, 1, 2];
+function push(arr, num) {
+  arr[arr.length] = num
+  return arr.length;
+}
+
+//console.log(push(count, 3));         // 4
+//console.log(count);                  // [ 0, 1, 2, 3 ]
+
+count = [1, 2, 3]
+
+let pop = function(arr) {
+  if (arr.length === 0 ) {
+    return undefined
+  }
+  let newLength = (arr.length - 1)
+  let value = arr[newLength]
+  arr.length = newLength
+  return value
+
+}
+
+//console.log(pop(count));             // 3
+//console.log(count);                  // [ 1, 2 ]
+
+
+ count = [1, 2, 3];
+
+ let unshift = (arr, num) => {
+  for (let i = arr.length; i > 0; i-= 1) {
+    arr[i] = arr[i - 1];
+    console.log(arr[i -1 ])
+
+  }
+
+  arr[0] = num
+  return arr.length
+ }
+
+
+console.log(unshift(count, 0));      // 4
+count;                  // [ 0, 1, 2, 3 ]
+
+
+ count = [1, 2, 3];
+
+ let shift = function(arr) {
+  let value = arr[0];  // Store the first element
+  for (let i = 1; i < arr.length; i++) {
+
+    arr[i - 1] = arr[i];  // Shift every element one position to the left
+    console.log(arr)
+  }
+  arr.length -= 1;  // Decrease the array length by one
+  return value;     // Return the removed first element
+}
+
+console.log(shift(count));           // 1
+console.log(count);                  // [ 2, 3 ]
+
+
+
+//Write a function indexOf that accepts two arguments: an array and a value. The function returns the first index at which the value can be found,
+ //or -1 if the value is not present.
+
+
+ function indexOf(arr, value) {
+  for (i = 0; i < arr.length; i++) {
+    if (arr[i] === value) {
+      return i
+    }
+  }
+  return - 1
+ }
+console.log(indexOf([1, 2, 3, 3], 3));         // 2
+console.log(indexOf([1, 2, 3], 4));            // -1
+
+
+//Write a function lastIndexOf that accepts two arguments: an array and a value. The function returns the last index at which the value can be found in the array,
+// or -1 if the value is not present.
+
+
+function lastIndexOf(arr, value) {
+ for (i = arr.length; i > 0 ; i-= 1) { // in this case we want the last index that matches. So we can reverse our loop down starting from the arr size
+  if (arr[i] === value) {
+    return i
+  }
+ }
+ return -1
+}
+lastIndexOf([1, 2, 3, 3], 3);     // 3
+lastIndexOf([1, 2, 3], 4);        // -1
+
+
+/* Write a function named slice that accepts three arguments: an Array, a start index, and an end index.
+ The function should return a new Array that contains values from the original Array starting with the value at the starting index,
+  and including all values up to but not including the end index. Do not modify the original Array.
+
+You may use functions that were answers to previous practice problems to complete this problem, but do not use any built-in Array methods.
+
+slice([1, 2, 3, 4, 5], 0, 2);                      // [ 1, 2 ]
+slice(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 1, 3);  // [ 'b', 'c' ]
+
+PEDAC
+
+E: 3 inputs. An array and 2 numbers. one for the start index and the final for the end index.
+   a new array should be returned that includes tye same values from the original array from the s. index to the e. index
+   Do not modify the original array.
+   the end index is not inlcuded in the new array
+
+I: no implicit data shown
+
+
+DS: input array, num, num
+    output: new array
+    i will utilize a new array structure without mutating the original passed in argument array
+
+
+A:
+
+declare a new array named slicedArr and set it empty
+now we loop through an index starting at the index of the arr that is the start point and loop until the size is = to the endpoint
+if the index value matches we push this value onto our slicedArr.
+return slicedArr
+
+*/
+
+let slice = function(arr, start, end) {
+  let slicedArr = [];
+  for (let i = start; i < end; i++) {
+    slicedArr.push(arr[i])
+  }
+  return slicedArr;
+};
+
+slice([1, 2, 3, 4, 5], 0, 2);                      // [ 1, 2 ]
+slice(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 1, 3);  // [ 'b', 'c' ]
+
+/*
+
+Write a function named splice that accepts three arguments: an Array, a start index, and the number of values to remove.
+ The function should remove values from the original Array, starting with the start index and removing the specified number of values.
+  The function should return the removed values in a new Array.
+
+You may use functions that were answers to previous practice problems to complete this problem, but do not use any built-in Array methods.
+
+let count = [1, 2, 3, 4, 5, 6, 7, 8];
+splice(count, 2, 5);                   // [ 3, 4, 5, 6, 7 ]
+count;                                 // [ 1, 2, 8 ]
+
+
+PEDAC
+
+
+E: takes 3 outputs, an array, start index number and number of values to remove.
+   The original array should have the given values removed.
+   The a newarray is returned
+
+   Previously created functions can be used.
+
+I: The original array is mutated by having specific values removed.
+
+
+DS: a new array is created and the needed elements will be added to this array
+
+
+A: create a new array called removedValues and set to an empty arr
+we will loop by starting with our begin value as the starting index. and continue the loop until the index is === to array. length
+we will push values onto removedValues in which the index is < begin + number.
+now to deal with mutating the original array we will shift all of our values by setting each index to the same value + number.
+This will keep only the numbers that we have not added to the new array and replace the other values with undefined. This is because when shifting past an index place
+that does not exist will result in undefined and those that result in a current latter index value will result in being set to that new value.
+
+Now to finalize the original array we then sunbtract the length of removedValues from the length of the original arrays to remove all undefined values.
+return removedArr
+
+
+
+
+
+*/
+
+
+
+function splice(array, begin, number) {
+  let removedValues = [];
+  for (let index = begin; index < array.length; index += 1) {
+    if (index < begin + number) {
+
+      push(removedValues, array[index]);
+    }
+    array[index] = array[index + number];
+  }
+
+  array.length = array.length - removedValues.length;
+  return removedValues;
+};
+
+let counts = [1, 2, 3, 4, 5, 6, 7, 8];
+splice(counts, 2, 5);                   // [ 3, 4, 5, 6, 7 ]
+counts;                                 // [ 1, 2, 8 ]
+
+
+/* Write a function named concat that accepts two Array arguments. The function should return a new Array that contains the values from each of the original Arrays.
+
+You may use functions that were answers to previous practice problems to complete this problem, but do not use any built-in Array methods.
+
+concat([1, 2, 3], [4, 5, 6]);       // [ 1, 2, 3, 4, 5, 6 ]
+
+PEDAC
+
+E: there are two inputs. one for each array we are concatenating together.
+   A new array shall be returned
+   Previously built manual methods may be used.
+   No JS built array methods may be used.
+
+
+DS: the result is a new array. Using prebuilt methods we can append the proper values to a new array
+
+
+A:
+
+initialize concatArr to an empty array
+we must iterate through 2 loops. One for each array since we must add all elements of the first arr before moving on to the next one. so we want to include the last element of
+both arrays. both will have the same logic. set the index to 0. Loop through until the index is greater than the size of the array. append the index of the respective array
+to concatArr.
+return concatArr
+
+*/
+
+
+
+
+function concat(arr1, arr2) {
+  let concatArr = [];
+
+  for (let index1 = 0; index1 < arr1.length; index1++) {
+    concatArr.push(arr1[index1])
+  }
+  for (let index2 = 0; index2 < arr2.length; index2++) {
+    concatArr.push(arr2[index2])
+  }
+  console.log(concatArr)
+}
+
+concat([1, 2, 3], [4, 5, 6]);       // [ 1, 2, 3, 4, 5, 6 ]
+
+
+/*
+
+Write a function named join that accepts two arguments: an Array and a String. The function should coerce each value in the Array to a String,
+and then join those values together using the second argument as a separator. You may assume that a separator will always be passed.
+
+You can call the String function on any JavaScript value to get its String representation.
+
+join(['bri', 'tru', 'wha'], 'ck ');       // 'brick truck wha'
+join([1, 2, 3], ' and ');                 // '1 and 2 and 3'
+
+PEDAC
+
+E: there is an array input and a string input.
+   each value in the array should be coerced into a string and then the string argument should separate each part of the new string.
+   all separators can be assumed to be passed
+
+I: Spaces are determined by whether or not there is spaces in the separator.
+
+
+DS: the input is an array and a string. The output is a string
+    A possible structure is a new string that has each coerced array value + separator appended to it.
+
+A:
+
+initialize let joinedStr to an empty str
+initialize let temporaryJoinStr to an empty str
+
+iterate through a loop that starts at index 0. and iterates until its greater than the array length
+ within the loop get the index of the current arr and add it with the separator.
+ set temporaryJoinStr to this and append this value to joinedStr
+ if the index value is the last value of the arr then just add the index value
+ return joinedStr
+*/
+
+
+let join = (arr, separator = '') => { // Default separator to an empty string if not provided
+  let joinedStr = '';
+
+  for (let i = 0; i < arr.length; i++) {
+    joinedStr += arr[i]; // Add the current array element to the string
+    if (i !== arr.length - 1) { // Check if it's not the last element
+      joinedStr += separator; // Only add the separator if it's not the last element
+    }
+  }
+
+  console.log(joinedStr);
+  return joinedStr; // Also return the joined string if needed elsewhere
+};
+
+
+  join(['bri', 'tru', 'wha'], 'ck ');       // 'brick truck wha'
+  join([1, 2, 3], ' and ');                 // '1 and 2 and 3'
+
+
+  /* Write a function named arraysEqual that takes two arrays as arguments. The function should return true if the arrays contain the same values, or false if they do not.
+
+Test the function with arrays that contain number, string, and boolean values. Don't worry about handling arrays that contain other Arrays or Objects.
+
+PEDAC
+
+E: input is two arrays
+   true is returned if the two arrays share the same values, false if otherwiser
+   The function will test arrays with number, string, and boolean values. Do not worry about others
+
+DS: the input is two arrays.
+    output is a boolean value
+    we can make use of arrays and then compare their values to return the proper boolean value
+
+A:
+
+if the two arrays are not the same size then false will be returned.
+when they are the same size we will iterate through a loop starting at index 0. and going until it is the size of the array's length
+if the index at arr1 !== the index at arr2 at any point then return false.
+othwerwise if we complete the loop return true
+*/
+
+let arraysEqual = function(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false
+  }
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false
+    }
+  }
+  return true
+};
+
+console.log(arraysEqual([1], [1]));                               // true
+console.log(arraysEqual([1], [2]));                               // false
+console.log(arraysEqual([1, 2], [1, 2, 3]));                      // false
+console.log(arraysEqual([1, 'hi', true], [1, 'hi', true]));       // true
+console.log(arraysEqual([1, 'hi', true], [1, 'hi', false]));      // false
+console.log(arraysEqual([1, 'hi', true], [1, 'hello', true]));    // false
+console.log(arraysEqual([1, 'hi', true], [2, 'hi', true]));       // false
+
+
+// In the problems below, we ask you to write functions that work with Arrays. You may use Array's index access ([]), the length property, and any Array Methods you need.
+
+
+//Write a function that returns the first element of an array passed in as an argument.
+
+
+
+
+function firstElementOf(arr) {
+  return arr[0];
+}
+
+firstElementOf(['U', 'S', 'A']);  // returns "U"
+
+
+//Write a function that returns the last element of an array passed in as an argument.
+
+function lastElementOf(arr) {
+   return arr[arr.length - 1]
+}
+
+lastElementOf(['U', 'S', 'A']);  // returns "A"
+
+
+//Write a function that accepts two arguments, an array and an integer index position, and returns the element at the given index.
+//What happens if the index is greater than the length of the array? What happens if it is a negative integer?
+
+function nthElementOf(arr, index) {
+ return arr[index]
+}
+
+let digits = [4, 8, 15, 16, 23, 42];
+
+nthElementOf(digits, 3);   // returns 16
+nthElementOf(digits, 8);   // what does this return?
+nthElementOf(digits, -1);  // what does this return?
+
+
+// For both negative index values and index values greater than the array length than the value undefined will be returned.
+
+
+// Write a function that accepts an array as the first argument and an integer value, count, as the second.
+// It should return a new array that contains the first count elements of the array.
+
+function firstNOf(arr, count) {
+  firstCountArr = []
+  for (let i = 0; i < count; i++) {
+    firstCountArr.push(arr[i])
+  }
+  console.log(firstCountArr)
+}
+
+let digit = [4, 8, 15, 16, 23, 42];
+firstNOf(digit, 3);    // returns [4, 8, 15]
+
+
+//Write a function like the previous one, except this time return the last count elements as a new array.
+
+function lastNOf(arr, count) {
+ if (count > arr.length || count < 0) {
+  console.log(arr.slice(0))
+ } else
+ console.log(arr.slice(arr.length - count))
+
+}
+
+digits = [4, 8, 15, 16, 23, 42];
+lastNOf(digits, 3);    // returns [16, 23, 42]
+
+lastNOf(digits, -1)
+
+// When you pass a count greater than the array length, the arithmetic in the function becomes a negative value. slice interprets a negative value as a position
+// relative to the end of the array. Thus, if we pass a count of 9 with our digits array, lastNOf calls slice with an argument of -3. slice thus returns
+// the final three elements of digits.
+
+//To change this behavior, we can calculate the starting position, then adjust it to 0 if it is negative. We can pass the resulting value to slice,
+// which returns a new copy of the array when the value is 0.
+
+
+
+//Write a function that accepts two arrays as arguments and returns an array with the first element from the first array and the last element from the second array.
+
+function endsOf(beginningArr, endingArr) {
+  let newArray = [];
+  newArray.push(beginningArr[0]);
+  newArray.push(endingArr[endingArr.length -1]);
+   return newArray
+}
+
+endsOf([4, 8, 15], [16, 23, 42]);  // returns [4, 42]
+
+
+//Write a function that creates and returns a new array from its array argument. The new array should contain all values from the argument array
+//whose positions have an odd index.
+
+function oddElementsOf(arr) {
+  let oddArray = [];
+  for (let i = 1; i < arr.length; i+= 2) {
+    oddArray.push(arr[i])
+  }
+  return oddArray
+}
+
+let numbers = [4, 8, 15, 16, 23, 42];
+
+oddElementsOf(numbers);    // returns [8, 16, 42]
+
+
+//Write a function that takes an array argument and returns a new array that contains all the argument's elements in their original order
+// followed by all the argument's elements in reverse order.
+
+function arrayPlusReverseArray(arr) {
+  let dupArr = arr.slice()
+  return arr.concat(dupArr.reverse())
+}
+
+arrayPlusReverseArray([1, 2, 3, 4, 5, 10])
+
+
+
+//Use the array sort method to create a function that takes an array of numbers and returns a new array of the numbers sorted in descending order.
+//Do not alter the original array.
+
+function sortDescending(arr) {
+  return arr.slice().sort((a, b) => b - a)
+
+}
+
+let array = [23, 4, 16, 42, 8, 15];
+let result = sortDescending(array);
+console.log(result);                 // logs    [42, 23, 16, 15, 8, 4]
+console.log(array);                  // logs    [23, 4, 16, 42, 8, 15]
+
+
+
+//Write a function that takes an array of arrays as an argument, and returns a new array that contains the sums of each of the sub-arrays.
+
+function matrixSums(arr) {
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    // Sum up each sub-array and push the result to newArr
+    let sum = arr[i].reduce((accumulator, currentValue) => accumulator + currentValue);
+    newArr.push(sum);
+  }
+  console.log(newArr)
+  return newArr; // Return the array of sums
+}
+matrixSums([[2, 8, 5], [12, 48, 0], [12]]);  // returns [15, 60, 12]
+
+
+
+//Write a function that takes an array, and returns a new array with duplicate elements removed.
+
+function uniqueElements(arr) {
+  uniqArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (uniqArr.includes(arr[i])) {
+      continue
+    } else
+    uniqArr.push(arr[i])
+  }
+  console.log(uniqArr)
+}
+
+uniqueElements([1, 2, 4, 3, 4, 1, 5, 4]);  // returns [1, 2, 4, 3, 5]
+
+
+
+//Write a function that takes a sorted array of integers as an argument, and returns an array that includes all the missing integers (in order)
+// between the first and last elements of the argument.
+
+/* PEDAC
+
+Explicit:
+our input is a sorted array of integers.
+the outpout is a new array that has all of the missing integers (in order) that are between ther first and last element of the input arr
+
+Implicit:
+If there are no missing values then return an empty array
+if there is only 1 array value then return an empty array
+
+
+
+DS: input is an array.
+    output is an array
+    will be working with the new output array
+
+
+A:
+if the input array is <= 1 in size then return an empty new array
+to deal with all of the numbers we do not have we want to get a range from the smallest first index array value to the end index array value.
+once we have this range of all digits we can compare our range to see if it includes each digit from the input array. For each digit that is not included
+we will append that digit to a new array.
+
+To get the range we will have a separate function range that has a start and end argument. this will return an array that appends a number to the array on each iteration of the
+for loop until it reaches a size greater than the end.
+
+
+
+*/
+
+let range = (start, end) => {
+  let arr = [];
+  for (let i = start; i < end; i++) {
+    arr.push(i);
+  }
+  return arr;
+};
+
+
+let missing = function (arr) {
+  if (arr.length <= 1) {
+    return [];
+  }
+  let missingDigitsArr = [];
+  let rangeArr = range(arr[0], arr[arr.length - 1])
+  rangeArr.forEach(digit => {
+    if (!arr.includes(digit)) {
+      missingDigitsArr.push(digit)
+    }
+  });
+  console.log(missingDigitsArr)
+}
+
+missing([-3, -2, 1, 5]);                  // [-1, 0, 2, 3, 4]
+missing([1, 2, 3, 4]);                    // []
+missing([1, 5]);                          // [2, 3, 4]
+missing([6]);                             // []
+
+
+array = [42]
+
+console.log(array.slice())
+let arr1 = [1, 2, 3, 4, 5]
+
+arr1.splice(1, 3)
+console.log(arr1)
