@@ -1,3 +1,5 @@
+"use strict"
+
 function log(input) {
   return console.log(input)
 }
@@ -41,7 +43,7 @@ console.log(myOtherArray);
 
 let array = [1, 2, 3, 4]
 
-copyValues = array.slice(0)
+let copyValues = array.slice(0)
 array[0] = 4
 log(array) // the original array has been modified
 log(copyValues) // even though the original array was modified the new array has a new copy and has it's own copy of it's values.
@@ -358,7 +360,7 @@ testArray;                       // [5, 2, 3]
 
 
 A: shift
-if the array is empty return an empty array
+if the array is empty return undefined
 declare variable firstValue and set to the first index of the input arr
 iterate through a loop that starts at zero until the index is greater than the length of the input arr.
 take the current position of the input array at index and set it to shift over one position to the right (array at index + 1)
@@ -367,7 +369,12 @@ remove the last element from the array
 return firstValue
 
 A: unshift
+initialize and declare newLength
+iterate throguh a loop. initialize the index to the size of the array - 1. Iterate through the loop while the index is >= 0
+set the current array at the index value + 1 to the current index value
 
+now the first two indexes should be the same values. Set the first index to the passed in argument.
+return the mutated arrays size
 
 
 
@@ -392,3 +399,296 @@ let shift = function(arr) {
 shift([1, 2, 3]);                // 1
 shift([]);                       // undefined
 shift([[1, 2, 3], 4, 5]);        // [1, 2, 3]
+
+let unshift = function(arr, ...arg) {
+  // Shift original elements to the right by arg.length positions
+  for (let i = arr.length - 1; i >= 0; i--) {
+      arr[i + arg.length] = arr[i];
+
+  }
+
+  // Insert each new element from arg into the beginning of arr
+  for (let j = 0; j < arg.length; j++) {
+
+      arr[j] = arg[j];
+  }
+   return arr.length
+
+};
+
+
+unshift([1, 2, 3], 5, 6);        // 5
+unshift([1, 2, 3]);              // 3
+unshift([4, 5], [1, 2, 3]);      // 3
+
+
+
+
+
+/*
+
+
+8. Array Slice and Splice
+
+In this exercise, you will implement your own versions of the Array.prototype.slice and Array.prototype.splice methods according to the following specifications.
+
+The slice function takes three arguments: an array, and two integers representing a begin and an end index. The function returns a new array containing the
+ extracted elements starting from begin up to but not including end. slice does not mutate the original array.
+
+The splice function changes the contents of an array by deleting existing elements and/or adding new elements. The function takes the following arguments: an array,
+a start index, a deleteCount, and zero or more elements to be added. The function removes deleteCount number of elements from the array, beginning at the start index.
+If any optional element arguments are provided, splice inserts them into the array beginning at the start index. The function returns a new array
+ containing the deleted elements, or an empty array ([]) if no elements are deleted. splice mutates the original array.
+
+Additional specifications:
+
+slice:
+
+    The values of begin and end will always be integers greater than or equal to 0.
+    If the value of begin or end is greater than the length of the array, set it to equal the length.
+
+splice:
+
+    The values of start and deleteCount will always be integers greater than or equal to 0.
+    If the value of start is greater than the length of the array, set it to equal the length.
+    If the value of deleteCount is greater than the number of elements from start up to the end of the array, set deleteCount to the difference between the array's
+    length and start.
+    Takes optional arguments for elements to add to the array; denoted by the rest parameter ...args. If no elements to add are provided, splice only removes elements
+  from the array.
+
+Examples:
+
+function slice(array, begin, end) {
+  // ...
+}
+
+slice([1, 2, 3], 1, 2);               // [2]
+slice([1, 2, 3], 2, 0);               // []
+slice([1, 2, 3], 5, 1);               // []
+slice([1, 2, 3], 0, 5);               // [1, 2, 3]
+
+const arr1 = [1, 2, 3];
+slice(arr1, 1, 3);                     // [2, 3]
+arr1;                                  // [1, 2, 3]
+
+function splice(array, start, deleteCount, ...args) {
+  // ...
+}
+
+splice([1, 2, 3], 1, 2);              // [2, 3]
+splice([1, 2, 3], 1, 3);              // [2, 3]
+splice([1, 2, 3], 1, 0);              // []
+splice([1, 2, 3], 0, 1);              // [1]
+splice([1, 2, 3], 1, 0, 'a');         // []
+
+const arr2 = [1, 2, 3];
+splice(arr2, 1, 1, 'two');             // [2]
+arr2;                                  // [1, "two", 3]
+
+const arr3 = [1, 2, 3];
+splice(arr3, 1, 2, 'two', 'three');    // [2, 3]
+arr3;                                  // [1, "two", "three"]
+
+const arr4 = [1, 2, 3];
+splice(arr4, 1, 0);                    // []
+splice(arr4, 1, 0, 'a');               // []
+arr4;                                  // [1, "a", 2, 3]
+
+const arr5 = [1, 2, 3];
+splice(arr5, 0, 0, 'a');               // []
+arr5;                                  // ["a", 1, 2, 3]
+
+
+
+A: slice:
+The function will take 3 input's the array and an integer representing the start and end value
+so if begin or end is greater than the length of the array. if either the begin or end is greater than the length of the array then set that value to the length
+
+
+if start is the size of the length or if end is 0 then return an empty array.
+
+Otherwise we can set an index to the size of start + 1. Iterate until the index is the size of end. and increment the loop.
+
+
+A: splice
+We will utilize our helper function from before to check if start is greaterthan the size of the arr.length. if so set it to the length size.
+if the deleteCount is higher  than the value of the start up to the end of the array. than we will set that value to the difference between the arr length and the start.
+initialize deletedValuesArr to an empty arr
+iterate through a loop and set the index to the start value. iterate until the index is equal to the index + the end value. increment by 1
+at each iteration set the value of the index of the input arr to append to deletedValuesArr
+
+
+*/
+
+let arr = [1, 2, 3, 4, 5]
+
+log(arr.splice(2, 9))
+function setStartAndEnd(arr, value) {
+  if (value > arr.length) {
+
+    value = arr.length
+  }
+
+  return value
+}
+
+function slice(arr, start, end) {
+  let slicedArr = []
+  start = setStartAndEnd(arr, start)
+  end = setStartAndEnd(arr, end)
+
+
+  if (start === arr.length || end === 0) {
+    return [];
+  }
+  for (let i = start ; i < end; i++) {
+    slicedArr.push(arr[i])
+
+  }
+  return slicedArr
+
+}
+
+slice([1, 2, 3], 1, 2);               // [2]
+slice([1, 2, 3], 2, 0);               // []
+slice([1, 2, 3], 5, 1);               // []
+slice([1, 2, 3], 0, 5);               // [1, 2, 3]
+
+/*
+set start to the array length if it is greater than the array length or keep as start otherwise
+set deletecount to the array length - start if it is greater than the difference between array length and the start; otherwise keep as deleteCount
+since we are going to be essentially replacing elements at first we need to have a copy of our input array to keep up with the values we will replace.
+make a copy of the input array and initialize it as arrayCopy
+declare a constant elementCount to be the size of the length of the passed in arguments.
+declare a constant newLength which will be rhe result of adding the array length and elementCount and then subtracting the deleteCount. This will be essentially the amount of new
+values we will be adding
+set the array length to the newLength value
+
+
+Iterate through a loop and set the index to 0. iterate until the index is greater than elementCount. Increment by 1
+within this loop set the place of the index value + 1 at in the current array to the current index value of within the argument.
+This will insert any new elements into the original array
+
+Now we have to place back our values that we replaced from the original array. We can do that by using the arrayCopy
+initialize copyBackCount to the result of taking the length of arrayCopy and subtracting the sum of start and deleteCount. This will give us the position that is where
+we left off after adding our new values (or if we added none)
+now  loop and set the index to 0. loop until the index is greater than the copyBackCount. Increment by 1
+The postion we are placing back into the original array will be set by the array at index value  start + elementCount  + index  which will be set to equal
+arrayCopy at index value start + delete + index.
+
+Finally we will return an array of the values we have removed which can be done by slicing the ArrayCopy and having a start position of start, and an end position of
+start + deleteCount
+
+
+*/
+
+function splice(array, start, deleteCount, ...args) {
+  start = start > array.length ? array.length : start;
+  deleteCount = deleteCount > (array.length - start) ? array.length - start : deleteCount;
+
+  const arrayCopy = slice(array, 0, array.length);
+  const elementCount = args.length;
+  const newLength = array.length + elementCount - deleteCount;
+
+  array.length = newLength;
+
+
+
+  for (let i = 0; i < elementCount; i += 1) {
+
+    array[start + i] = args[i];
+
+  }
+
+  let copyBackCount = arrayCopy.length - (start + deleteCount);
+  for (let i = 0; i < copyBackCount; i += 1) {
+    log(i)
+    array[start + elementCount + i] = arrayCopy[start + deleteCount + i];
+  }
+
+  return slice(arrayCopy, start, start + deleteCount);
+}
+/*
+splice([1, 2, 3], 1, 2);              // [2, 3]
+splice([1, 2, 3], 1, 3);              // [2, 3]
+splice([1, 2, 3], 1, 0);              // []
+splice([1, 2, 3], 0, 1);              // [1]
+splice([1, 2, 3], 1, 0, 'a');         // []
+*/
+
+
+/*
+9.Array Comparison
+
+The array comparison function that we implemented in the Arrays lesson (Alternate link if the previous link doesn't work) implicitly assumed
+that when comparing two arrays, any matching values must also have matching index positions. The objective of this exercise is to reimplement the function so that
+two arrays containing the same values—but in a different order—are considered equal. For example, [1, 2, 3] === [3, 2, 1] should return true.
+
+Examples:
+
+function areArraysEqual(array1, array2) {
+  // ...
+}
+
+areArraysEqual([1, 2, 3], [1, 2, 3]);                  // true
+areArraysEqual([1, 2, 3], [3, 2, 1]);                  // true
+areArraysEqual(['a', 'b', 'c'], ['b', 'c', 'a']);      // true
+areArraysEqual(['1', 2, 3], [1, 2, 3]);                // false
+areArraysEqual([1, 1, 2, 3], [3, 1, 2, 1]);            // true
+areArraysEqual([1, 2, 3, 4], [1, 1, 2, 3]);            // false
+areArraysEqual([1, 1, 2, 2], [4, 2, 3, 1]);            // false
+areArraysEqual([1, 1, 2], [1, 2, 2]);                  // false
+areArraysEqual([1, 1, 1], [1, 1]);                     // false
+areArraysEqual([1, 1], [1, 1]);                        // true
+areArraysEqual([1, '1'], ['1', 1]);                    // true
+
+
+A:
+if both arrays are not the same length then return false
+some arrays have the same size but include different counts of particulat values. This would result in being false
+iterate through  a loop. set index to 0. iterate until index is greater than arr2.length. increment by 1
+at each iteration compare the result of the count of occurences at arr1 with the value of the current index of arr1 with the count of occurrences at arr2 with the value of the current index of arr1
+if any value returns false.
+return false.
+otherwise return true
+
+to get the count of occurrences. you take an input array and value
+iterate through a loop and get a count and current value. set the count  to start at 0. if the current index value matches the count then increment the count by 1.
+otherwise leave the count.
+return the result of the count
+
+*/
+
+function countOccurrences(array, value) {
+  return array.reduce((count, current) => (current === value ? count + 1 : count), 0);
+}
+
+
+
+
+function areArraysEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false
+  }
+  for (let i = 0; i < arr2.length; i++) {
+    if (countOccurrences(arr1, arr1[i]) !== countOccurrences(arr2, arr1[i])) {
+      return false;
+    }
+  }
+return true
+
+}
+
+
+console.log(areArraysEqual([1, 2, 3], [1, 2, 3]));                  // true
+console.log(areArraysEqual([1, 2, 3], [3, 2, 1]));                  // true
+console.log(areArraysEqual(['a', 'b', 'c'], ['b', 'c', 'a']));      // true
+console.log(areArraysEqual(['1', 2, 3], [1, 2, 3]));                // false
+console.log(areArraysEqual([1, 1, 2, 3], [3, 1, 2, 1]));            // true
+console.log(areArraysEqual([1, 2, 3, 4], [1, 1, 2, 3]));            // false
+console.log(areArraysEqual([1, 1, 2, 2], [4, 2, 3, 1]));            // false
+console.log(areArraysEqual([1, 1, 2], [1, 2, 2]));                  // false
+console.log(areArraysEqual([1, 1, 1], [1, 1]));                     // false
+console.log(areArraysEqual([1, 1], [1, 1]));                        // true
+console.log(areArraysEqual([1, '1'], ['1', 1]));                    // true
+
