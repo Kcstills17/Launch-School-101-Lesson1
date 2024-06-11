@@ -479,3 +479,6 @@ repeatedCharacters('Combination');    // { o: 2, i: 2, n: 2 }
 repeatedCharacters('Pet');            // {}
 repeatedCharacters('Paper');          // { p: 2 }
 repeatedCharacters('Baseless');       // { s: 3, e: 2 }
+
+
+let testObject = {'1': [1, 2, 3, 4, 5]}
