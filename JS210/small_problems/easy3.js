@@ -1,4 +1,4 @@
-"use strict"
+
 let rlSync = require('readline-sync');
 
 function log(input)  {
@@ -432,3 +432,16 @@ newWordSizes('Hey diddle diddle, the cat and the fiddle!');  // { "3": 5, "6": 3
 newWordSizes("What's up doc?");                              // { "5": 1, "2": 1, "3": 1 }
 newWordSizes('');                                            // {}
 
+
+
+
+function ride() {
+  bike = 'Schwinn';
+  console.log(bike);
+}
+
+ride();
+
+if (true) {
+  console.log(bike);
+}
