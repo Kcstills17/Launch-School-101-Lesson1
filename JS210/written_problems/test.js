@@ -1,11 +1,11 @@
-function makeFunc() {
-  var name = 'Mozilla';
-  function displayName() {
-    console.log(name); // MDN uses `alert(name)` here, which I've switched to `console.log(name)`
-  }
-  return displayName;
+function swapEnds(arr) {
+  let first = arr[0];
+  let last = arr[arr.length - 1];
+
+  arr[0] = last;
+  arr[arr.length - 1] = first;
+  return arr;
 }
 
-var myFunc = makeFunc();
-console.log(makeFunc())
-console.log(myFunc());
+let numbers = [1, 2, 3, 4]
+
