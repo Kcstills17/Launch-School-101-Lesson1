@@ -531,9 +531,8 @@ foo.isPrototypeOf(bar);         // true
 function neww(constructor, args) {
   let object = Object.create(constructor.prototype);
   let result = constructor.apply(object, args);
-  return result; 
 
-  //return typeof result === 'object' ? result : object;
+  return typeof result === 'object' ? result : object;
 }
 
 function Person(firstName, lastName) {
@@ -546,5 +545,6 @@ Person.prototype.greeting = function() {
 };
 
 let john = neww(Person, ['John', 'Doe']);
+
 john.greeting();          // => Hello, John Doe
 log(john.constructor);         // Person(firstName, lastName) {...}

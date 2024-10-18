@@ -45,3 +45,24 @@ function Person(name, age) {
   console.log(kid.areYouOld())
   console.log(tom.areYouOld())
   
+
+
+
+  class Animal {}
+class Cat extends Animal {}
+
+let cat = new Cat();
+console.log(Object.getPrototypeOf(cat) === Cat.prototype);   // true
+
+let myProto = {
+  meow() {
+    console.log("Meow!");
+  }
+};
+
+Object.setPrototypeOf(cat, myProto);
+cat.meow();                                                  // Meow!
+console.log(Object.getPrototypeOf(cat) === Cat.prototype);   // false
+console.log(Object.getPrototypeOf(cat) === myProto);         // true
+
+

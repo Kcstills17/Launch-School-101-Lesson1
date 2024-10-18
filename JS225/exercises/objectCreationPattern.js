@@ -409,5 +409,3 @@ kitchenPotReporter.itemInfo();
 // quantity: 10
 */ 
 
-let string = ('b' + 'a' + 'a' + 'a').toLowerCase();
-console.log(string);

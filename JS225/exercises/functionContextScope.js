@@ -46,13 +46,15 @@ log(franchise.allMovies())
 // now we access self.name instead of this.name to use the current property name. 
 
 
-// 3. same as previous queston but use a hard bind with a anonymous function. At the end of the expression invoke .bind(this) 
+// 3. same as previous queston but use a hard bind with an anonymous function. At the end of the expression invoke .bind(this) 
 
 
 
 // 4. Our very own bind()
-// Function.prototype.bind is a method on all function objects that allows us to hard-bind a function to a particular object. The way this works is that you pass a context object to the bind method and it returns a new function that is essentially the same function but hard-bound to the context object supplied.
-// nCreate a function myBind, that accepts two arguments: 1) The function to bind, 2) The context object, and returns a new function that's hard-bound to the passed in context object.
+// Function.prototype.bind is a method on all function objects that allows us to hard-bind a function to a particular object. 
+//The way this works is that you pass a context object to the bind method and it returns a new function that is essentially the same function but 
+//hard-bound to the context object supplied. Create a function myBind, that accepts two arguments: 1) The function to bind, 2) The context object, 
+// and returns a new function that's hard-bound to the passed in context object.
 
 
 function myBind(func, context) {
@@ -65,7 +67,8 @@ function myBind(func, context) {
 
 // 5. myBind() Improved
 
-//Our earlier implementation of the Function.prototype.bind was simplistic. Function.prototype.bind has another trick up its sleeve besides hard-binding functions to context objects. It's called partial function application. Read this assignment and the MDN documentation to learn more about partial function application.
+//Our earlier implementation of the Function.prototype.bind was simplistic. Function.prototype.bind has another trick up its sleeve besides hard-binding functions
+// to context objects. It's called partial function application. Read this assignment and the MDN documentation to learn more about partial function application.
 
 //Alter the myBind function written in the previous exercise to support partial function application of additional arguments to the original function.
 
@@ -296,7 +299,7 @@ function createSchool() {
             }
           },
 
-          
+
         getReportCard(student) {
             student = this.selectStudent(student)
             log(`${student.name}'s report card`)
@@ -326,3 +329,63 @@ function createSchool() {
     }
 
 }
+
+
+
+
+function setMovie(movie) {
+    this.movie = movie;
+  }
+  var theater = {
+
+    loadProjector: setMovie,
+    
+    playMovie: function(movie, previewLength) {
+      this.loadProjector(movie);
+      
+      setTimeout(() => {  // Use an arrow function here
+        console.log("Now playing: " + this.movie);
+      }, previewLength);
+    }
+  };
+  
+  theater.playMovie("Gremlins", 1000);  // "Now playing: undefined"S
+
+  function speak(string) {
+    console.log(string);
+  }
+  
+  
+(function createAndLogPet() {
+    var myPet = {
+      type: 'Dog',
+      name: 'Spot',
+    };
+  
+    console.log(`I have pet ${myPet.type} named ${myPet.name}`);
+  })()
+  
+
+  function newPerson(name) {
+    let obj = {
+        name, 
+        log() {
+            console.log(name)
+        }
+
+    }
+    Object.defineProperties(obj, {
+        log: {
+            value: obj.log, 
+            writable: false, 
+        }
+    })
+    return obj;
+  }
+  
+  let me =  newPerson('Shane Riley');
+  console.log(me)
+  
+  me.log();     // => Shane Riley
+  me.log = function() { console.log('Amanda Rose'); };
+  me.log();     // => Shane Riley

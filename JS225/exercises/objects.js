@@ -1,6 +1,61 @@
 function log(input) {
     return console.log(input)
 }
+
+
+// Start by creating a new object, invoices. The object requires a property named unpaid; unpaid should be an array that is initially empty.
+
+
+let invoices = {
+    unpaid: [], 
+
+    add(name, owedAmount) {
+       this.unpaid.push({
+        name, 
+        owedAmount
+       })
+    }, 
+
+
+    totalDue() {
+     let values = Object.values(this.unpaid).map(({owedAmount}) => owedAmount)
+     return values.reduce((accum, curr) => accum += curr, 0)
+    }, 
+
+    paid: [], 
+
+
+    payInvoice(clientName) {
+        let unpaid = []; 
+        this.unpaid.forEach((obj)=> {
+            obj.name === clientName ? this.paid.push(obj) : unpaid.push(obj)
+        })
+       return this.unpaid = unpaid 
+    }, 
+
+    totalPaid() {
+        let values = Object.values(this.paid).map(({owedAmount}) => owedAmount)
+        return values.reduce((accum, curr) => accum += curr, 0)
+    }
+   
+}; 
+
+//invoices.add('starbucks', 300)
+invoices.add('Due North Development', 250)
+invoices.add('Moonbeam Interactive', 187.50)
+invoices.add('Slough Digital', 300)
+invoices.payInvoice('Slough Digital')
+invoices.payInvoice('Due North Development')
+//Now that we have a way to store our unpaid invoices, we should have a way to compute the total amount of all unpaid invoices. Create a method on the invoices object named totalDue that iterates over the unpaid array and computes the total amount for its contents. Return the total at the end of the method.
+
+
+//Now that we have some invoices, we need to add a way to mark invoices as paid. Add a paid property to the invoices object and initialize it as an empty Array; we will use this property to store the paid invoices.
+
+
+
+
+
+
 //The code below is expected to output the following when run:
 
  const helloVictor = createGreeter('Victor');
@@ -250,11 +305,9 @@ function createSchool() {
         }, 
 
         addGrade(student, course, grade = 'In Progress') {
-          
            student = this.selectStudent(student)
            let courses = student.course; 
            
-    
            for (c of courses) {
             if (c.name === course)
             c.grade = grade 
