@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Contact Manager</title>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/handlebars.js"></script>
+  <script src="/javascripts/app.js"></script>
+  <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+  <header class = "main-header">
+    <h1 id="title">Contact Manager</h1>
+    <p id="title-caption">Using Backbone.js LocalStorage, RequireJS, Handlebars, and Bootstrap</p>
+  </header>
+
+  <main>
+    <nav id= "nav-section">
+      <a href="#" class="button add-contact">Add Contact</a>
+      <select name="tags_list" id="tags_list">
+        <option value="">Tags</option>
+      </select>
+      <label for="search">
+        <input type="text" placeholder="Search" id="search">
+      </label>
+    </nav>
+   
+    <div id="contact-list"></div>
+
+    <!-- Form for adding/editing a contact -->
+    <div id="contact-form-wrapper" class="hidden">
+      <form id="contact-form">
+        <label>
+          Full Name: <input type="text" id="contact-full-name" name="full_name" required>
+        </label>
+        <label>
+          Email: <input type="text" id="contact-email" name="email" required>
+        </label>
+        <label>
+          Phone Number: <input type="text" id="contact-phone-number" name="phone_number" required>
+        </label>
+        <button type="submit">Save</button>
+        <button type="button" id="cancel-form">Cancel</button>
+      </form>
+    </div>
+
+    <div id="no-contacts-wrapper" class="hidden">
+      <p>There's no contacts</p>
+      <a href="#" class="button add-contact">Add Contact</a>
+    </div>
+  </main>
+
+  <div id="error-message" class="error-message"></div>
+
+  <footer >
+    <p>Developed by Zane Lee. Aspiring Software Engineer.</p>
+  </footer>
+
+  <!-- Handlebars -->
+  <script id="contact-template" type="text/x-handlebars-template">
+    {{#if contacts.length}}
+      {{#each contacts}}
+        <div class="contact-card">
+          <h3>{{full_name}}</h3>
+          <p><strong>Email:</strong> {{email}}</p>
+          <p><strong>Phone Number:</strong> {{phone_number}}</p>
+          <button class="edit-contact" data-id="{{id}}">Edit</button>
+          <button class="delete-contact" data-id="{{id}}">Delete</button>
+        </div>
+      {{/each}}
+    {{else}}
+      <p>There are no contacts to display.</p>
+    {{/if}}
+  </script>
+</body>
+</html>
