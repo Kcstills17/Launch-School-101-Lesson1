@@ -1,37 +1,16 @@
 [
   {
-    "full_name": "Zane Leez",
-    "phone_number": "124-232-3822",
-    "email": "coolguaaay@yahoo.com",
+    "full_name": "zane lee",
+    "phone_number": "211-313-2324",
+    "email": "zane@yahoo.com",
     "tags": null,
     "id": 1
   },
   {
-    "full_name": "Son Goku",
-    "phone_number": "1382923729",
-    "email": "goku@yahoo.com",
+    "full_name": "john cenazz",
+    "phone_number": "124-232-3932",
+    "email": "thomas@yahoo.com",
     "tags": null,
     "id": 2
-  },
-  {
-    "full_name": "Jeff Demps",
-    "phone_number": "231-182-2821",
-    "email": "jeff28@gmail.com",
-    "tags": null,
-    "id": 3
-  },
-  {
-    "full_name": "James Smith",
-    "phone_number": "232-392-3823",
-    "email": "james@yahoo.com",
-    "tags": null,
-    "id": 4
-  },
-  {
-    "full_name": "john brown",
-    "phone_number": "463-232-3823",
-    "email": "john@gmail.com",
-    "tags": null,
-    "id": 5
   }
 ]
