@@ -11,13 +11,13 @@
   <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body>
-  <header class = "main-header">
+  <header class="main-header">
     <h1 id="title">Contact Manager</h1>
     <p id="title-caption">Using Backbone.js LocalStorage, RequireJS, Handlebars, and Bootstrap</p>
   </header>
 
   <main>
-    <nav id= "nav-section">
+    <nav id="nav-section">
       <a href="#" class="button add-contact">Add Contact</a>
       <select name="tags_list" id="tags_list">
         <option value="">Tags</option>
@@ -26,7 +26,7 @@
         <input type="text" placeholder="Search" id="search">
       </label>
     </nav>
-   
+
     <div id="contact-list"></div>
 
     <!-- Form for adding/editing a contact -->
@@ -41,6 +41,7 @@
         <label>
           Phone Number: <input type="text" id="contact-phone-number" name="phone_number" required>
         </label>
+        <div id="tags-wrapper"></div>
         <button type="submit">Save</button>
         <button type="button" id="cancel-form">Cancel</button>
       </form>
@@ -54,7 +55,7 @@
 
   <div id="error-message" class="error-message"></div>
 
-  <footer >
+  <footer>
     <p>Developed by Zane Lee. Aspiring Software Engineer.</p>
   </footer>
 
@@ -62,10 +63,20 @@
   <script id="contact-template" type="text/x-handlebars-template">
     {{#if contacts.length}}
       {{#each contacts}}
-        <div class="contact-card">
+        <div class="contact-card" data-id = "{{id}}">
           <h3>{{full_name}}</h3>
           <p><strong>Email:</strong> {{email}}</p>
           <p><strong>Phone Number:</strong> {{phone_number}}</p>
+          {{#if tags.length}}
+            <p><strong>Tags:</strong></p>
+            <ul class="tags-list">
+              {{#each tags}}
+                <li class="tag-item">{{this}}</li>
+              {{/each}}
+            </ul>
+          {{else}}
+            <p><strong>Tags:</strong> None</p>
+          {{/if}}
           <button class="edit-contact" data-id="{{id}}">Edit</button>
           <button class="delete-contact" data-id="{{id}}">Delete</button>
         </div>
@@ -74,5 +85,26 @@
       <p>There are no contacts to display.</p>
     {{/if}}
   </script>
-</body>
-</html>
+
+  <script id="contact-form-template" type="text/x-handlebars-template">
+    <label for="contact-tags">Tags:</label>
+    <div id="tags-input-wrapper">
+      <input type="text" id="contact-tags" placeholder="Enter a tag" />
+      <button type="button" id="add-tag-button">Add Tag</button>
+    </div>
+    <ul id="tags-list">
+      {{#each tags}}
+        <li>
+          {{this}} <button type="button" class="remove-tag" data-tag="{{this}}"> delete {{this}}</button>
+        </li>
+      {{/each}}
+    </ul>
+  </script>
+
+
+  <script id="tags-dropdown-template" type="text/x-handlebars-template">
+    <option value="">Tags</option>
+    {{#each tags}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </script>

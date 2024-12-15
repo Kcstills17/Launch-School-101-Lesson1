@@ -1,16 +1,22 @@
 [
   {
-    "full_name": "zane lee",
-    "phone_number": "211-313-2324",
-    "email": "zane@yahoo.com",
-    "tags": null,
+    "full_name": "zane leezzz",
+    "phone_number": "122-182-1281",
+    "email": "sash@yahoo.com",
+    "tags": [
+      "cool",
+      "awesome"
+    ],
     "id": 1
   },
   {
-    "full_name": "john cenazz",
-    "phone_number": "124-232-3932",
-    "email": "thomas@yahoo.com",
-    "tags": null,
+    "full_name": "Thomas Bryant ",
+    "phone_number": "121-122-1261",
+    "email": "tom@gmail.com",
+    "tags": [
+      "sick",
+      "awesome"
+    ],
     "id": 2
   }
 ]
