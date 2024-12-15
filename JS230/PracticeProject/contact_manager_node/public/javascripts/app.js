@@ -176,6 +176,22 @@ class UIManager {
     }, 300);
   }
 
+  displayError(message) {
+    const errorBox = document.getElementById('error-message'); // The element to display the error
+    if (!errorBox) {
+      console.error('Error message container not found in DOM.');
+      return;
+    }
+  
+    errorBox.textContent = message; // Set the error message
+    errorBox.classList.add('show'); // Show the error message (assumes CSS handles the visibility)
+  
+    // Automatically hide the error after a few seconds
+    setTimeout(() => {
+      errorBox.classList.remove('show');
+    }, 4000); // Adjust duration as needed
+  }
+
   bindAddContact(onAdd) {
     const addContactButtons = document.querySelectorAll(".add-contact");
     addContactButtons.forEach((button) =>
@@ -361,7 +377,7 @@ class ContactManager {
   }
 
   async handleFormSubmission(contact) {
-    const validation = new ValidationManager();
+    const validation = new ValidationManager(this.contacts);
   
     const validationResult = validation.validateContact(contact, contact.id);
     if (!validationResult.valid) {
@@ -370,7 +386,6 @@ class ContactManager {
       return; // Stop further processing
     }
   
-    this.ui.clearError(); // Clear any previous errors
   
     if (contact.id && validationResult.valid)  {
       await this.backend.editContact(contact.id, contact);

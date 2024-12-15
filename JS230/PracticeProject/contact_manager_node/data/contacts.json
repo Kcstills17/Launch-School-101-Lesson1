@@ -1,10 +1,11 @@
 [
   {
-    "full_name": "Tom bryant",
+    "full_name": "alex jones",
     "phone_number": "121-122-1261",
     "email": "tom@gmail.com",
     "tags": [
-      "sick"
+      "sick",
+      "boss"
     ],
     "id": 2
   },
