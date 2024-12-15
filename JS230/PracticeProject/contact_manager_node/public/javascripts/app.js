@@ -25,7 +25,7 @@ class BackendData {
       }
 
       const result = await response.json();
-      console.log("Contact added successfully:", result); // Debugging
+      console.log("Contact added successfully:", result);
       return result;
     } catch (err) {
       console.log("Failed to add contact:", err);
@@ -82,7 +82,7 @@ class UIManager {
   }
 
   initialize() {
-    this.contactFormWrapper.style.display = "none"; // Ensure the form is hidden on load
+    this.contactFormWrapper.style.display = "none";
   }
 
   renderContacts(contacts) {
@@ -109,9 +109,8 @@ class UIManager {
   }
 
   showForm(contact = null) {
-    this.contactForm.reset(); // Clear the form
+    this.contactForm.reset();
 
-    // Pre-fill form if editing
     if (contact) {
       document.getElementById("contact-full-name").value = contact.full_name;
       document.getElementById("contact-email").value = contact.email;
@@ -164,7 +163,7 @@ class UIManager {
 
     if (contactCard) {
       contactCard.classList.add("contact-removing");
-      await new Promise((resolve) => setTimeout(resolve, 400)); // Match animation duration in CSS
+      await new Promise((resolve) => setTimeout(resolve, 400));
       contactCard.remove();
     }
   }
@@ -248,12 +247,84 @@ class UIManager {
   }
 }
 
+class ValidationManager {
+  constructor(contacts) {
+    this.contacts = contacts;
+  }
+
+  isDuplicate(contact, currentContactId = null) {
+    return this.contacts.some((existingContact) => {
+      if (existingContact.id === currentContactId) return false;
+      return (
+        existingContact.full_name.toLowerCase() ===
+          contact.full_name.toLowerCase() ||
+        existingContact.phone_number === contact.phone_number ||
+        existingContact.email === contact.email
+      );
+    });
+  }
+
+  validateFullName(fullName) {
+    const fullNameRegex = /^[a-zA-Z]+(?:[-'][a-zA-Z]+)* [a-zA-Z]+(?:[-'][a-zA-Z]+)*$/;
+    return fullNameRegex.test(fullName);
+  }
+
+  validatePhoneNumber(phoneNumber) {
+    const phoneRegex = /^(?:\d{10}|\d{3}-\d{3}-\d{4})$/;
+    return phoneRegex.test(phoneNumber);
+  }
+
+  validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  validateContact(contact, currentContactId) {
+    if (!this.validateFullName(contact.full_name)) {
+      return {
+        valid: false,
+        message: "Full Names must include a First name, a space, and a Last name",
+      };
+    }
+    if (!this.validatePhoneNumber(contact.phone_number)) {
+      return {
+        valid: false,
+        message:
+          "Phone numbers must be 10 digits and can also include 3 hyphens. (xxx-xxx-xxx).",
+      };
+    }
+
+    if (!this.validateEmail(contact.email)) {
+      return {
+        valid: false,
+        message: "Please provide a valid email address.",
+      };
+    }
+    if (this.isDuplicate(contact, currentContactId)) {
+      return {
+        valid: false,
+        message:
+          "Full name, Phone number, or this current email address is already included. Please update with new info.",
+      };
+    }
+    return { valid: true };
+  }
+  clearError() {
+    const errorBox = document.getElementById("error-message");
+    if (errorBox) {
+      errorBox.textContent = ""; // Clear the error message
+      errorBox.classList.remove("show"); // Hide the error box
+    }
+  }
+}
+
 class ContactManager {
   constructor() {
     this.backend = new BackendData();
     this.ui = new UIManager();
     this.contacts = [];
   }
+
 
   async initialize() {
     this.contacts = await this.backend.fetchContacts();
@@ -290,11 +361,23 @@ class ContactManager {
   }
 
   async handleFormSubmission(contact) {
-    if (contact.id) {
+    const validation = new ValidationManager();
+  
+    const validationResult = validation.validateContact(contact, contact.id);
+    if (!validationResult.valid) {
+      this.ui.displayError(validationResult.message);
+      this.ui.clearError()
+      return; // Stop further processing
+    }
+  
+    this.ui.clearError(); // Clear any previous errors
+  
+    if (contact.id && validationResult.valid)  {
       await this.backend.editContact(contact.id, contact);
     } else {
       await this.backend.addContact(contact);
     }
+  
     this.contacts = await this.backend.fetchContacts();
     this.ui.renderContacts(this.contacts);
     this.ui.renderTagsDropdown(this.getUniqueTags());

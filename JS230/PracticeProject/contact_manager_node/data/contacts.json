@@ -1,22 +1,20 @@
 [
   {
-    "full_name": "zane leezzz",
-    "phone_number": "122-182-1281",
-    "email": "sash@yahoo.com",
-    "tags": [
-      "cool",
-      "awesome"
-    ],
-    "id": 1
-  },
-  {
-    "full_name": "Thomas Bryant ",
+    "full_name": "Tom bryant",
     "phone_number": "121-122-1261",
     "email": "tom@gmail.com",
     "tags": [
-      "sick",
-      "awesome"
+      "sick"
     ],
     "id": 2
+  },
+  {
+    "full_name": "Naruto Uzumaki",
+    "phone_number": "312-313-1721",
+    "email": "Dattebayo@gmail.com",
+    "tags": [
+      "cool"
+    ],
+    "id": 3
   }
 ]
