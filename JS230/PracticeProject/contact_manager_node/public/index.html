@@ -63,7 +63,7 @@
   <script id="contact-template" type="text/x-handlebars-template">
     {{#if contacts.length}}
       {{#each contacts}}
-        <div class="contact-card" data-id = "{{id}}">
+        <div class="contact-card" data-id = "{{id}}" data-full-name = "{{full_name}}">
           <h3>{{full_name}}</h3>
           <p><strong>Email:</strong> {{email}}</p>
           <p><strong>Phone Number:</strong> {{phone_number}}</p>
@@ -95,7 +95,7 @@
     <ul id="tags-list">
       {{#each tags}}
         <li>
-          {{this}} <button type="button" class="remove-tag" data-tag="{{this}}"> delete {{this}}</button>
+          {{this}} <button type="button" class="remove-tag" data-tag="{{this}}"> Click to delete {{this}}</button>
         </li>
       {{/each}}
     </ul>

@@ -22,6 +22,40 @@ body {
   min-height: 100vh;
 }
 
+/* Utility Classes */
+.hidden {
+  display: none;
+}
+
+.hidden-card {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  height: 0; /* Optional: collapse the height */
+  overflow: hidden; /* Prevent content overflow when collapsed */
+}
+
+.show-card {
+  visibility: visible;
+  opacity: 1;
+  height: auto; /* Ensures that the card's height auto-adjusts when shown */
+  transition: opacity 0.3s ease, height 0.3s ease, visibility 0.3s ease;
+}
+
+.flex-hidden {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.flex-visible {
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+  transition: opacity 0.3s ease-in-out;
+}
+
 /* Header */
 header {
   text-align: center;
@@ -141,14 +175,26 @@ main {
 
 /* Contact Form */
 #contact-form-wrapper {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
   background: rgba(0, 23, 45, 0.95);
   border: 1px solid #004d80;
   border-radius: 10px;
-  padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
-  margin: 2rem 0;
-  width: 100%;
-  max-width: 500px;
+}
+
+#contact-form-wrapper.fade-in {
+  display: flex; /* Make sure this overrides default hidden state */
+}
+#contact-form-wrapper.visible {
+  opacity: 1;
+  pointer-events: all;
 }
 
 #contact-form label {
@@ -188,26 +234,187 @@ main {
   background: #85d7ff;
 }
 
-/* Centered Edit Contact */
-.centered-edit {
-  background: rgba(0, 23, 45, 0.95);
-  border: 1px solid #004d80;
+/* No Contacts Wrapper */
+#no-contacts-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(13, 27, 42, 0.9);
+  border: 1px solid #3a4e69;
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  margin: 2rem auto;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+
+  /* Transition for smoother appearance/disappearance */
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+#no-contacts-wrapper.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#no-contacts-wrapper p {
+  font-size: 1.2rem;
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  color: #5bcaff;
+}
+
+#no-contacts-wrapper a.button {
+  background: #5bcaff;
+  color: #00172d;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  font-family: 'Orbitron', sans-serif;
+}
+
+#no-contacts-wrapper a.button:hover {
+  background: #85d7ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Tags Wrapper */
+#tags-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+#contact-tags {
+  flex: 1;
+  background-color: #0d1b2a;
+  border: 1px solid #3a4e69;
+  border-radius: 5px;
+  padding: 0.5rem;
+  color: #e0e0e0;
+  font-size: 1rem;
+}
+
+#contact-tags:focus {
+  border-color: #5bcaff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(91, 202, 255, 0.5);
+}
+
+#add-tag-button {
+  background-color: #5bcaff;
+  color: #00172d;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+#add-tag-button:hover {
+  background-color: #85d7ff;
+  transform: scale(1.05);
+}
+
+#add-tag-button:active {
+  transform: scale(0.95);
+}
+
+/* Tags List */
+#tags-list {
+  margin-top: 1rem;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+#tags-list li {
+  background-color: #007BFF;
+  color: white;
+  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+#tags-list li:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+#tags-list .remove-tag {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s;
+}
+
+#tags-list .remove-tag:hover {
+  color: #ff1a1a;
+  transform: scale(1.2);
+}
+
+.contact-card .tags-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.contact-card .tags-list li {
+  background-color: #007BFF; /* Blue background consistent with theme */
+  color: white;
+  padding: 0.3rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.contact-card .tags-list li:hover {
+  background-color: #1af033; /* Slightly darker blue on hover */
+  transform: scale(1.05);
+}
+
+/* Ensure proper alignment for small screens */
+@media (max-width: 600px) {
+  .contact-card .tags-list {
+    justify-content: center;
+  }
+}
 /* Error Message */
 .error-message {
   display: none;
-  background-color: rgba(75, 3, 74, 0.8); /* Space red alert */
+  background-color: rgba(75, 3, 74, 0.8);
   color: #ffffff;
   padding: 0.75rem 1rem;
   border-radius: 8px;
   font-size: 1rem;
   text-align: center;
   font-family: 'Orbitron', sans-serif;
-  margin-top: 1rem; /* Space below form */
+  margin-top: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   width: 100%;
 }
@@ -215,6 +422,7 @@ main {
 .error-message.show {
   display: block;
 }
+
 /* Footer */
 footer {
   background: #00172d;
@@ -227,118 +435,6 @@ footer {
 
 footer p {
   margin: 0;
-}
-
-/* Hidden Elements */
-.hidden {
-  display: none;
-}
-
-/* Tags Wrapper */
-#tags-wrapper {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-#contact-tags {
-  flex: 1;
-}
-
-#add-tag-button {
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#add-tag-button:hover {
-  background-color: #0056b3;
-}
-
-/* Tags List */
-#tags-list {
-  margin-top: 1rem;
-  padding: 0;
-  list-style: none;
-}
-
-#tags-list li {
-  background-color: #e3e3e3;
-  border-radius: 5px;
-  padding: 0.5rem;
-  display: inline-block;
-  margin: 0.25rem;
-}
-
-#tags-list .remove-tag {
-  background: none;
-  border: none;
-  color: #ff4d4d;
-  font-size: 1rem;
-  margin-left: 0.5rem;
-  cursor: pointer;
-}
-
-#tags-list .remove-tag:hover {
-  color: #ff1a1a;
-}
-
-.contact-card p strong {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.contact-card .tags-list {
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.contact-card .tags-list li {
-  background-color: #007BFF;
-  color: white;
-  padding: 0.3rem 0.5rem;
-  border-radius: 3px;
-  font-size: 0.85rem;
-}
-
-.tags-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.tags-list .tag-item {
-  background-color: #007BFF;
-  color: white;
-  padding: 0.3rem 0.5rem;
-  border-radius: 5px;
-  font-size: 0.9rem;
-}  
-
-
-@keyframes fadeOutSlideUp {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-}
-
-/* Class to trigger the animation */
-.contact-removing {
-  animation: fadeOutSlideUp 0.4s ease forwards;
 }
 
 /* Fade-in animation for forms */

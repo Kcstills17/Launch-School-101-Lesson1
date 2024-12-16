@@ -8,7 +8,7 @@ class BackendData {
         throw new Error(`HTTP error: ${response.status}`);
       return await response.json();
     } catch (err) {
-      console.log("Data of Contacts can not be loaded", err);
+      console.log("Data of Contacts cannot be loaded", err);
     }
   }
 
@@ -72,7 +72,6 @@ class UIManager {
       document.querySelector("#contact-form-template").innerHTML
     );
     this.navSection = document.getElementById("nav-section");
-    this.mainHeader = document.getElementById("main-header");
     this.contactList = document.querySelector("#contact-list");
     this.noContactsWrapper = document.querySelector("#no-contacts-wrapper");
     this.contactFormWrapper = document.querySelector("#contact-form-wrapper");
@@ -83,14 +82,15 @@ class UIManager {
 
   initialize() {
     this.contactFormWrapper.style.display = "none";
+    this.noContactsWrapper.classList.add("hidden"); // Keep it hidden initially
   }
-
+  
   renderContacts(contacts) {
     if (contacts.length === 0) {
-      this.noContactsWrapper.classList.remove("hidden");
+      this.showElement(this.noContactsWrapper);
       this.contactList.innerHTML = "";
     } else {
-      this.noContactsWrapper.classList.add("hidden");
+      this.hideElement(this.noContactsWrapper);
       this.contactList.innerHTML = this.contactTemplate({ contacts });
     }
   }
@@ -109,7 +109,7 @@ class UIManager {
   }
 
   showForm(contact = null) {
-    this.contactForm.reset();
+    this.showElement(this.contactFormWrapper);
 
     if (contact) {
       document.getElementById("contact-full-name").value = contact.full_name;
@@ -131,7 +131,7 @@ class UIManager {
   hideForm() {
     this.contactFormWrapper.classList.add("fade-out");
     setTimeout(() => {
-      this.contactFormWrapper.style.display = "none";
+      this.hideElement(this.contactFormWrapper);
       this.contactFormWrapper.classList.remove("fade-out");
     }, 300);
     this.contactForm.reset();
@@ -139,21 +139,21 @@ class UIManager {
   }
 
   hideAllExceptHeaderAndFooter() {
-    this.navSection.style.display = "none";
-    this.contactList.style.display = "none";
-    this.noContactsWrapper.style.display = "none";
+    this.hideElement(this.navSection);
+    this.hideElement(this.contactList);
+    this.hideElement(this.noContactsWrapper);
   }
 
   showAllSections() {
-    this.navSection.style.display = "";
+    this.showElement(this.navSection);
     if (this.contactList.children.length > 0) {
-      this.contactList.style.display = "flex";
-      this.noContactsWrapper.style.display = "none";
+      this.showElement(this.contactList);
+      this.hideElement(this.noContactsWrapper);
     } else {
-      this.contactList.style.display = "none";
-      this.noContactsWrapper.style.display = "";
+      this.hideElement(this.contactList);
+      this.showElement(this.noContactsWrapper);
     }
-    this.contactFormWrapper.style.display = "none";
+    this.hideElement(this.contactFormWrapper);
   }
 
   async animateRemoveContact(contactId) {
@@ -169,7 +169,7 @@ class UIManager {
   }
 
   animateShowForm() {
-    this.contactFormWrapper.style.display = "flex";
+    this.showElement(this.contactFormWrapper);
     this.contactFormWrapper.classList.add("fade-in");
     setTimeout(() => {
       this.contactFormWrapper.classList.remove("fade-in");
@@ -177,19 +177,28 @@ class UIManager {
   }
 
   displayError(message) {
-    const errorBox = document.getElementById('error-message'); // The element to display the error
+    const errorBox = document.getElementById("error-message");
     if (!errorBox) {
-      console.error('Error message container not found in DOM.');
+      console.error("Error message container not found in DOM.");
       return;
     }
-  
-    errorBox.textContent = message; // Set the error message
-    errorBox.classList.add('show'); // Show the error message (assumes CSS handles the visibility)
-  
-    // Automatically hide the error after a few seconds
+
+    errorBox.textContent = message;
+    errorBox.classList.add("show");
+
     setTimeout(() => {
-      errorBox.classList.remove('show');
-    }, 4000); // Adjust duration as needed
+      errorBox.classList.remove("show");
+    }, 4000);
+  }
+
+  showElement(element) {
+    element.classList.remove("hidden");
+    element.style.display = "flex";
+  }
+
+  hideElement(element) {
+    element.classList.add("hidden");
+    element.style.display = "none";
   }
 
   bindAddContact(onAdd) {
@@ -261,6 +270,28 @@ class UIManager {
       }
     });
   }
+
+  bindSearchQuery(contacts) {
+    const searchQuery = document.getElementById("search");
+
+    searchQuery.addEventListener("input", () => {
+      const searchText = searchQuery.value.toLowerCase().trim();
+      const contactCards = document.querySelectorAll(".contact-card");
+
+      contacts.forEach((contact, index) => {
+        const card = contactCards[index];
+        const fullName = contact.full_name.toLowerCase();
+
+        if (fullName.includes(searchText)) {
+          card.classList.remove("hidden-card");
+          card.classList.add("show-card");
+        } else {
+          card.classList.add("hidden-card");
+          card.classList.remove("show-card");
+        }
+      });
+    });
+  }
 }
 
 class ValidationManager {
@@ -270,7 +301,9 @@ class ValidationManager {
 
   isDuplicate(contact, currentContactId = null) {
     return this.contacts.some((existingContact) => {
-      if (existingContact.id === currentContactId) return false;
+      if (currentContactId !== null && existingContact.id === currentContactId) {
+        return false;
+      }
       return (
         existingContact.full_name.toLowerCase() ===
           contact.full_name.toLowerCase() ||
@@ -299,7 +332,8 @@ class ValidationManager {
     if (!this.validateFullName(contact.full_name)) {
       return {
         valid: false,
-        message: "Full Names must include a First name, a space, and a Last name",
+        message:
+          "Full Names must include a First name, a space, and a Last name",
       };
     }
     if (!this.validatePhoneNumber(contact.phone_number)) {
@@ -325,6 +359,7 @@ class ValidationManager {
     }
     return { valid: true };
   }
+
   clearError() {
     const errorBox = document.getElementById("error-message");
     if (errorBox) {
@@ -341,11 +376,11 @@ class ContactManager {
     this.contacts = [];
   }
 
-
   async initialize() {
     this.contacts = await this.backend.fetchContacts();
     this.ui.renderContacts(this.contacts);
     this.ui.initialize();
+    this.ui.bindSearchQuery(this.contacts);
 
     this.ui.bindAddContact(() => this.addNewContact());
     this.ui.bindContactAction(
@@ -378,21 +413,20 @@ class ContactManager {
 
   async handleFormSubmission(contact) {
     const validation = new ValidationManager(this.contacts);
-  
+
     const validationResult = validation.validateContact(contact, contact.id);
     if (!validationResult.valid) {
       this.ui.displayError(validationResult.message);
-      this.ui.clearError()
+      this.ui.clearError();
       return; // Stop further processing
     }
-  
-  
-    if (contact.id && validationResult.valid)  {
+
+    if (contact.id && validationResult.valid) {
       await this.backend.editContact(contact.id, contact);
     } else {
       await this.backend.addContact(contact);
     }
-  
+
     this.contacts = await this.backend.fetchContacts();
     this.ui.renderContacts(this.contacts);
     this.ui.renderTagsDropdown(this.getUniqueTags());

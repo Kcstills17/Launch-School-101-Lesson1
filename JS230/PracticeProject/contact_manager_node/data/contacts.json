@@ -1,21 +1,18 @@
 [
   {
-    "full_name": "alex jones",
-    "phone_number": "121-122-1261",
-    "email": "tom@gmail.com",
-    "tags": [
-      "sick",
-      "boss"
-    ],
-    "id": 2
+    "full_name": "son goku",
+    "phone_number": "121-212-1271",
+    "email": "goku@yahoo.com",
+    "tags": [],
+    "id": 1
   },
   {
-    "full_name": "Naruto Uzumaki",
-    "phone_number": "312-313-1721",
-    "email": "Dattebayo@gmail.com",
+    "full_name": "naruto uzumaki",
+    "phone_number": "121-218-1812",
+    "email": "ninja16@yahoo.com",
     "tags": [
-      "cool"
+      "ninja"
     ],
-    "id": 3
+    "id": 2
   }
 ]
