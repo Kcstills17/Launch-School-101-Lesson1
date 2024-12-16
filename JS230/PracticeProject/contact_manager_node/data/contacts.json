@@ -1,18 +1,50 @@
 [
   {
-    "full_name": "son goku",
-    "phone_number": "121-212-1271",
-    "email": "goku@yahoo.com",
-    "tags": [],
+    "full_name": "Sam Smith",
+    "phone_number": "322-232-3922",
+    "email": "samsmith@gmail.com",
+    "tags": [
+      "female",
+      "software engineer",
+      "sedantary",
+      "american"
+    ],
     "id": 1
   },
   {
-    "full_name": "naruto uzumaki",
-    "phone_number": "121-218-1812",
-    "email": "ninja16@yahoo.com",
+    "full_name": "Alejandro Garcia",
+    "phone_number": "373-383-2932",
+    "email": "agarcia@gmail.com",
     "tags": [
-      "ninja"
+      "software engineer",
+      "spanish",
+      "male",
+      "sedantary"
     ],
     "id": 2
+  },
+  {
+    "full_name": "Andrew Givens",
+    "phone_number": "233-283-8223",
+    "email": "givensA@yahoo.com",
+    "tags": [
+      "mechanical engineer",
+      "active",
+      "male",
+      "british"
+    ],
+    "id": 3
+  },
+  {
+    "full_name": "Lauren Smalls",
+    "phone_number": "232-932-9328",
+    "email": "lSmalls@gmail.com",
+    "tags": [
+      "Fitness coach",
+      "female",
+      "active",
+      "american"
+    ],
+    "id": 4
   }
 ]

@@ -19,7 +19,7 @@
   <main>
     <nav id="nav-section">
       <a href="#" class="button add-contact">Add Contact</a>
-      <select name="tags_list" id="tags_list">
+      <select name="tags_list" id="tags-list">
         <option value="">Tags</option>
       </select>
       <label for="search">
@@ -64,14 +64,14 @@
     {{#if contacts.length}}
       {{#each contacts}}
         <div class="contact-card" data-id = "{{id}}" data-full-name = "{{full_name}}">
-          <h3>{{full_name}}</h3>
+          <h3>{{ capitalizeAllFirstLetters full_name}}</h3>
           <p><strong>Email:</strong> {{email}}</p>
           <p><strong>Phone Number:</strong> {{phone_number}}</p>
           {{#if tags.length}}
             <p><strong>Tags:</strong></p>
             <ul class="tags-list">
               {{#each tags}}
-                <li class="tag-item">{{this}}</li>
+                <li class="tag-item">{{ capitalizeAllFirstLetters this}}</li>
               {{/each}}
             </ul>
           {{else}}
@@ -103,8 +103,8 @@
 
 
   <script id="tags-dropdown-template" type="text/x-handlebars-template">
-    <option value="">Tags</option>
+    <option value="">All Tags</option>
     {{#each tags}}
-      <option value="{{this}}">{{this}}</option>
+      <option value="{{this}}">{{ capitalizeAllFirstLetters this}}</option>
     {{/each}}
   </script>

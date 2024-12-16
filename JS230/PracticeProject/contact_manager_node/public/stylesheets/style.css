@@ -27,19 +27,20 @@ body {
   display: none;
 }
 
+/* Initial hidden state */
 .hidden-card {
-  visibility: hidden;
   opacity: 0;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  height: 0; /* Optional: collapse the height */
-  overflow: hidden; /* Prevent content overflow when collapsed */
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none; /* Prevent interactions with hidden cards */
 }
 
+/* Visible state with animation */
 .show-card {
-  visibility: visible;
   opacity: 1;
-  height: auto; /* Ensures that the card's height auto-adjusts when shown */
-  transition: opacity 0.3s ease, height 0.3s ease, visibility 0.3s ease;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: auto;
 }
 
 .flex-hidden {
@@ -483,4 +484,36 @@ footer p {
     opacity: 0;
     transform: translateY(-20px);
   }
+}
+
+
+@keyframes hideCardAnimation {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.hidden-card {
+  animation: hideCardAnimation 0.3s ease forwards;
+}
+
+/* Animation for adding the card (fade in and rise) */
+@keyframes showCardAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.show-card {
+  animation: showCardAnimation 0.3s ease forwards;
 }

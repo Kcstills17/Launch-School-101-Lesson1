@@ -1,3 +1,15 @@
+// helper method for uppercasing words 
+
+Handlebars.registerHelper('capitalizeAllFirstLetters', (str) => {
+  return str 
+  .split(' ')
+  .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  .join(' ')
+})
+
+
+
+
 class BackendData {
   constructor() {}
 
@@ -69,28 +81,26 @@ class UIManager {
       document.querySelector("#contact-template").innerHTML
     );
     this.formTemplate = Handlebars.compile(
-      document.querySelector("#contact-form-template").innerHTML
+      document.getElementById("contact-form-template").innerHTML
     );
     this.navSection = document.getElementById("nav-section");
-    this.contactList = document.querySelector("#contact-list");
-    this.noContactsWrapper = document.querySelector("#no-contacts-wrapper");
+    this.contactList = document.getElementById("contact-list");
+    this.noContactsWrapper = document.getElementById("no-contacts-wrapper");
     this.contactFormWrapper = document.querySelector("#contact-form-wrapper");
-    this.contactForm = document.querySelector("#contact-form");
+    this.contactForm = document.getElementById("contact-form");
     this.footer = document.querySelector("footer");
     this.currentTags = new Set();
   }
 
-  initialize() {
-    this.contactFormWrapper.style.display = "none";
-    this.noContactsWrapper.classList.add("hidden"); // Keep it hidden initially
+  initialize(contacts) {
+    this.renderContacts(contacts); 
   }
-  
   renderContacts(contacts) {
     if (contacts.length === 0) {
       this.showElement(this.noContactsWrapper);
       this.contactList.innerHTML = "";
     } else {
-      this.hideElement(this.noContactsWrapper);
+      this.hideElement(this.noContactsWrapper); 
       this.contactList.innerHTML = this.contactTemplate({ contacts });
     }
   }
@@ -104,7 +114,7 @@ class UIManager {
     const tagsDropdownTemplate = Handlebars.compile(
       document.getElementById("tags-dropdown-template").innerHTML
     );
-    const tagsListElement = document.getElementById("tags_list");
+    const tagsListElement = document.getElementById("tags-list");
     tagsListElement.innerHTML = tagsDropdownTemplate({ tags: uniqueTags });
   }
 
@@ -270,11 +280,38 @@ class UIManager {
       }
     });
   }
+  bindTagsDropDownlist(contacts) {
+  
+    const tagsDropDown = document.getElementById('tags-list');
+    
+    tagsDropDown.addEventListener('change', (e) => {
+      const selectedTag = e.target.value; // The selected tag from the dropdown
+      const contactCards = document.querySelectorAll(".contact-card");
+  
+      contacts.forEach((contact, index) => {
+        document.getElementById("search").value = ""; // avoid logic confusion in the two search mechanincs 
+        const card = contactCards[index]; // Get the corresponding contact card
+        const contactTags = contact.tags || []; // Retrieve tags from the contact object
+        
+        if (contactTags.includes(selectedTag) || selectedTag === "") {
+          // Show card if the tag matches or if no tag is selected
+          card.classList.remove('hidden-card');
+          card.classList.add('show-card');
+        } else {
+          // Hide the card otherwise
+          card.classList.add('hidden-card');
+          card.classList.remove('show-card');
+        }
+      });
+    });
+  }
 
   bindSearchQuery(contacts) {
     const searchQuery = document.getElementById("search");
+    
 
     searchQuery.addEventListener("input", () => {
+      document.getElementById("tags-list").value = "";
       const searchText = searchQuery.value.toLowerCase().trim();
       const contactCards = document.querySelectorAll(".contact-card");
 
@@ -319,7 +356,7 @@ class ValidationManager {
   }
 
   validatePhoneNumber(phoneNumber) {
-    const phoneRegex = /^(?:\d{10}|\d{3}-\d{3}-\d{4})$/;
+    const phoneRegex = /^(?:\d{3}-\d{3}-\d{4}|\d{10})$/;
     return phoneRegex.test(phoneNumber);
   }
 
@@ -340,7 +377,7 @@ class ValidationManager {
       return {
         valid: false,
         message:
-          "Phone numbers must be 10 digits and can also include 3 hyphens. (xxx-xxx-xxx).",
+          "Phone numbers must be 10 digits and include phone format hyphens. (123-456-7899).",
       };
     }
 
@@ -378,10 +415,11 @@ class ContactManager {
 
   async initialize() {
     this.contacts = await this.backend.fetchContacts();
-    this.ui.renderContacts(this.contacts);
-    this.ui.initialize();
+    this.ui.initialize(this.contacts); // Pass contacts to UIManager
+    this.ui.renderTagsDropdown(this.getUniqueTags());
     this.ui.bindSearchQuery(this.contacts);
-
+    this.ui.bindTagsDropDownlist(this.contacts);
+  
     this.ui.bindAddContact(() => this.addNewContact());
     this.ui.bindContactAction(
       (id) => this.editContact(id),
@@ -389,6 +427,9 @@ class ContactManager {
     );
     this.ui.bindFormSubmit((contact) => this.handleFormSubmission(contact));
     this.ui.bindFormCancel(() => this.ui.showAllSections());
+  
+    document.getElementById("search").value = "";
+    document.getElementById("tags-list").value = "";
   }
 
   addNewContact() {
@@ -408,7 +449,10 @@ class ContactManager {
     await this.ui.animateRemoveContact(id);
     await this.backend.deleteContact(id);
     this.contacts = await this.backend.fetchContacts();
+    document.getElementById("search").value = "";
+    document.getElementById("tags-list").value = "";
     this.ui.renderContacts(this.contacts);
+    this.ui.renderTagsDropdown(this.getUniqueTags());
   }
 
   async handleFormSubmission(contact) {
@@ -418,7 +462,7 @@ class ContactManager {
     if (!validationResult.valid) {
       this.ui.displayError(validationResult.message);
       this.ui.clearError();
-      return; // Stop further processing
+      return; 
     }
 
     if (contact.id && validationResult.valid) {
@@ -430,12 +474,21 @@ class ContactManager {
     this.contacts = await this.backend.fetchContacts();
     this.ui.renderContacts(this.contacts);
     this.ui.renderTagsDropdown(this.getUniqueTags());
+    this.ui.bindSearchQuery(this.contacts);
+    this.ui.bindTagsDropDownlist(this.contacts)
+  
+    document.getElementById("search").value = "";
+    document.getElementById("tags-list").value = "";
     this.ui.hideForm();
   }
 
   getUniqueTags() {
-    const allTags = this.contacts.flatMap((contact) => contact.tags || []);
-    return [...new Set(allTags)];
+    const allTags = this.contacts
+      .flatMap((contact) => contact.tags || []) //
+      .map((tag) => tag.trim()) 
+      .filter((tag) => tag.length > 0); 
+  
+    return [...new Set(allTags)]; 
   }
 }
 
