@@ -24,7 +24,7 @@
     "id": 2
   },
   {
-    "full_name": "Andrew Givens",
+    "full_name": "Andrew Givenz",
     "phone_number": "233-283-8223",
     "email": "givensA@yahoo.com",
     "tags": [
@@ -37,12 +37,12 @@
   },
   {
     "full_name": "Lauren Smalls",
-    "phone_number": "232-932-9328",
+    "phone_number": "390-392-3902",
     "email": "lSmalls@gmail.com",
     "tags": [
-      "Fitness coach",
       "female",
-      "active",
+      "Fitness Coach",
+      "Active",
       "american"
     ],
     "id": 4

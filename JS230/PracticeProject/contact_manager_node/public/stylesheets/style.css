@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
-/* General Reset */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
 body, html {
   height: 100%;
@@ -22,7 +16,7 @@ body {
   min-height: 100vh;
 }
 
-/* Utility Classes */
+
 .hidden {
   display: none;
 }
@@ -57,7 +51,7 @@ body {
   transition: opacity 0.3s ease-in-out;
 }
 
-/* Header */
+
 header {
   text-align: center;
   background: #00172d;
@@ -77,7 +71,6 @@ header p {
   font-size: 1rem;
 }
 
-/* Main Section */
 main {
   flex: 1;
   padding: 2rem;
@@ -86,7 +79,7 @@ main {
   align-items: center;
 }
 
-/* Navigation */
+
 #nav-section {
   display: flex;
   justify-content: space-between;
@@ -120,7 +113,7 @@ main {
   border-color: #0077b3;
 }
 
-/* Contact List */
+
 #contact-list {
   display: flex;
   flex-wrap: wrap;
@@ -174,7 +167,7 @@ main {
   background: #85d7ff;
 }
 
-/* Contact Form */
+
 #contact-form-wrapper {
   display: none;
   flex-direction: column;
@@ -191,7 +184,7 @@ main {
 }
 
 #contact-form-wrapper.fade-in {
-  display: flex; /* Make sure this overrides default hidden state */
+  display: flex; 
 }
 #contact-form-wrapper.visible {
   opacity: 1;
@@ -235,7 +228,7 @@ main {
   background: #85d7ff;
 }
 
-/* No Contacts Wrapper */
+
 #no-contacts-wrapper {
   display: flex;
   flex-direction: column;
@@ -289,7 +282,7 @@ main {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
 }
 
-/* Tags Wrapper */
+
 #tags-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -333,7 +326,7 @@ main {
   transform: scale(0.95);
 }
 
-/* Tags List */
+
 #tags-list {
   margin-top: 1rem;
   padding: 0;
@@ -384,7 +377,7 @@ main {
 }
 
 .contact-card .tags-list li {
-  background-color: #007BFF; /* Blue background consistent with theme */
+  background-color: #007BFF; 
   color: white;
   padding: 0.3rem 0.5rem;
   border-radius: 5px;
@@ -395,7 +388,7 @@ main {
 }
 
 .contact-card .tags-list li:hover {
-  background-color: #1af033; /* Slightly darker blue on hover */
+  background-color: #1af033; 
   transform: scale(1.05);
 }
 
@@ -424,7 +417,7 @@ main {
   display: block;
 }
 
-/* Footer */
+
 footer {
   background: #00172d;
   text-align: center;
@@ -454,7 +447,7 @@ footer p {
   }
 }
 
-/* Fade-out animation for forms */
+
 .fade-out {
   animation: fadeOut 0.3s ease-out forwards;
 }
@@ -470,7 +463,6 @@ footer p {
   }
 }
 
-/* Contact removing animation */
 .contact-removing {
   animation: fadeOutContact 0.4s ease-out forwards;
 }
@@ -502,7 +494,7 @@ footer p {
   animation: hideCardAnimation 0.3s ease forwards;
 }
 
-/* Animation for adding the card (fade in and rise) */
+
 @keyframes showCardAnimation {
   from {
     opacity: 0;
