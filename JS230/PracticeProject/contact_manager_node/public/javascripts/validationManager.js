@@ -65,11 +65,4 @@ class ValidationManager {
     return { valid: true };
   }
 
-  clearError() {
-    const errorBox = document.getElementById("error-message");
-    if (errorBox) {
-      errorBox.textContent = ""; // Clear the error message
-      errorBox.classList.remove("show"); // Hide the error box
-    }
-  }
 }

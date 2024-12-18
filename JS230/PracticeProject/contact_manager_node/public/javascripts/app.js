@@ -67,7 +67,6 @@ class ContactManager {
     const validationResult = validation.validateContact(contact, contact.id);
     if (!validationResult.valid) {
       this.ui.displayError(validationResult.message);
-      this.ui.clearError();
       return; 
     }
 

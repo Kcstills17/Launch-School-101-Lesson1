@@ -1,50 +1,14 @@
 [
   {
-    "full_name": "Sam Smith",
-    "phone_number": "322-232-3922",
-    "email": "samsmith@gmail.com",
-    "tags": [
-      "female",
-      "software engineer",
-      "sedantary",
-      "american"
-    ],
-    "id": 1
-  },
-  {
     "full_name": "Alejandro Garcia",
-    "phone_number": "373-383-2932",
-    "email": "agarcia@gmail.com",
+    "phone_number": "321-023-3826",
+    "email": "agarcia@yahoo.com",
     "tags": [
-      "software engineer",
       "spanish",
       "male",
+      "software engineer",
       "sedantary"
     ],
-    "id": 2
-  },
-  {
-    "full_name": "Andrew Givenz",
-    "phone_number": "233-283-8223",
-    "email": "givensA@yahoo.com",
-    "tags": [
-      "mechanical engineer",
-      "active",
-      "male",
-      "british"
-    ],
-    "id": 3
-  },
-  {
-    "full_name": "Lauren Smalls",
-    "phone_number": "390-392-3902",
-    "email": "lSmalls@gmail.com",
-    "tags": [
-      "female",
-      "Fitness Coach",
-      "Active",
-      "american"
-    ],
-    "id": 4
+    "id": 1
   }
 ]
